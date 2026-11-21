@@ -6,6 +6,18 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/mush_jar.png" id="4_jar"]
 [ext_resource type="PackedScene" path="res://src/ui/sfx_player.tscn" id="90_sfx"]
 
+[sub_resource type="StyleBoxFlat" id="sb_drop"]
+content_margin_left = 8.0
+content_margin_top = 4.0
+content_margin_right = 8.0
+content_margin_bottom = 4.0
+bg_color = Color(0.12, 0.3, 0.12, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.55, 1, 0.25, 1)
+
 [sub_resource type="ButtonGroup" id="bg_mode"]
 
 [sub_resource type="ButtonGroup" id="bg_slots"]
@@ -20,6 +32,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_theme")
 script = ExtResource("1_lab")
+drop_style = SubResource("sb_drop")
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
@@ -136,14 +149,34 @@ text = "No living subjects"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="StepHint" type="Label" parent="PreviewPanel"]
+unique_name_in_owner = true
+z_index = 3
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 4.0
+offset_top = 3.0
+offset_right = -4.0
+offset_bottom = 15.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 8
+text = "Drag a mutation onto a body slot"
+horizontal_alignment = 1
+
 [node name="SlotTitle" type="Label" parent="."]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 174.0
 offset_top = 202.0
 offset_right = 394.0
 offset_bottom = 214.0
 theme_override_font_sizes/font_size = 8
-text = "3. Pick a body slot  (violet = SPLICE two parts)"
+text = "3. Body slot  (violet = SPLICE two parts)"
+clip_text = true
 
 [node name="SlotGrid" type="GridContainer" parent="."]
 unique_name_in_owner = true
@@ -279,7 +312,7 @@ offset_top = 66.0
 offset_right = 632.0
 offset_bottom = 78.0
 theme_override_font_sizes/font_size = 8
-text = "2. Pick a mutation"
+text = "2. Drag a mutation (or click it)"
 
 [node name="InvScroll" type="ScrollContainer" parent="."]
 unique_name_in_owner = true
@@ -287,7 +320,7 @@ layout_mode = 0
 offset_left = 400.0
 offset_top = 78.0
 offset_right = 632.0
-offset_bottom = 130.0
+offset_bottom = 146.0
 vertical_scroll_mode = 0
 
 [node name="InventoryRow" type="HBoxContainer" parent="InvScroll"]
@@ -314,37 +347,49 @@ autowrap_mode = 3
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 400.0
-offset_top = 132.0
+offset_top = 150.0
 offset_right = 632.0
-offset_bottom = 290.0
+offset_bottom = 288.0
 
 [node name="ChanceLabel" type="Label" parent="ChanceBox"]
 unique_name_in_owner = true
 layout_mode = 0
-offset_right = 120.0
-offset_bottom = 40.0
+offset_right = 84.0
+offset_bottom = 44.0
 theme_override_colors/font_color = Color(0.55, 1, 0.25, 1)
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 26
 text = "75%"
 vertical_alignment = 1
 
 [node name="ChanceCaption" type="Label" parent="ChanceBox"]
+unique_name_in_owner = true
 layout_mode = 0
-offset_left = 120.0
-offset_top = 8.0
-offset_right = 232.0
-offset_bottom = 34.0
+offset_left = 86.0
+offset_top = 4.0
+offset_right = 142.0
+offset_bottom = 26.0
+theme_override_constants/line_spacing = -2
 theme_override_font_sizes/font_size = 8
-text = "success chance
-(fail = MUSH)"
+text = "success
+chance"
 vertical_alignment = 1
+
+[node name="FailCaption" type="Label" parent="ChanceBox"]
+layout_mode = 0
+offset_left = 86.0
+offset_top = 26.0
+offset_right = 142.0
+offset_bottom = 38.0
+theme_override_colors/font_color = Color(0.7, 0.4, 0.9, 1)
+theme_override_font_sizes/font_size = 8
+text = "fail = MUSH"
 
 [node name="BreakdownNames" type="Label" parent="ChanceBox"]
 unique_name_in_owner = true
 layout_mode = 0
-offset_top = 42.0
+offset_top = 48.0
 offset_right = 170.0
-offset_bottom = 128.0
+offset_bottom = 124.0
 theme_override_colors/font_color = Color(0.65, 0.82, 0.72, 1)
 theme_override_font_sizes/font_size = 8
 text = "Base
@@ -356,9 +401,9 @@ Stabilizers"
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 170.0
-offset_top = 42.0
+offset_top = 48.0
 offset_right = 232.0
-offset_bottom = 128.0
+offset_bottom = 124.0
 theme_override_font_sizes/font_size = 8
 text = "+100
 -20
@@ -370,9 +415,9 @@ horizontal_alignment = 2
 unique_name_in_owner = true
 visible = false
 layout_mode = 0
-offset_top = 110.0
+offset_top = 120.0
 offset_right = 232.0
-offset_bottom = 128.0
+offset_bottom = 138.0
 theme_override_constants/separation = 3
 
 [node name="KeepCaption" type="Label" parent="ChanceBox/KeepRow"]
@@ -410,24 +455,25 @@ theme_override_font_sizes/font_size = 8
 toggle_mode = true
 text = "Ability"
 
-[node name="StabRow" type="HBoxContainer" parent="ChanceBox"]
+[node name="StabBox" type="VBoxContainer" parent="ChanceBox"]
 layout_mode = 0
-offset_top = 130.0
+offset_left = 144.0
 offset_right = 232.0
-offset_bottom = 156.0
-theme_override_constants/separation = 6
+offset_bottom = 44.0
+theme_override_constants/separation = 2
 
-[node name="StabCaption" type="Label" parent="ChanceBox/StabRow"]
+[node name="StabCaption" type="Label" parent="ChanceBox/StabBox"]
 layout_mode = 2
-size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.45, 0.85, 1, 1)
 theme_override_font_sizes/font_size = 8
-text = "Use stabilizers (+25% each)"
-vertical_alignment = 1
+text = "Stabilizers +25%"
+horizontal_alignment = 1
 
-[node name="StabSpin" type="SpinBox" parent="ChanceBox/StabRow"]
+[node name="StabSpin" type="SpinBox" parent="ChanceBox/StabBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
+size_flags_horizontal = 4
 max_value = 2.0
 rounded = true
 

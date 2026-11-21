@@ -4,6 +4,7 @@ extends Control
 @onready var _rows_box: VBoxContainer = %RowsBox
 @onready var _sim_label: Label = %SimLabel
 @onready var _hint_label: Label = %HintLabel
+@onready var _pick_label: Label = %PickLabel
 @onready var _gold_label: Label = %GoldLabel
 @onready var _total_label: Label = %TotalLabel
 @onready var _adapt_label: Label = %AdaptLabel
@@ -32,8 +33,9 @@ func _ready() -> void:
 	_fight_button.disabled = true
 	_skip_button.disabled = true
 	_gold_label.text = "Gold: %d" % Game.run.gold
-	_hint_label.text = "Max %d claims. Odds come from %d simulated fights." % [
-		Tuning.BET_MAX_CLAIMS, Tuning.SIM_RUNS]
+	_hint_label.text = ("Bet on how this fight goes. Odds come from %d simulated fights"
+		+ " of this exact matchup.") % Tuning.SIM_RUNS
+	_pick_label.visible = false
 	_sim_label.visible = true
 	_show_adapt()
 	# Let "Simulating..." render for a frame before the blocking estimate.
@@ -63,9 +65,12 @@ func _run_estimate() -> void:
 		if row.claim == &"mvp":
 			row.setup_mvp(odds.get(&"mvp", {}) as Dictionary, names, max_stake)
 		else:
-			row.setup(float(odds.get(row.claim, 0.0)), max_stake)
+			var possible: bool = BetOdds.claim_possible(row.claim, team.size())
+			row.setup(float(odds.get(row.claim, 0.0)), max_stake, possible,
+				BetText.impossible_reason(row.claim, team.size()))
 	_sim_label.visible = false
 	_rows_box.visible = true
+	_pick_label.visible = true
 	_fight_button.disabled = false
 	_skip_button.disabled = false
 	_update_total()
@@ -80,8 +85,10 @@ func _active_rows() -> Array[BetRow]:
 func _on_row_changed(row: BetRow) -> void:
 	var active: Array[BetRow] = _active_rows()
 	if active.size() > Tuning.BET_MAX_CLAIMS and row.is_active():
-		row.set_active(false)  # re-enters this handler with the toggle off
+		row.set_active(false)  # safety net only: full rows are locked below
 		return
+	if row.is_active():
+		_sfx.play(&"click")
 	_update_total()
 
 func _update_total() -> void:
@@ -90,8 +97,12 @@ func _update_total() -> void:
 	for row: BetRow in _active_rows():
 		total += row.stake()
 		count += 1
-	_total_label.text = "Claims: %d/%d   Total stake: %dg   Gold after: %dg" % [
-		count, Tuning.BET_MAX_CLAIMS, total, Game.run.gold - total]
+	_total_label.text = "Total stake: %dg   Gold after bets: %dg" % [total, Game.run.gold - total]
+	var left: int = maxi(0, Tuning.BET_MAX_CLAIMS - count)
+	_pick_label.text = "Pick up to %d claims (%d left)" % [Tuning.BET_MAX_CLAIMS, left]
+	# Full: the other rows show as locked instead of silently un-ticking.
+	for r: BetRow in _rows:
+		r.set_locked(left == 0)
 
 func _on_skip_pressed() -> void:
 	Game.bets = []

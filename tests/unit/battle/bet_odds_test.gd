@@ -79,3 +79,46 @@ func test_enemy_gen_is_deterministic_and_boss_named() -> void:
 	var b: Dictionary = EnemyGen.generate(4, r2)
 	assert_array(a[&"spots"] as Array).is_equal(b[&"spots"] as Array)
 	assert_str((a[&"team"][0] as MonsterData).display_name).is_equal(Tuning.BOSS_NAME)
+
+func test_payout_mult_old_signature_unchanged() -> void:
+	# tools/balance/run_sim.gd and older callers still use payout_mult(p).
+	assert_float(BetOdds.payout_mult(0.0)).is_equal(0.0)
+	assert_float(BetOdds.payout_mult(0.5)).is_equal_approx(1.8, 0.001)
+
+func test_offered_mult_longshot_pays_max() -> void:
+	assert_float(BetOdds.offered_mult(0.0, true)).is_equal(Tuning.BET_MAX_MULT)
+	assert_bool(BetOdds.is_longshot(0.0, true)).is_true()
+	assert_bool(BetOdds.is_longshot(0.01, true)).is_false()
+
+func test_offered_mult_impossible_is_zero() -> void:
+	assert_float(BetOdds.offered_mult(0.0, false)).is_equal(0.0)
+	assert_float(BetOdds.offered_mult(0.7, false)).is_equal(0.0)
+	assert_bool(BetOdds.is_longshot(0.0, false)).is_false()
+
+func test_offered_mult_matches_payout_mult_when_p_positive() -> void:
+	for p: float in [0.01, 0.1, 0.3, 0.5, 0.87, 1.0]:
+		assert_float(BetOdds.offered_mult(p, true)).is_equal(BetOdds.payout_mult(p))
+
+func test_claim_possible_rules() -> void:
+	for claim: StringName in BetOdds.CLAIMS:
+		assert_bool(BetOdds.claim_possible(claim, 0)).is_false()
+		assert_bool(BetOdds.claim_possible(claim, 2)).is_true()
+	assert_bool(BetOdds.claim_possible(&"last_stand", 1)).is_false()
+	for claim: StringName in [&"victory", &"flawless", &"blitz", &"mvp"]:
+		assert_bool(BetOdds.claim_possible(claim, 1)).is_true()
+	assert_bool(BetOdds.claim_possible(&"nonsense", 3)).is_false()
+
+func test_longshot_bet_settles_at_offered_mult() -> void:
+	# Battle settlement: payout = roundi(stake * bet.mult) when the claim is won.
+	var mult: float = BetOdds.offered_mult(0.0, true)
+	var win: Dictionary = _res(0, 5.0, 1, 1, {0: 10, 1: 5})
+	assert_bool(BetOdds.claim_won(&"last_stand", win)).is_true()
+	assert_int(roundi(10 * mult)).is_equal(roundi(10 * Tuning.BET_MAX_MULT))
+	assert_int(BetText.net_win(10, mult)).is_equal(roundi(10 * Tuning.BET_MAX_MULT) - 10)
+
+func test_bet_text_odds_words() -> void:
+	assert_str(BetText.odds_text(0.87)).is_equal("Likely 87%")
+	assert_str(BetText.odds_text(0.3)).is_equal("Risky 30%")
+	assert_str(BetText.odds_text(0.0)).is_equal("Longshot <1%")
+	assert_str(BetText.odds_text(0.004)).is_equal("Longshot <1%")
+	assert_str(BetText.odds_word(0.5)).is_equal("Even")

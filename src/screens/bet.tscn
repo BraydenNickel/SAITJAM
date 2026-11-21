@@ -48,26 +48,37 @@ text = "Gold: 0"
 [node name="HintLabel" type="Label" parent="."]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
+anchors_preset = 10
 anchor_right = 1.0
-offset_left = -260.0
-offset_top = 6.0
-offset_right = -16.0
-offset_bottom = 28.0
-grow_horizontal = 0
-theme_override_font_sizes/font_size = 8
-text = "Max 2 claims. Odds come from 100 simulated fights."
-horizontal_alignment = 2
+offset_left = 12.0
+offset_top = 28.0
+offset_right = -12.0
+offset_bottom = 42.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 10
+text = "Bet on how this fight goes. Odds come from 100 simulated fights of this exact matchup."
+horizontal_alignment = 1
+
+[node name="PickLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 14.0
+offset_top = 44.0
+offset_right = 300.0
+offset_bottom = 60.0
+theme_override_colors/font_color = Color(0.55, 1, 0.25, 1)
+theme_override_font_sizes/font_size = 12
+text = "Pick up to 2 claims (2 left)"
+vertical_alignment = 1
 
 [node name="RowsBox" type="VBoxContainer" parent="."]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 12.0
-offset_top = 34.0
+offset_top = 62.0
 offset_right = 628.0
-offset_bottom = 282.0
-theme_override_constants/separation = 4
+offset_bottom = 284.0
+theme_override_constants/separation = 3
 
 [node name="RowVictory" parent="RowsBox" instance=ExtResource("3_row")]
 layout_mode = 2
@@ -111,19 +122,19 @@ vertical_alignment = 1
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 12.0
-offset_top = -42.0
-offset_right = 200.0
-offset_bottom = -10.0
-grow_vertical = 0
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -330.0
+offset_top = 44.0
+offset_right = -14.0
+offset_bottom = 60.0
+grow_horizontal = 0
 theme_override_colors/font_color = Color(1, 0.5, 0.25, 1)
-theme_override_font_sizes/font_size = 8
+theme_override_font_sizes/font_size = 10
 text = "Enemies adapt to your lab: +0 power"
+horizontal_alignment = 2
 vertical_alignment = 1
-autowrap_mode = 3
 
 [node name="TotalLabel" type="Label" parent="."]
 unique_name_in_owner = true
@@ -133,12 +144,13 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -200.0
+offset_left = -300.0
 offset_top = -72.0
-offset_right = 200.0
-offset_bottom = -50.0
+offset_right = 300.0
+offset_bottom = -52.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_font_sizes/font_size = 12
 text = "Total stake: 0g"
 horizontal_alignment = 1
 vertical_alignment = 1

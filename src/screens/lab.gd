@@ -3,12 +3,14 @@ extends Control
 ## inventory and a free body slot, then gamble on the success chance (a fail
 ## turns the subject into MUSH). Purge mode: pick an applied slot and pay to
 ## remove that mutation. All rules live in LabLogic; this screen only displays
-## and forwards choices.
+## and forwards choices. A mutation can also be dragged from the inventory onto
+## a body-slot button or onto the big preview (first valid slot); a drop runs
+## the same path as clicking the mutation and then the slot.
 
 enum Mode { OPERATE, PURGE }
 
 const SUBJECT_SCENE: PackedScene = preload("res://src/ui/subject_button.tscn")
-const ITEM_SCENE: PackedScene = preload("res://src/ui/inventory_item.tscn")
+const ITEM_SCENE: PackedScene = preload("res://src/ui/inventory_item_named.tscn")
 const LAST_MONSTER_WARNING: String = "Failure ends the run: this is your last monster."
 
 ## Seconds for the full-screen flash after an operation.
@@ -23,6 +25,10 @@ const LAST_MONSTER_WARNING: String = "Failure ends the run: this is your last mo
 @export var color_ok: Color = Color(1, 0.85, 0.3, 1)
 @export var color_bad: Color = Color(1, 0.4, 0.35, 1)
 @export var color_mush: Color = Color(0.7, 0.4, 0.9, 1)
+## Chance readout colour while nothing can be computed yet.
+@export var color_idle: Color = Color(0.45, 0.55, 0.5, 1)
+## Style of a slot button / the preview panel that accepts the dragged mutation.
+@export var drop_style: StyleBox
 
 @onready var _gold_label: Label = %GoldLabel
 @onready var _stab_label: Label = %StabLabel
@@ -60,6 +66,10 @@ const LAST_MONSTER_WARNING: String = "Failure ends the run: this is your last mo
 @onready var _sfx: SfxPlayer = %Sfx
 @onready var _keep_row: HBoxContainer = %KeepRow
 @onready var _result_part: TextureRect = %ResultPart
+@onready var _step_hint: Label = %StepHint
+@onready var _slot_title: Label = %SlotTitle
+@onready var _chance_caption: Label = %ChanceCaption
+@onready var _preview_panel: Panel = $PreviewPanel
 
 ## Font colour of a slot button whose part the picked mutation would SPLICE into.
 @export var color_splice: Color = Color(0.85, 0.6, 1, 1)
@@ -84,6 +94,8 @@ var _slot: StringName = &""
 var _slot_buttons: Dictionary = {}
 var _subject_group: ButtonGroup = ButtonGroup.new()
 var _inv_group: ButtonGroup = ButtonGroup.new()
+## Slots that accept the mutation being dragged right now (empty = no drag).
+var _drag_slots: Array[StringName] = []
 
 func _ready() -> void:
 	Game.ensure_run()
@@ -94,6 +106,9 @@ func _ready() -> void:
 		var slot: StringName = StringName(button.name)
 		_slot_buttons[slot] = button
 		button.toggled.connect(_on_slot_toggled.bind(slot))
+		button.set_drag_forwarding(Callable(), _can_drop_on_slot.bind(slot),
+			_drop_on_slot.bind(slot))
+	_preview_panel.set_drag_forwarding(Callable(), _can_drop_on_preview, _drop_on_preview)
 	_keep_buttons.assign([%Keep0, %Keep1, %Keep2, %Keep3])
 	for i: int in _keep_buttons.size():
 		_keep_buttons[i].pressed.connect(_on_keep_pressed.bind(i))
@@ -159,6 +174,64 @@ func _refresh_subject_buttons() -> void:
 		var button: SubjectButton = child as SubjectButton
 		if button != null:
 			button.refresh()
+
+# --- Drag and drop --------------------------------------------------------------
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_DRAG_BEGIN and is_node_ready():
+		var mutation: MutationData = _dragged_mutation(get_viewport().gui_get_drag_data())
+		var monster: MonsterData = _selected_monster()
+		if mutation != null and monster != null and _mode == Mode.OPERATE:
+			_drag_slots = LabLogic.operable_slots(monster, mutation)
+		_refresh()
+	elif what == NOTIFICATION_DRAG_END and is_node_ready():
+		_drag_slots = []
+		_refresh()
+
+## The inventory mutation a drag payload refers to (null = not a lab drag).
+func _dragged_mutation(drag_data: Variant) -> MutationData:
+	if not drag_data is Dictionary or (drag_data as Dictionary).get(&"kind") != &"mutation":
+		return null
+	var inv_idx: int = int((drag_data as Dictionary).get(&"inv_index", -1))
+	var inventory: Array[MutationData] = Game.run.inventory
+	return inventory[inv_idx] if inv_idx >= 0 and inv_idx < inventory.size() else null
+
+## Drop check of a body-slot button (via set_drag_forwarding): only slots that
+## LabLogic.operable_slots allows for the dragged mutation (free or SPLICE).
+func _can_drop_on_slot(_at_position: Vector2, drag_data: Variant, slot: StringName) -> bool:
+	var mutation: MutationData = _dragged_mutation(drag_data)
+	var monster: MonsterData = _selected_monster()
+	if _mode != Mode.OPERATE or mutation == null or monster == null:
+		return false
+	return LabLogic.operable_slots(monster, mutation).has(slot)
+
+## Selects the dragged mutation, then `slot`, exactly like two clicks.
+func _drop_on_slot(_at_position: Vector2, drag_data: Variant, slot: StringName) -> void:
+	_select_inventory(int((drag_data as Dictionary).get(&"inv_index", -1)))
+	_on_slot_toggled(true, slot)
+	_sfx.play(&"click")
+
+## Drop check of the big preview: any mutation with at least one valid slot.
+func _can_drop_on_preview(_at_position: Vector2, drag_data: Variant) -> bool:
+	var mutation: MutationData = _dragged_mutation(drag_data)
+	var monster: MonsterData = _selected_monster()
+	if _mode != Mode.OPERATE or mutation == null or monster == null:
+		return false
+	return not LabLogic.operable_slots(monster, mutation).is_empty()
+
+## Selects the dragged mutation like a click; that auto-picks the first slot.
+func _drop_on_preview(_at_position: Vector2, drag_data: Variant) -> void:
+	_select_inventory(int((drag_data as Dictionary).get(&"inv_index", -1)))
+	_sfx.play(&"click")
+
+## Clicks inventory item `inv_idx` in code: presses its button, then runs the
+## normal click handler.
+func _select_inventory(inv_idx: int) -> void:
+	for child: Node in _inventory_row.get_children():
+		var item: InventoryItem = child as InventoryItem
+		if item != null:
+			item.set_pressed_no_signal(item.inv_index == inv_idx)
+	_on_inventory_pressed(inv_idx)
 
 # --- Input --------------------------------------------------------------------
 
@@ -417,8 +490,14 @@ func _refresh() -> void:
 		var slot: StringName = key as StringName
 		var button: Button = _slot_buttons[slot] as Button
 		var occupant: MutationData = monster.slots.get(slot) as MutationData if monster != null else null
-		button.disabled = not valid.has(slot) if operate else occupant == null
+		var drop_ok: bool = _drag_slots.has(slot)
+		button.disabled = not (valid.has(slot) or drop_ok) if operate else occupant == null
 		button.set_pressed_no_signal(slot == _slot)
+		for style_name: StringName in [&"normal", &"hover", &"pressed", &"hover_pressed"]:
+			if drop_ok and drop_style != null:
+				button.add_theme_stylebox_override(style_name, drop_style)
+			else:
+				button.remove_theme_stylebox_override(style_name)
 		var splice: bool = operate and LabLogic.can_splice(monster, mutation, slot)
 		for color_name: StringName in [&"font_color", &"font_hover_color",
 				&"font_pressed_color", &"font_focus_color", &"font_hover_pressed_color"]:
@@ -428,6 +507,9 @@ func _refresh() -> void:
 				button.remove_theme_color_override(color_name)
 		if occupant == null:
 			button.tooltip_text = "Empty"
+			if operate and mutation != null and not valid.has(slot):
+				button.tooltip_text += "\n%s is a %s part: it does not fit here." % [
+					mutation.display_name, InventoryItem.socket_name(mutation.socket_type)]
 		elif splice:
 			button.tooltip_text = "SPLICE with %s" % occupant.display_name
 		else:
@@ -437,11 +519,48 @@ func _refresh() -> void:
 					and MonsterData.SLOT_SOCKET[slot] == mutation.socket_type:
 				button.tooltip_text += "\nCannot splice: %s" % LabLogic.slot_block_reason(
 					monster, mutation, slot)
+	if not _drag_slots.is_empty() and drop_style != null:
+		_preview_panel.add_theme_stylebox_override(&"panel", drop_style)
+	else:
+		_preview_panel.remove_theme_stylebox_override(&"panel")
 	_refresh_ghost(mutation if operate else null)
 	if operate:
 		_refresh_operate(monster, mutation, valid)
 	else:
 		_refresh_purge(monster)
+	_refresh_hints(monster, mutation, valid)
+
+## Step hint over the preview and the slot-row caption, both driven by state.
+func _refresh_hints(monster: MonsterData, mutation: MutationData,
+		valid: Array[StringName]) -> void:
+	var hint: String = ""
+	var slot_title: String = "3. Body slot  (violet = SPLICE two parts)"
+	if not _drag_slots.is_empty():
+		hint = "Drop on a glowing slot, or on the subject"
+		slot_title = "3. Glowing slots accept this mutation"
+	elif monster == null:
+		slot_title = "3. Body slot"
+	elif _mode == Mode.PURGE:
+		hint = "Pick an applied body slot to purge"
+		slot_title = "3. Applied slots can be purged"
+	elif Game.run.inventory.is_empty():
+		hint = "No mutations: buy some in the Shop"
+		slot_title = "3. Body slot  (needs a mutation)"
+	elif mutation == null:
+		hint = "Drag a mutation onto a body slot"
+		slot_title = "3. Body slot  (pick a mutation first)"
+	elif valid.is_empty():
+		hint = "No slot fits: try another subject"
+		slot_title = "3. No %s slot fits on %s" % [
+			InventoryItem.socket_name(mutation.socket_type), monster.display_name]
+	elif _slot == &"":
+		hint = "Pick a body slot"
+	elif LabLogic.can_splice(monster, mutation, _slot):
+		hint = "Ready to SPLICE: add stabilizers, then Splice"
+	else:
+		hint = "Ready: add stabilizers, then Operate"
+	_step_hint.text = hint
+	_slot_title.text = slot_title
 
 func _refresh_ghost(mutation: MutationData) -> void:
 	var marker: Marker2D = null
@@ -523,24 +642,38 @@ func _refresh_operate(monster: MonsterData, mutation: MutationData,
 			InventoryItem.fusion_tag(fused).to_upper(), FusionLogic.stat_line(fused),
 			" | ".join(InventoryItem.ability_lines(fused))]
 	else:
-		_selection_label.text = "%s -> %s\n%s\n+%d instability on success" % [
-			mutation.display_name, String(_slot).replace("_", " ") if _slot != &"" else "?",
-			InventoryItem.stat_summary(mutation),
-			Tuning.INSTABILITY_PER_RARITY[mutation.rarity]]
+		var lines: PackedStringArray = ["%s (%s %s) -> %s" % [mutation.display_name,
+			InventoryItem.rarity_name(mutation.rarity),
+			InventoryItem.socket_name(mutation.socket_type),
+			String(_slot).replace("_", " ") if _slot != &"" else "?"],
+			InventoryItem.stat_summary(mutation)]
+		lines.append_array(InventoryItem.ability_lines(mutation))
+		lines.append("+%d instability on success" % Tuning.INSTABILITY_PER_RARITY[mutation.rarity])
+		_selection_label.text = "\n".join(lines)
+		_selection_label.tooltip_text = InventoryItem.mutation_tooltip(mutation)
+		# Four or more lines (with an ability line) only fit above the buttons when tightened.
+		if lines.size() >= 4:
+			_selection_label.add_theme_constant_override(&"line_spacing", splice_line_spacing)
 	if _status_label.text == LAST_MONSTER_WARNING:
 		_status_label.text = ""
-	if not can_operate:
+	# The chance does not depend on the slot: show it as soon as the mutation fits.
+	if monster == null or mutation == null or valid.is_empty():
 		_chance_label.text = "--"
-		_chance_label.add_theme_color_override(&"font_color", color_ok)
+		_chance_label.add_theme_color_override(&"font_color", color_idle)
+		_chance_caption.text = "pick a\nmutation" if mutation == null else "no slot\nfits"
 		_breakdown_names.text = ""
 		_breakdown_values.text = ""
 		_confirm_button.text = "Operate"
 		return
+	_chance_caption.text = "success\nchance"
 	var stabs: int = int(_stab_spin.value)
 	var chance: int = LabLogic.success_chance(Game.run, monster, mutation, stabs)
 	_chance_label.text = "%d%%" % chance
 	_chance_label.add_theme_color_override(&"font_color", _chance_color(chance))
-	_confirm_button.text = ("Splice (%d%%)" if fused != null else "Operate (%d%%)") % chance
+	if can_operate:
+		_confirm_button.text = ("Splice (%d%%)" if fused != null else "Operate (%d%%)") % chance
+	else:
+		_confirm_button.text = "Operate"
 	# A failure mushes the subject: warn when it is the last one alive.
 	if Game.run.living_count() <= 1 and not Game.run.insurance and chance < Tuning.MAX_SUCCESS:
 		_status_label.text = LAST_MONSTER_WARNING

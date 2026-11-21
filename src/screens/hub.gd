@@ -16,12 +16,19 @@ extends Control
 @onready var _hint_label: Label = %HintLabel
 @onready var _settings_button: Button = %SettingsButton
 @onready var _settings_menu: SettingsMenu = %SettingsMenu
+@onready var _rename_dialog: RenameDialog = %RenameDialog
 
 var _cards: Array[MonsterCard] = []
+## Monster whose rename dialog is open (focus returns to its card).
+var _renaming: MonsterData
 
 func _ready() -> void:
 	Game.ensure_run()
 	_cards.assign([%Card1, %Card2, %Card3, %Card4])
+	for card: MonsterCard in _cards:
+		card.rename_requested.connect(_on_rename_requested)
+	_rename_dialog.name_saved.connect(_on_renamed)
+	_rename_dialog.closed.connect(_on_rename_closed)
 	_settings_button.pressed.connect(_sfx.play.bind(&"click"))
 	_settings_button.pressed.connect(_settings_menu.open)
 	_settings_menu.closed.connect(_fight_button.grab_focus)
@@ -64,11 +71,30 @@ func _ready() -> void:
 			_cards[i].setup(living[i])
 	_fight_button.grab_focus()
 
-## Esc toggles the settings panel (the open panel handles its own Esc first).
+## Esc toggles the settings panel (the open panel handles its own Esc first;
+## an open rename dialog closes itself in _input before this runs).
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed(&"ui_cancel") and not _settings_menu.is_open():
+	if (event.is_action_pressed(&"ui_cancel") and not _settings_menu.is_open()
+			and not _rename_dialog.is_open()):
 		get_viewport().set_input_as_handled()
 		_settings_menu.open()
+
+func _on_rename_requested(monster: MonsterData) -> void:
+	_sfx.play(&"click")
+	_renaming = monster
+	_rename_dialog.open(monster)
+
+func _on_renamed(_monster: MonsterData, _new_name: String) -> void:
+	for card: MonsterCard in _cards:
+		card.refresh()
+
+## Gives focus back to the renamed card's name (keyboard/gamepad flow).
+func _on_rename_closed() -> void:
+	for card: MonsterCard in _cards:
+		if card.visible and card.get_data() == _renaming:
+			card.focus_name()
+			break
+	_renaming = null
 
 func _on_gold_changed(new_gold: int) -> void:
 	_gold_label.text = "Gold: %d" % new_gold
