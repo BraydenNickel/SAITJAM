@@ -151,9 +151,18 @@ func test_normalization_keeps_power_in_band() -> void:
 
 func test_champion_skips_hp_mult() -> void:
 	# Arrange: a team whose power is inside the band, so the scale is exactly 1.
-	var champ: Array[MonsterData] = _team(["A", "B"], false)
-	champ[0].apply_mutation(load(LEECH_PATH) as MutationData, &"HEAD")
-	assert_float(EnemyGen.champion_scale(EnemyGen.team_power(champ))).is_equal(1.0)
+	# Candidates of rising power; the first one inside the band for the current
+	# ENEMY_BUDGET is used, so retuning the budget does not break the fixture.
+	var with_leech: Array[MonsterData] = _team(["A", "B"], false)
+	with_leech[0].apply_mutation(load(LEECH_PATH) as MutationData, &"HEAD")
+	var candidates: Array = [_team(["A"], false), _team(["A", "B"], false), with_leech,
+		_team(["A", "B", "C"], false), _team(["A", "B"], true)]
+	var champ: Array[MonsterData] = []
+	for team: Array[MonsterData] in candidates:
+		if is_equal_approx(EnemyGen.champion_scale(EnemyGen.team_power(team)), 1.0):
+			champ = team
+			break
+	assert_int(champ.size()).is_greater(0)
 	# Act
 	var gen: Dictionary = EnemyGen.generate_champion(champ, _rng(5))
 	# Assert: base HP is the player's body, not BASE_HP x ENEMY_HP_MULT[final].

@@ -4,6 +4,8 @@ extends Control
 
 ## Emitted when CODEX is pressed (then opens the Codex screen).
 signal codex_pressed
+## Emitted when POTENTIAL is pressed (then opens the mutation showcase).
+signal potential_pressed
 ## Emitted when SETTINGS is pressed (then opens the settings overlay).
 signal settings_pressed
 ## Emitted when NEW RUN is pressed, before a run is started.
@@ -51,6 +53,7 @@ var _rng := RandomNumberGenerator.new()
 @onready var _sfx: AudioStreamPlayer = $Sfx
 @onready var _new_run: TextureButton = %NewRun
 @onready var _codex: TextureButton = %Codex
+@onready var _potential: TextureButton = %Potential
 @onready var _settings: TextureButton = %Settings
 @onready var _quit: TextureButton = %Quit
 @onready var _settings_menu: CanvasLayer = %SettingsMenu
@@ -58,13 +61,15 @@ var _rng := RandomNumberGenerator.new()
 
 func _ready() -> void:
 	_rng.randomize()
-	for button: TextureButton in [_new_run, _codex, _settings, _quit]:
+	for button: TextureButton in [_new_run, _codex, _potential, _settings, _quit]:
 		button.mouse_entered.connect(button.grab_focus)   # hover and keyboard focus look the same
 	_new_run.pressed.connect(_on_new_run)
 	_codex.pressed.connect(_on_pressed.bind(codex_pressed))
+	_potential.pressed.connect(_on_pressed.bind(potential_pressed))
 	_settings.pressed.connect(_on_pressed.bind(settings_pressed))
 	_quit.pressed.connect(_on_quit)
 	codex_pressed.connect(Game.go_to.bind(&"codex"))
+	potential_pressed.connect(Game.go_to.bind(&"potential"))
 	settings_pressed.connect(_settings_menu.open)
 	_settings_menu.closed.connect(_settings.grab_focus)
 	_start_music()
@@ -82,7 +87,7 @@ func _process(delta: float) -> void:
 
 
 func _connect_hover_sfx() -> void:
-	for button: TextureButton in [_new_run, _codex, _settings, _quit]:
+	for button: TextureButton in [_new_run, _codex, _potential, _settings, _quit]:
 		button.focus_entered.connect(_play_sfx.bind(preload("res://assets/audio/ui_hover.wav"), HOVER_SFX_DB))
 
 

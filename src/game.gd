@@ -17,6 +17,7 @@ const SCREENS: Dictionary = {
 	&"reward": "res://src/screens/reward.tscn",
 	&"incubator": "res://src/screens/incubator.tscn",
 	&"codex": "res://src/screens/codex.tscn",
+	&"potential": "res://src/screens/potential.tscn",
 }
 const HUMAN_PATH: String = "res://src/data/kinds/human.tres"
 const MANTIS_ARM_PATH: String = "res://src/data/mutations/mantis_arm.tres"

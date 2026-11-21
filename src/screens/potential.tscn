@@ -1,0 +1,118 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/screens/potential.gd" id="1_pot"]
+[ext_resource type="Theme" path="res://src/ui/theme.tres" id="2_theme"]
+[ext_resource type="Texture2D" path="res://assets/sprites/lab_level_05_full.png" id="3_bg"]
+[ext_resource type="PackedScene" path="res://src/monster/monster_front.tscn" id="4_front"]
+[ext_resource type="PackedScene" path="res://src/ui/sfx_player.tscn" id="5_sfx"]
+[ext_resource type="Resource" path="res://src/data/mutations/ember_horns.tres" id="10_m1"]
+[ext_resource type="Resource" path="res://src/data/mutations/chitin_carapace.tres" id="11_m2"]
+[ext_resource type="Resource" path="res://src/data/mutations/razor_wings.tres" id="12_m3"]
+[ext_resource type="Resource" path="res://src/data/mutations/mantis_arm.tres" id="13_m4"]
+[ext_resource type="Resource" path="res://src/data/mutations/crab_pincer.tres" id="14_m5"]
+[ext_resource type="Resource" path="res://src/data/mutations/raptor_leg.tres" id="15_m6"]
+[ext_resource type="Resource" path="res://src/data/mutations/scorpion_tail.tres" id="16_m7"]
+[ext_resource type="Resource" path="res://src/data/mutations/obsidian_colossus_heart.tres" id="17_ult"]
+
+[node name="Potential" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_pot")
+steps = Array[Resource]([ExtResource("10_m1"), ExtResource("11_m2"), ExtResource("12_m3"), ExtResource("13_m4"), ExtResource("14_m5"), ExtResource("15_m6"), ExtResource("15_m6"), ExtResource("16_m7")])
+ultimate = ExtResource("17_ult")
+
+[node name="Backdrop" type="TextureRect" parent="."]
+modulate = Color(0.45, 0.45, 0.55, 1)
+texture_filter = 1
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 360.0
+mouse_filter = 2
+texture = ExtResource("3_bg")
+
+[node name="Vignette" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 360.0
+mouse_filter = 2
+color = Color(0.02, 0, 0.05, 0.35)
+
+[node name="Stage" type="Node2D" parent="."]
+unique_name_in_owner = true
+texture_filter = 1
+
+[node name="Monster" parent="Stage" instance=ExtResource("4_front")]
+unique_name_in_owner = true
+position = Vector2(320, 226)
+scale = Vector2(3, 3)
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 0
+offset_top = 6.0
+offset_right = 640.0
+offset_bottom = 34.0
+theme_override_colors/font_color = Color(0.55, 1, 0.35, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.08, 0.02, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 24
+text = "POTENTIAL"
+horizontal_alignment = 1
+
+[node name="Caption" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_top = 34.0
+offset_right = 640.0
+offset_bottom = 52.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 14
+text = "A plain human..."
+horizontal_alignment = 1
+
+[node name="Stats" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 80.0
+offset_top = 330.0
+offset_right = 632.0
+offset_bottom = 348.0
+theme_override_colors/font_color = Color(0.8, 0.85, 0.9, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 10
+text = "STEP 0/9"
+horizontal_alignment = 2
+
+[node name="Back" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 8.0
+offset_top = 326.0
+offset_right = 72.0
+offset_bottom = 350.0
+text = "BACK"
+
+[node name="Flash" type="ColorRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 360.0
+mouse_filter = 2
+color = Color(1, 0.95, 0.8, 0)
+
+[node name="Fade" type="ColorRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 360.0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Sfx" parent="." instance=ExtResource("5_sfx")]
+unique_name_in_owner = true

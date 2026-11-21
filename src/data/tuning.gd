@@ -13,7 +13,7 @@ const BASE_CRIT: float = 0.05
 const MIN_INTERVAL: float = 0.3
 
 # --- Run structure ---
-const START_GOLD: int = 40
+const START_GOLD: int = 45
 const START_HUMANS: int = 2
 const BATTLES_PER_RUN: int = 5
 const MAX_TEAM: int = 4
@@ -22,10 +22,10 @@ const FORMATION_COLS: int = 2
 const BATTLE_REWARD: Array[int] = [20, 25, 25, 25, 0]
 
 # --- Enemy generation (indexed by battle) ---
-const ENEMY_BUDGET: Array[int] = [2, 4, 5, 8, 9]
+const ENEMY_BUDGET: Array[int] = [2, 3, 4, 6, 7]
 const ENEMY_TEAM_SIZE: Array[int] = [2, 2, 3, 3, 4]
 ## Enemy base-body HP multiplier per battle (scales BASE_HP only, not mutation hp_mod).
-const ENEMY_HP_MULT: Array[float] = [1.04, 1.04, 0.9, 0.95, 0.81]
+const ENEMY_HP_MULT: Array[float] = [0.9, 0.9, 0.76, 0.8, 0.68]
 
 # --- Adaptive enemy scaling (design/balance/stage3-tuning.md §6) ---
 # Player power = sum of BUDGET_COST of every mutation on living monsters, plus
@@ -35,9 +35,9 @@ const ENEMY_HP_MULT: Array[float] = [1.04, 1.04, 0.9, 0.95, 0.81]
 ## Power a typical (greedy-sim) player has at each battle; at or below it there is no bonus.
 const ADAPT_EXPECTED: Array[int] = [7, 9, 10, 12, 14]
 ## Extra enemy budget per point of power above ADAPT_EXPECTED.
-const ADAPT_RATE: float = 3.5
+const ADAPT_RATE: float = 2.0
 ## Cap on the extra enemy budget per battle.
-const ADAPT_MAX: Array[int] = [2, 3, 4, 5, 6]
+const ADAPT_MAX: Array[int] = [1, 2, 2, 3, 3]
 ## Power counted for each living monster beyond START_HUMANS (a body is worth
 ## about three commons; design/balance/stage4-balance.md, Pass 2).
 const ADAPT_BODY_POWER: int = 3
