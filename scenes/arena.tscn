@@ -1,0 +1,148 @@
+[gd_scene format=3 uid="uid://vpe83rbpx7sk"]
+
+[ext_resource type="Texture2D" uid="uid://bfhjh3232f77s" path="res://assets/sprites/lab_polished.png" id="1_xdvfk"]
+[ext_resource type="Texture2D" uid="uid://xjulx1rutu7t" path="res://assets/sprites/cylinder_polished.png" id="2_7ft05"]
+[ext_resource type="Texture2D" uid="uid://dcho0nvy0kexa" path="res://assets/sprites/fire_extinguisher.png" id="3_4ag8t"]
+[ext_resource type="Texture2D" uid="uid://dyb7kahhy6bkd" path="res://assets/sprites/mush_jar.png" id="4_dpxgc"]
+[ext_resource type="Texture2D" uid="uid://h1skiovxjsvx" path="res://assets/sprites/arena_light.png" id="5_7ft05"]
+[ext_resource type="PackedScene" path="res://scenes/arena_intro.tscn" id="6_intro"]
+[ext_resource type="Script" path="res://scenes/arena.gd" id="7_arena"]
+[ext_resource type="Texture2D" path="res://assets/sprites/mad_scientist_polished.png" id="8_sci"]
+[ext_resource type="Texture2D" path="res://assets/sprites/window_mask.png" id="9_mask"]
+[ext_resource type="Texture2D" path="res://assets/sprites/window_glass_01.png" id="10_glass"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oexds"]
+atlas = ExtResource("2_7ft05")
+region = Rect2(0, 0, 74, 108)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_naajo"]
+atlas = ExtResource("2_7ft05")
+region = Rect2(74, 0, 74, 108)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_41jku"]
+atlas = ExtResource("2_7ft05")
+region = Rect2(148, 0, 74, 108)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k1k1x"]
+atlas = ExtResource("2_7ft05")
+region = Rect2(222, 0, 74, 108)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gfhx5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oexds")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_naajo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_41jku")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k1k1x")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sci0"]
+atlas = ExtResource("8_sci")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sci1"]
+atlas = ExtResource("8_sci")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sci2"]
+atlas = ExtResource("8_sci")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sci3"]
+atlas = ExtResource("8_sci")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sci4"]
+atlas = ExtResource("8_sci")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sci5"]
+atlas = ExtResource("8_sci")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_sci"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sci0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sci1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sci2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sci3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sci4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sci5")
+}],
+"loop": true,
+"name": &"default",
+"speed": 11.0
+}]
+
+[node name="Node2D" type="Node2D" unique_id=334927512]
+script = ExtResource("7_arena")
+
+[node name="Background" type="Sprite2D" parent="." unique_id=1492056710]
+texture = ExtResource("1_xdvfk")
+centered = false
+
+[node name="WindowMask" type="Sprite2D" parent="."]
+clip_children = 1
+texture = ExtResource("9_mask")
+centered = false
+
+[node name="Scientist" type="AnimatedSprite2D" parent="WindowMask"]
+modulate = Color(0.72, 0.84, 0.86, 1)
+position = Vector2(63, 87)
+sprite_frames = SubResource("SpriteFrames_sci")
+autoplay = "default"
+
+[node name="WindowGlass" type="Sprite2D" parent="."]
+texture = ExtResource("10_glass")
+centered = false
+
+[node name="TestTube" type="AnimatedSprite2D" parent="." unique_id=2141156702]
+position = Vector2(156, 174)
+sprite_frames = SubResource("SpriteFrames_gfhx5")
+autoplay = "default"
+
+[node name="TestTube2" type="AnimatedSprite2D" parent="." unique_id=556528489]
+position = Vector2(479, 174)
+sprite_frames = SubResource("SpriteFrames_gfhx5")
+autoplay = "default"
+
+[node name="FireExtinguisher" type="Sprite2D" parent="." unique_id=435116442]
+position = Vector2(19, 250)
+texture = ExtResource("3_4ag8t")
+
+[node name="mush_jar" type="Sprite2D" parent="." unique_id=2144046907]
+position = Vector2(433, 196)
+texture = ExtResource("4_dpxgc")
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1403003230]
+position = Vector2(208, 148)
+texture = ExtResource("5_7ft05")
+
+[node name="PointLight2D2" type="PointLight2D" parent="." unique_id=213783642]
+position = Vector2(425, 147)
+texture = ExtResource("5_7ft05")
+
+[node name="ArenaIntro" parent="." instance=ExtResource("6_intro")]
