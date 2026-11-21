@@ -69,3 +69,6 @@ $RECYCLE.BIN/
 
 # Windows bash crash dumps
 *.stackdump
+
+# gdUnit4 test-run HTML reports (generated)
+reports/
