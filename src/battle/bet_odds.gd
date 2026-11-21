@@ -7,16 +7,18 @@ const CLAIMS: Array[StringName] = [&"victory", &"flawless", &"blitz", &"last_sta
 
 ## Runs `runs` headless sims (seeds base_seed + i) and returns claim probabilities:
 ## {victory, flawless, blitz, last_stand: float, mvp: Dictionary(roster_idx -> float)}.
+## `player_mods` is passed to BattleSim unchanged (player skill bonuses), so the
+## odds match the real battle.
 static func estimate(player_team: Array[MonsterData], player_spots: Array[int], player_roster_idx: Array[int],
 		enemy_team: Array[MonsterData], enemy_spots: Array[int], base_seed: int,
-		runs: int = Tuning.SIM_RUNS) -> Dictionary:
+		runs: int = Tuning.SIM_RUNS, player_mods: Dictionary = {}) -> Dictionary:
 	var counts: Dictionary = {&"victory": 0, &"flawless": 0, &"blitz": 0, &"last_stand": 0}
 	var mvp: Dictionary = {}
 	for r: int in player_roster_idx:
 		mvp[r] = 0
 	for i: int in runs:
 		var res: Dictionary = BattleSim.new(player_team, player_spots, player_roster_idx,
-			enemy_team, enemy_spots, base_seed + i, false).run_to_end()
+			enemy_team, enemy_spots, base_seed + i, false, player_mods).run_to_end()
 		for claim: StringName in counts.keys():
 			if claim_won(claim, res):
 				counts[claim] += 1

@@ -170,6 +170,11 @@ const CHAMPION_NORM_MAX: float = 1.3
 ## otherwise be multiplied many times over). Outside it the band is not reached.
 const CHAMPION_SCALE_MIN: float = 0.1
 const CHAMPION_SCALE_MAX: float = 3.0
+## Champion growth: after the first saved champion, each further run the player
+## wins makes the champion this much stronger (HP and ATK, applied after the
+## normalization clamp), up to CHAMPION_GROWTH_MAX. See EnemyGen.champion_growth().
+const CHAMPION_GROWTH_PER_WIN: float = 0.05
+const CHAMPION_GROWTH_MAX: float = 0.30
 
 # --- Battle presentation (stage 2) ---
 const BATTLE_INTRO_TIME: float = 1.0
@@ -259,3 +264,36 @@ const RUN_SUMMARY_MAX_NEW: int = 6
 ## false: a banner keeps showing on each visit until the player presses "Got it".
 ## true: it is marked seen the first time it shows, even if never dismissed.
 const HINT_MARK_SEEN_ON_SHOW: bool = false
+
+# --- Skills (meta-progression; docs/superpowers/specs/2026-11-21-skill-points-design.md) ---
+## Permanent skill points awarded for each battle won.
+const SKILL_POINTS_PER_WIN: int = 1
+## Extra skill points for winning the final battle of a run.
+const SKILL_POINTS_RUN_WIN: int = 2
+## A skill's next rank costs (current_rank + 1) * this.
+const SKILL_COST_PER_RANK: int = 1
+## Skills screen column headers; SKILLS[i][&"column"] indexes this.
+const SKILL_COLUMNS: Array[String] = ["ECONOMY", "LAB", "COMBAT"]
+## Every skill, in display order. `desc` takes one %d: the total value (rank x per_rank).
+const SKILLS: Array[Dictionary] = [
+	{&"id": &"seed_money", &"name": "Seed Money", &"column": 0, &"per_rank": 5, &"max_rank": 4,
+		&"desc": "+%d starting gold"},
+	{&"id": &"bounty", &"name": "Bounty", &"column": 0, &"per_rank": 3, &"max_rank": 3,
+		&"desc": "+%d gold per battle won"},
+	{&"id": &"stockpile", &"name": "Stockpile", &"column": 0, &"per_rank": 1, &"max_rank": 2,
+		&"desc": "+%d starting stabilizers"},
+	{&"id": &"common_graft", &"name": "Common Graft", &"column": 1, &"per_rank": 4, &"max_rank": 3,
+		&"desc": "+%d%% common graft success"},
+	{&"id": &"uncommon_graft", &"name": "Uncommon Graft", &"column": 1, &"per_rank": 4, &"max_rank": 3,
+		&"desc": "+%d%% uncommon graft success"},
+	{&"id": &"rare_graft", &"name": "Rare Graft", &"column": 1, &"per_rank": 3, &"max_rank": 3,
+		&"desc": "+%d%% rare graft success"},
+	{&"id": &"steady_splice", &"name": "Steady Splice", &"column": 1, &"per_rank": 3, &"max_rank": 3,
+		&"desc": "+%d%% fusion success"},
+	{&"id": &"thick_hide", &"name": "Thick Hide", &"column": 2, &"per_rank": 4, &"max_rank": 3,
+		&"desc": "+%d%% monster HP"},
+	{&"id": &"sharp_claws", &"name": "Sharp Claws", &"column": 2, &"per_rank": 4, &"max_rank": 3,
+		&"desc": "+%d%% monster ATK"},
+	{&"id": &"adrenaline", &"name": "Adrenaline", &"column": 2, &"per_rank": 3, &"max_rank": 3,
+		&"desc": "+%d%% attack speed"},
+]

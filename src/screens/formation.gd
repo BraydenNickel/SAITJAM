@@ -31,7 +31,8 @@ func _ready() -> void:
 	Game.prepare_battle()
 	_battle_label.text = "Battle %d/%d" % [Game.run.battle_index + 1, Tuning.BATTLES_PER_RUN]
 	if Game.enemy_is_champion:
-		_enemy_label.text = "%s - beat your last run!" % Tuning.CHAMPION_NAME.to_upper()
+		_enemy_label.text = "%s - beat your last run!%s" % [Tuning.CHAMPION_NAME.to_upper(),
+			EnemyGen.champion_growth_text(Game.champion_growth, Game.champion_wins)]
 	elif Game.run.battle_index == Tuning.BATTLES_PER_RUN - 1:
 		_enemy_label.text = "BOSS: %s  (Front | Middle | Back)" % Tuning.BOSS_NAME
 	for child: Node in _player_grid.get_children():

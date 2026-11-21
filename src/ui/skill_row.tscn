@@ -1,0 +1,86 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/ui/skill_row.gd" id="1_row"]
+[ext_resource type="Theme" path="res://src/ui/theme.tres" id="2_theme"]
+
+[node name="SkillRow" type="PanelContainer"]
+offset_right = 200.0
+offset_bottom = 46.0
+theme = ExtResource("2_theme")
+script = ExtResource("1_row")
+
+[node name="HBox" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Info" type="VBoxContainer" parent="HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Top" type="HBoxContainer" parent="HBox/Info"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="NameLabel" type="Label" parent="HBox/Info/Top"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.9, 1, 0.92, 1)
+theme_override_font_sizes/font_size = 11
+text = "Skill Name"
+
+[node name="Pips" type="HBoxContainer" parent="HBox/Info/Top"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 2
+
+[node name="Pip1" type="ColorRect" parent="HBox/Info/Top/Pips"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(6, 6)
+layout_mode = 2
+size_flags_vertical = 4
+color = Color(0.55, 1, 0.25, 1)
+
+[node name="Pip2" type="ColorRect" parent="HBox/Info/Top/Pips"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(6, 6)
+layout_mode = 2
+size_flags_vertical = 4
+color = Color(0.12, 0.25, 0.2, 1)
+
+[node name="Pip3" type="ColorRect" parent="HBox/Info/Top/Pips"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(6, 6)
+layout_mode = 2
+size_flags_vertical = 4
+color = Color(0.12, 0.25, 0.2, 1)
+
+[node name="Pip4" type="ColorRect" parent="HBox/Info/Top/Pips"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(6, 6)
+layout_mode = 2
+size_flags_vertical = 4
+color = Color(0.12, 0.25, 0.2, 1)
+
+[node name="DescLabel" type="Label" parent="HBox/Info"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 1, 0.25, 1)
+theme_override_font_sizes/font_size = 9
+text = "+0 starting gold"
+
+[node name="NextLabel" type="Label" parent="HBox/Info"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.65, 0.6, 1)
+theme_override_font_sizes/font_size = 8
+text = "Next: +5 starting gold"
+
+[node name="BuyButton" type="Button" parent="HBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(44, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 9
+text = "Buy: 1"

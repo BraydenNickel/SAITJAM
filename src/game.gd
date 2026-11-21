@@ -18,6 +18,7 @@ const SCREENS: Dictionary = {
 	&"incubator": "res://src/screens/incubator.tscn",
 	&"codex": "res://src/screens/codex.tscn",
 	&"potential": "res://src/screens/potential.tscn",
+	&"skills": "res://src/screens/skills.tscn",
 }
 const HUMAN_PATH: String = "res://src/data/kinds/human.tres"
 const MANTIS_ARM_PATH: String = "res://src/data/mutations/mantis_arm.tres"
@@ -50,12 +51,22 @@ var battles_cleared: int = 0
 var champion_path: String = ChampionStore.DEFAULT_PATH
 ## True if the upcoming battle's enemy is the saved champion (set by prepare_battle()).
 var enemy_is_champion: bool = false
+## HP/ATK growth factor of the upcoming champion (EnemyGen.champion_growth());
+## 1.0 when the enemy is not the champion. Set by prepare_battle(), for labels.
+var champion_growth: float = 1.0
+## Total runs won (ChampionStore.wins()) behind champion_growth, for labels.
+var champion_wins: int = 0
 ## Set at the end of a won run: true if this run beat a saved champion.
 var beat_champion: bool = false
 ## Set at the end of a won run: true if the winning team was saved as champion.
 var champion_saved: bool = false
 ## Codex save file snapshotted at new_run() for the run-end "New this run" list.
 var codex_path: String = CodexStore.DEFAULT_PATH
+## Skill save file (points and ranks). Tests may point this elsewhere.
+var skills_path: String = SkillStore.DEFAULT_PATH
+## Skill points awarded during the current run (shown on the run-end screen).
+## Already saved to skills_path as they are earned.
+var skill_points_earned: int = 0
 
 func _ready() -> void:
 	# Player audio volumes (user://settings.cfg) onto the buses, once per launch.
@@ -76,9 +87,15 @@ func new_run() -> void:
 	run_victory = false
 	battles_cleared = 0
 	enemy_is_champion = false
+	champion_growth = 1.0
+	champion_wins = 0
 	beat_champion = false
 	champion_saved = false
-	run.gold = Tuning.START_GOLD
+	skill_points_earned = 0
+	# Permanent skills: snapshot the ranks so run logic stays pure.
+	run.skill_ranks = SkillStore.ranks(skills_path)
+	run.gold = Tuning.START_GOLD + SkillEffects.value(run.skill_ranks, &"seed_money")
+	run.stabilizers += SkillEffects.value(run.skill_ranks, &"stockpile")
 	run.codex_start = CodexStore.load_codex(codex_path)
 	var human: MonsterData = load(HUMAN_PATH) as MonsterData
 	for i: int in Tuning.START_HUMANS:
@@ -134,14 +151,17 @@ func prepare_battle() -> void:
 	rng.seed = battle_seed()
 	# Final battle: the saved champion replaces Dr. Splice (handoff.md §2).
 	var champion: Array[MonsterData] = []
+	champion_wins = 0
 	if run.battle_index == Tuning.BATTLES_PER_RUN - 1:
 		champion = ChampionStore.load_team(champion_path)
+		champion_wins = ChampionStore.wins(champion_path)
 	var gen: Dictionary = EnemyGen.generate_for_battle(run.battle_index, rng,
-		EnemyGen.player_power(run.roster), champion)
+		EnemyGen.player_power(run.roster), champion, EnemyGen.champion_growth(champion_wins))
 	enemy_team.assign(gen[&"team"] as Array)
 	enemy_spots.assign(gen[&"spots"] as Array)
 	enemy_adapt = int(gen.get(&"adapt", 0))
 	enemy_is_champion = bool(gen.get(&"champion", false))
+	champion_growth = float(gen.get(&"growth", 1.0))
 	bets = []
 	last_result = {}
 
@@ -175,7 +195,8 @@ func end_run_lost() -> void:
 	go_to(&"run_end")
 
 ## Applies the end of a battle: logs it for the run-end summary, adds
-## `gold_delta` (reward + bet payouts), then routes to the reward pick before the
+## `gold_delta` (reward + bet payouts, plus the Bounty skill on a win), awards
+## and saves skill points on a win (so quitting mid-run keeps them), then routes to the reward pick before the
 ## next battle, or to the run-end screen on a loss / after the final win.
 ## `net` = reward + payouts - stakes; left at NET_FROM_BETS it is computed from
 ## `bets` (still the placed bets at this point).
@@ -183,6 +204,13 @@ func complete_battle(won: bool, gold_delta: int, net: int = NET_FROM_BETS) -> vo
 	ensure_run()
 	if net == NET_FROM_BETS:
 		net = RunSummary.net_from_bets(gold_delta, bets)
+	if won:
+		var pts: int = Tuning.SKILL_POINTS_PER_WIN
+		if run.battle_index >= Tuning.BATTLES_PER_RUN - 1:
+			pts += Tuning.SKILL_POINTS_RUN_WIN
+		SkillStore.add_points(pts, skills_path)
+		skill_points_earned += pts
+		gold_delta += SkillEffects.value(run.skill_ranks, &"bounty")
 	run.battle_log.append(RunSummary.make_entry(run.battle_index + 1, won, net,
 		last_result, run.roster))
 	add_gold(gold_delta)

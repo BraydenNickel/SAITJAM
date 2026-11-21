@@ -11,12 +11,17 @@ const DEFAULT_PATH: String = "user://champion.tres"
 ## Deep copies of the champion monsters (fused parts embedded, base mutation
 ## .tres files referenced by path).
 @export var team: Array[MonsterData] = []
+## Total runs the player has won (one per save_team()). Files saved before this
+## field existed load with 0. Read it with ChampionStore.wins().
+@export var total_wins: int = 0
 
 ## Saves the living (non-mush, non-null) monsters of `source`, at most
-## Tuning.MAX_TEAM, as the champion. Overwrites any earlier champion.
-## Returns false if no monster qualifies or the file cannot be written.
+## Tuning.MAX_TEAM, as the champion. Overwrites any earlier champion and adds 1
+## to the stored win count. Returns false if no monster qualifies or the file
+## cannot be written.
 static func save_team(source: Array[MonsterData], path: String = DEFAULT_PATH) -> bool:
 	var store: ChampionStore = ChampionStore.new()
+	store.total_wins = wins(path) + 1
 	for mon: MonsterData in source:
 		if mon == null or mon.mushed:
 			continue
@@ -41,6 +46,16 @@ static func load_team(path: String = DEFAULT_PATH) -> Array[MonsterData]:
 		if mon != null and not mon.mushed:
 			out.append(mon)
 	return out
+
+## Total runs won according to the save at `path` (0 if there is no readable file).
+static func wins(path: String = DEFAULT_PATH) -> int:
+	if not FileAccess.file_exists(path):
+		return 0
+	var store: ChampionStore = ResourceLoader.load(path, "",
+		ResourceLoader.CACHE_MODE_IGNORE) as ChampionStore
+	if store == null:
+		return 0
+	return maxi(0, store.total_wins)
 
 ## True if a champion with at least one monster is saved at `path`.
 static func has_champion(path: String = DEFAULT_PATH) -> bool:

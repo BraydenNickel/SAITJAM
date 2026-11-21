@@ -284,6 +284,7 @@ static func incubate_breakdown(run: RunState, a: MonsterData, b: MonsterData,
 		["Stabilizers", used * Tuning.STABILIZER_BONUS],
 		["Mush Memory", run.mush_memory if run != null else 0],
 		["Lucky Gene", Tuning.LUCKY_GENE_BONUS if run != null and run.lucky_gene else 0],
+		["Skills", SkillEffects.fusion_bonus(run.skill_ranks) if run != null else 0],
 	]
 	for p: Array in parts:
 		if int(p[1]) != 0:

@@ -145,12 +145,13 @@ static func generate(battle_index: int, rng: RandomNumberGenerator,
 
 ## Enemy setup for battle `battle_index`: the champion (generate_champion) when
 ## this is the final battle and `champion` is not empty, else generate().
-## Result has an extra &"champion": bool key.
+## Result has an extra &"champion": bool key. `growth` (champion_growth()) only
+## affects the champion; Dr. Splice and normal battles ignore it.
 static func generate_for_battle(battle_index: int, rng: RandomNumberGenerator, power: int,
-		champion: Array[MonsterData]) -> Dictionary:
+		champion: Array[MonsterData], growth: float = 1.0) -> Dictionary:
 	var i: int = clampi(battle_index, 0, Tuning.ENEMY_BUDGET.size() - 1)
 	if i == Tuning.BATTLES_PER_RUN - 1 and not champion.is_empty():
-		return generate_champion(champion, rng)
+		return generate_champion(champion, rng, growth)
 	var gen: Dictionary = generate(battle_index, rng, power)
 	gen[&"champion"] = false
 	return gen
@@ -167,6 +168,21 @@ static func team_power(team: Array[MonsterData]) -> int:
 				power += cost_of(mut)
 	return power
 
+## Champion HP/ATK growth factor for `wins` total runs won (ChampionStore.wins()):
+## 1.0 + min(CHAMPION_GROWTH_PER_WIN x max(wins - 1, 0), CHAMPION_GROWTH_MAX).
+## The first saved champion (wins 1) is unchanged.
+static func champion_growth(wins: int) -> float:
+	return 1.0 + minf(Tuning.CHAMPION_GROWTH_PER_WIN * float(maxi(wins - 1, 0)),
+		Tuning.CHAMPION_GROWTH_MAX)
+
+## Label suffix for a grown champion, e.g. " (+15% after 4 wins)"; "" when
+## `growth` is 1.0 or less.
+static func champion_growth_text(growth: float, wins: int) -> String:
+	var pct: int = roundi((growth - 1.0) * 100.0)
+	if pct <= 0:
+		return ""
+	return " (+%d%% after %d wins)" % [pct, wins]
+
 ## HP/ATK factor that moves `power` into the champion band
 ## [CHAMPION_NORM_MIN, CHAMPION_NORM_MAX] x ENEMY_BUDGET[last battle]; 1.0 if
 ## already inside. Clamped to [CHAMPION_SCALE_MIN, CHAMPION_SCALE_MAX].
@@ -179,13 +195,14 @@ static func champion_scale(power: int) -> float:
 	return clampf(target / p, Tuning.CHAMPION_SCALE_MIN, Tuning.CHAMPION_SCALE_MAX)
 
 ## The saved champion as the final-battle enemy team. Same keys as generate()
-## plus &"champion": true, &"scale" (HP/ATK factor) and &"power" (normalized
-## power = team_power x scale). Units are deep copies (the input is untouched),
+## plus &"champion": true, &"scale" (HP/ATK normalization factor), &"growth"
+## (extra HP/ATK factor from champion_growth(), applied after the normalization
+## clamp) and &"power" (normalized power = team_power x scale). Units are deep copies (the input is untouched),
 ## unmushed, instability 0, names prefixed with Tuning.CHAMPION_UNIT_PREFIX.
 ## Skips ENEMY_HP_MULT and the adaptive bonus (adapt is always 0). Spots are
 ## random like normal enemies, from `rng`, so the result is deterministic.
 static func generate_champion(champion: Array[MonsterData],
-		rng: RandomNumberGenerator) -> Dictionary:
+		rng: RandomNumberGenerator, growth: float = 1.0) -> Dictionary:
 	var team: Array[MonsterData] = []
 	var archetypes: Array[StringName] = []
 	for src: MonsterData in champion:
@@ -201,15 +218,17 @@ static func generate_champion(champion: Array[MonsterData],
 		archetypes.append(&"")
 	var raw: int = team_power(team)
 	var scale: float = champion_scale(raw)
-	if not is_equal_approx(scale, 1.0):
+	var factor: float = scale * growth
+	if not is_equal_approx(factor, 1.0):
 		for m: MonsterData in team:
 			# Scale the TOTAL hp/atk (base + mutation mods) via the base body so
 			# shared mutation resources are never modified.
 			var stats: Dictionary = m.get_total_stats()
-			m.base_hp += (scale - 1.0) * float(stats[&"hp"])
-			m.base_atk += (scale - 1.0) * float(stats[&"atk"])
+			m.base_hp += (factor - 1.0) * float(stats[&"hp"])
+			m.base_atk += (factor - 1.0) * float(stats[&"atk"])
 	return {&"team": team, &"spots": _place(archetypes, rng), &"archetypes": archetypes,
-		&"adapt": 0, &"champion": true, &"scale": scale, &"power": float(raw) * scale}
+		&"adapt": 0, &"champion": true, &"scale": scale, &"growth": growth,
+		&"power": float(raw) * scale}
 
 ## [mutation, slot] affordable, allowed at this battle and socket-legal for `m`,
 ## or [] if none. Mutations tagged for the archetype are preferred.

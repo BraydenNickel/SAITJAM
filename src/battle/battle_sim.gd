@@ -45,18 +45,24 @@ var _hit_top: int = 0
 var _frenzy: bool = false
 
 ## Builds both sides. Arrays are parallel (team[i] sits on spots[i]).
+## `player_mods` (SkillEffects.combat_mods(): &"hp_mult", &"atk_mult",
+## &"speed_mult", each default 1.0) applies to player units only; enemies are
+## never buffed. {} leaves the battle unchanged.
 func _init(player_team: Array[MonsterData], player_spots: Array[int], player_roster_idx: Array[int],
-		enemy_team: Array[MonsterData], enemy_spots: Array[int], rng_seed: int, events_on := true) -> void:
+		enemy_team: Array[MonsterData], enemy_spots: Array[int], rng_seed: int, events_on := true,
+		player_mods: Dictionary = {}) -> void:
 	emit_events = events_on
 	rng = RandomNumberGenerator.new()
 	rng.seed = rng_seed
 	for i: int in player_team.size():
 		var ridx: int = player_roster_idx[i] if i < player_roster_idx.size() else i
-		_add_unit(player_team[i], PLAYER, player_spots[i] if i < player_spots.size() else i, ridx)
+		_add_unit(player_team[i], PLAYER, player_spots[i] if i < player_spots.size() else i, ridx,
+			player_mods)
 	for i: int in enemy_team.size():
 		_add_unit(enemy_team[i], ENEMY, enemy_spots[i] if i < enemy_spots.size() else i, -1)
 
-func _add_unit(m: MonsterData, side: int, spot: int, roster_idx: int) -> void:
+func _add_unit(m: MonsterData, side: int, spot: int, roster_idx: int,
+		mods: Dictionary = {}) -> void:
 	var u: UnitState = UnitState.new()
 	u.index = units.size()
 	u.side = side
@@ -64,12 +70,15 @@ func _add_unit(m: MonsterData, side: int, spot: int, roster_idx: int) -> void:
 	u.data = m
 	u.roster_index = roster_idx
 	var s: Dictionary = m.get_total_stats()
-	u.max_hp = maxi(1, roundi(s[&"hp"] as float))
+	var hp_mult: float = float(mods.get(&"hp_mult", 1.0))
+	var atk_mult: float = float(mods.get(&"atk_mult", 1.0))
+	var speed_mult: float = maxf(0.01, float(mods.get(&"speed_mult", 1.0)))
+	u.max_hp = maxi(1, roundi((s[&"hp"] as float) * hp_mult))
 	u.hp = u.max_hp
-	u.atk = roundi(s[&"atk"] as float)
+	u.atk = roundi((s[&"atk"] as float) * atk_mult)
 	u.defense = roundi(s[&"defense"] as float)
 	u.crit = s[&"crit"] as float
-	u.attack_interval = s[&"attack_interval"] as float
+	u.attack_interval = maxf((s[&"attack_interval"] as float) / speed_mult, Tuning.MIN_INTERVAL)
 	u.attack_timer = rng.randf_range(0.0, Tuning.ATTACK_START_JITTER)
 	for slot: StringName in MonsterData.SLOTS:
 		var mut: MutationData = m.slots.get(slot) as MutationData

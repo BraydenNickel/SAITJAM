@@ -57,8 +57,9 @@ func _show_boss() -> void:
 	var final_battle: bool = Game.run.battle_index == Tuning.BATTLES_PER_RUN - 1
 	_boss_label.visible = final_battle
 	if Game.enemy_is_champion:
-		_boss_label.text = "BOSS: %s
-Beat your last run!" % Tuning.CHAMPION_NAME
+		_boss_label.text = "BOSS: %s%s
+Beat your last run!" % [Tuning.CHAMPION_NAME,
+			EnemyGen.champion_growth_text(Game.champion_growth, Game.champion_wins)]
 	elif final_battle:
 		_boss_label.text = "BOSS: %s" % Tuning.BOSS_NAME
 
@@ -68,7 +69,8 @@ func _run_estimate() -> void:
 	var spots: Array[int] = lineup["spots"]
 	var roster_idx: Array[int] = lineup["roster_idx"]
 	var odds: Dictionary = BetOdds.estimate(team, spots, roster_idx,
-		Game.enemy_team, Game.enemy_spots, Game.battle_seed())
+		Game.enemy_team, Game.enemy_spots, Game.battle_seed(), Tuning.SIM_RUNS,
+		SkillEffects.combat_mods(Game.run.skill_ranks))
 	var max_stake: int = floori(Game.run.gold * Tuning.BET_STAKE_CAP)
 	var names: Dictionary = {}
 	for ri: int in roster_idx:

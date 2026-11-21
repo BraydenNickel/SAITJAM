@@ -41,6 +41,11 @@ extends Resource
 ## diffed at run end for "New this run".
 @export var codex_start: Dictionary = {}
 
+# --- Skills (docs/superpowers/specs/2026-11-21-skill-points-design.md) ---
+## Skill ranks (StringName id -> int) snapshotted from SkillStore at new_run(),
+## so lab, fusion and battle logic stay pure. Read through SkillEffects.
+@export var skill_ranks: Dictionary = {}
+
 ## Number of roster monsters that are not mush.
 func living_count() -> int:
 	var n: int = 0

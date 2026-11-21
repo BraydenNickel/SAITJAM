@@ -30,6 +30,7 @@ static func chance_breakdown(run: RunState, monster: MonsterData, mutation: Muta
 		["Stabilizers", used * Tuning.STABILIZER_BONUS],
 		["Mush Memory", run.mush_memory],
 		["Lucky Gene", Tuning.LUCKY_GENE_BONUS if run.lucky_gene else 0],
+		["Skills", SkillEffects.graft_bonus(run.skill_ranks, int(mutation.rarity)) if run != null else 0],
 	]
 	for p: Array in parts:
 		if int(p[1]) != 0:

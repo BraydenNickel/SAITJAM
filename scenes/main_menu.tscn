@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3]
+[gd_scene load_steps=26 format=3]
 
 [ext_resource type="Script" path="res://scenes/main_menu.gd" id="1_menu"]
 [ext_resource type="Texture2D" path="res://assets/sprites/menu/menu_bg.png" id="2_bg"]
@@ -18,6 +18,8 @@
 [ext_resource type="AudioStream" path="res://assets/audio/menu_theme.wav" id="16_music"]
 [ext_resource type="Texture2D" path="res://assets/sprites/menu/btn_potential.png" id="18_b5"]
 [ext_resource type="Texture2D" path="res://assets/sprites/menu/btn_potential_hover.png" id="19_b5h"]
+[ext_resource type="Texture2D" path="res://assets/sprites/menu/btn_skills.png" id="20_b6"]
+[ext_resource type="Texture2D" path="res://assets/sprites/menu/btn_skills_hover.png" id="21_b6h"]
 [ext_resource type="PackedScene" path="res://src/ui/settings_menu.tscn" id="17_settings"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_add"]
@@ -82,9 +84,9 @@ mouse_filter = 2
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 376.0
-offset_top = 97.0
+offset_top = 46.0
 offset_right = 597.0
-offset_bottom = 156.0
+offset_bottom = 105.0
 focus_neighbor_top = NodePath("../Quit")
 focus_neighbor_bottom = NodePath("../Codex")
 texture_normal = ExtResource("8_b1")
@@ -95,14 +97,27 @@ texture_focused = ExtResource("9_b1h")
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 378.0
-offset_top = 148.0
+offset_top = 97.0
 offset_right = 597.0
-offset_bottom = 207.0
+offset_bottom = 156.0
 focus_neighbor_top = NodePath("../NewRun")
-focus_neighbor_bottom = NodePath("../Potential")
+focus_neighbor_bottom = NodePath("../Skills")
 texture_normal = ExtResource("10_b2")
 texture_pressed = ExtResource("11_b2h")
 texture_focused = ExtResource("11_b2h")
+
+[node name="Skills" type="TextureButton" parent="Buttons"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 378.0
+offset_top = 148.0
+offset_right = 597.0
+offset_bottom = 207.0
+focus_neighbor_top = NodePath("../Codex")
+focus_neighbor_bottom = NodePath("../Potential")
+texture_normal = ExtResource("20_b6")
+texture_pressed = ExtResource("21_b6h")
+texture_focused = ExtResource("21_b6h")
 
 [node name="Potential" type="TextureButton" parent="Buttons"]
 unique_name_in_owner = true
@@ -111,7 +126,7 @@ offset_left = 378.0
 offset_top = 199.0
 offset_right = 597.0
 offset_bottom = 258.0
-focus_neighbor_top = NodePath("../Codex")
+focus_neighbor_top = NodePath("../Skills")
 focus_neighbor_bottom = NodePath("../Settings")
 texture_normal = ExtResource("18_b5")
 texture_pressed = ExtResource("19_b5h")

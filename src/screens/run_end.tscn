@@ -76,6 +76,20 @@ theme_override_colors/font_color = Color(0.55, 1, 0.25, 1)
 text = "You beat your last champion!"
 horizontal_alignment = 1
 
+[node name="SkillPointsLabel" type="Label" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+offset_left = 16.0
+offset_top = 116.0
+offset_right = 356.0
+offset_bottom = 142.0
+theme_override_colors/font_color = Color(0.55, 1, 0.25, 1)
+theme_override_font_sizes/font_size = 14
+text = "+0 skill points"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="TeamRow" type="HBoxContainer" parent="."]
 unique_name_in_owner = true
 layout_mode = 1

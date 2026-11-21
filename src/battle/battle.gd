@@ -75,7 +75,8 @@ func _ready() -> void:
 	var team: Array[MonsterData] = lineup["team"]
 	var spots: Array[int] = lineup["spots"]
 	var roster_idx: Array[int] = lineup["roster_idx"]
-	_sim = BattleSim.new(team, spots, roster_idx, Game.enemy_team, Game.enemy_spots, Game.battle_seed())
+	_sim = BattleSim.new(team, spots, roster_idx, Game.enemy_team, Game.enemy_spots, Game.battle_seed(),
+		true, SkillEffects.combat_mods(Game.run.skill_ranks))
 	for unit: UnitState in _sim.units:
 		var view: BattleUnit = UNIT_SCENE.instantiate() as BattleUnit
 		var is_enemy: bool = unit.side == 1

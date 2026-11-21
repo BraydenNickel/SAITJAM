@@ -5,11 +5,15 @@ extends Control
 ## Row scene instanced into BattleRows, one per logged battle.
 @export var row_scene: PackedScene
 
+const TEXT_SKILL_POINTS: String = "+%d skill points  (spend them in SKILLS)"
+const TEXT_SKILL_POINT: String = "+1 skill point  (spend it in SKILLS)"
+
 @onready var _title_label: Label = %TitleLabel
 @onready var _cleared_label: Label = %ClearedLabel
 @onready var _gold_label: Label = %GoldLabel
 @onready var _beat_champion_label: Label = %BeatChampionLabel
 @onready var _champion_saved_label: Label = %ChampionSavedLabel
+@onready var _skill_points_label: Label = %SkillPointsLabel
 @onready var _new_run_button: Button = %NewRunButton
 @onready var _title_button: Button = %TitleButton
 @onready var _sfx: SfxPlayer = %Sfx
@@ -27,6 +31,10 @@ func _ready() -> void:
 	# Champion boss (handoff.md §2): texts live in run_end.tscn, shown on a won run.
 	_champion_saved_label.visible = Game.run_victory and Game.champion_saved
 	_beat_champion_label.visible = Game.run_victory and Game.beat_champion
+	# Skill points earned this run (Game.complete_battle); hidden when none.
+	var earned: int = Game.skill_points_earned
+	_skill_points_label.visible = earned > 0
+	_skill_points_label.text = TEXT_SKILL_POINT if earned == 1 else TEXT_SKILL_POINTS % earned
 	var slots: Array[MonsterSlot] = [%Team1, %Team2, %Team3, %Team4]
 	var lineup: Dictionary = Game.build_lineup()
 	var team: Array[MonsterData] = lineup["team"]
