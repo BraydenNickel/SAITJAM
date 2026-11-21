@@ -1,13 +1,12 @@
-[gd_resource type="Resource" script_class="MutationData" format=3]
+[gd_resource type="Resource" script_class="MutationData" format=3 uid="uid://dymhndludyuoa"]
 
-[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
-[ext_resource type="Script" path="res://src/data/abilities/ab_spore_pulse.gd" id="2_ab"]
-[ext_resource type="Texture2D" path="res://assets/sprites/parts/spore_sacs_front.png" id="3_front"]
-[ext_resource type="Texture2D" path="res://assets/sprites/parts/spore_sacs_side.png" id="4_side"]
+[ext_resource type="Script" uid="uid://cm3od6ihehgw" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" uid="uid://cxd5fyhl1nk53" path="res://src/data/abilities/ab_spore_pulse.gd" id="2_ab"]
+[ext_resource type="Texture2D" uid="uid://c8pnbeh5t646i" path="res://assets/sprites/parts/spore_sacs_front.png" id="3_front"]
+[ext_resource type="Texture2D" uid="uid://cipk8kg05lqgn" path="res://assets/sprites/parts/spore_sacs_side.png" id="4_side"]
 
 [sub_resource type="Resource" id="Resource_ability"]
 script = ExtResource("2_ab")
-interval = 4.0
 damage = 4.0
 
 [resource]

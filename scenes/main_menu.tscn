@@ -1,0 +1,133 @@
+[gd_scene load_steps=21 format=3]
+
+[ext_resource type="Script" path="res://scenes/main_menu.gd" id="1_menu"]
+[ext_resource type="Texture2D" path="res://assets/sprites/menu/menu_bg.png" id="2_bg"]
+[ext_resource type="Texture2D" path="res://assets/sprites/menu/lamp_cone.png" id="3_cone"]
+[ext_resource type="Texture2D" path="res://assets/sprites/menu/title_sheet.png" id="4_title"]
+[ext_resource type="Texture2D" path="res://assets/sprites/menu/mound_sheet.png" id="5_mound"]
+[ext_resource type="Texture2D" path="res://assets/sprites/mad_scientist_polished.png" id="6_sci"]
+[ext_resource type="Texture2D" path="res://assets/sprites/menu/lamp.png" id="7_lamp"]
+[ext_resource type="Texture2D" path="res://assets/sprites/menu/btn_new_run.png" id="8_b1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/menu/btn_new_run_hover.png" id="9_b1h"]
+[ext_resource type="Texture2D" path="res://assets/sprites/menu/btn_codex.png" id="10_b2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/menu/btn_codex_hover.png" id="11_b2h"]
+[ext_resource type="Texture2D" path="res://assets/sprites/menu/btn_settings.png" id="12_b3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/menu/btn_settings_hover.png" id="13_b3h"]
+[ext_resource type="Texture2D" path="res://assets/sprites/menu/btn_quit.png" id="14_b4"]
+[ext_resource type="Texture2D" path="res://assets/sprites/menu/btn_quit_hover.png" id="15_b4h"]
+[ext_resource type="AudioStream" path="res://assets/audio/menu_theme.wav" id="16_music"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_add"]
+blend_mode = 1
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_menu")
+
+[node name="Background" type="Sprite2D" parent="."]
+texture = ExtResource("2_bg")
+centered = false
+
+[node name="LampCone" type="Sprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_add")
+texture = ExtResource("3_cone")
+centered = false
+
+[node name="Title" type="Sprite2D" parent="."]
+position = Vector2(48, 77)
+texture = ExtResource("4_title")
+centered = false
+hframes = 6
+
+[node name="Mound" type="Sprite2D" parent="."]
+position = Vector2(268, 360)
+texture = ExtResource("5_mound")
+centered = false
+offset = Vector2(-100, -84)
+hframes = 6
+
+[node name="Drops" type="Node2D" parent="."]
+
+[node name="Scientist" type="Sprite2D" parent="."]
+position = Vector2(-22.5, 154)
+scale = Vector2(3.5, 3.5)
+texture = ExtResource("6_sci")
+centered = false
+hframes = 6
+
+[node name="Lamp" type="Sprite2D" parent="."]
+texture = ExtResource("7_lamp")
+centered = false
+
+[node name="Dim" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 360.0
+mouse_filter = 2
+color = Color(0, 0.01, 0.02, 0)
+
+[node name="Buttons" type="Control" parent="."]
+anchors_preset = 0
+mouse_filter = 2
+
+[node name="NewRun" type="TextureButton" parent="Buttons"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 376.0
+offset_top = 129.0
+offset_right = 597.0
+offset_bottom = 188.0
+focus_neighbor_top = NodePath("../Quit")
+focus_neighbor_bottom = NodePath("../Codex")
+texture_normal = ExtResource("8_b1")
+texture_pressed = ExtResource("9_b1h")
+texture_focused = ExtResource("9_b1h")
+
+[node name="Codex" type="TextureButton" parent="Buttons"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 378.0
+offset_top = 185.0
+offset_right = 597.0
+offset_bottom = 244.0
+focus_neighbor_top = NodePath("../NewRun")
+focus_neighbor_bottom = NodePath("../Settings")
+texture_normal = ExtResource("10_b2")
+texture_pressed = ExtResource("11_b2h")
+texture_focused = ExtResource("11_b2h")
+
+[node name="Settings" type="TextureButton" parent="Buttons"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 378.0
+offset_top = 240.0
+offset_right = 597.0
+offset_bottom = 294.0
+focus_neighbor_top = NodePath("../Codex")
+focus_neighbor_bottom = NodePath("../Quit")
+texture_normal = ExtResource("12_b3")
+texture_pressed = ExtResource("13_b3h")
+texture_focused = ExtResource("13_b3h")
+
+[node name="Quit" type="TextureButton" parent="Buttons"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 378.0
+offset_top = 289.0
+offset_right = 597.0
+offset_bottom = 348.0
+focus_neighbor_top = NodePath("../Settings")
+focus_neighbor_bottom = NodePath("../NewRun")
+texture_normal = ExtResource("14_b4")
+texture_pressed = ExtResource("15_b4h")
+texture_focused = ExtResource("15_b4h")
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("16_music")
+
+[node name="Sfx" type="AudioStreamPlayer" parent="."]

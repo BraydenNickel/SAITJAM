@@ -1,14 +1,12 @@
-[gd_resource type="Resource" script_class="MutationData" format=3]
+[gd_resource type="Resource" script_class="MutationData" format=3 uid="uid://cfen1hv4f7wmp"]
 
-[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
-[ext_resource type="Script" path="res://src/data/abilities/ab_double_strike.gd" id="2_ab"]
-[ext_resource type="Texture2D" path="res://assets/sprites/parts/mantis_arm_front.png" id="3_front"]
-[ext_resource type="Texture2D" path="res://assets/sprites/parts/mantis_arm_side.png" id="4_side"]
+[ext_resource type="Script" uid="uid://cm3od6ihehgw" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" uid="uid://xe06lyyskklc" path="res://src/data/abilities/ab_double_strike.gd" id="2_ab"]
+[ext_resource type="Texture2D" uid="uid://b4xmrffq0koc3" path="res://assets/sprites/parts/mantis_arm_front.png" id="3_front"]
+[ext_resource type="Texture2D" uid="uid://c1uspg3fox3jx" path="res://assets/sprites/parts/mantis_arm_side.png" id="4_side"]
 
 [sub_resource type="Resource" id="Resource_ability"]
 script = ExtResource("2_ab")
-every_n = 3
-extra_strikes = 1
 
 [resource]
 script = ExtResource("1_mut")
