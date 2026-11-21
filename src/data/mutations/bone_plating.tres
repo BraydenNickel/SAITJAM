@@ -15,12 +15,12 @@ script = ExtResource("1_mut")
 id = &"bone_plating"
 display_name = "Bone Plating"
 description = "Armoured plates grow over the torso.
-+30 HP, +3 DEF.
++109 HP, +3 DEF.
 25% chance to reflect 4 damage when hit."
 socket_type = 1
 sprite_front = ExtResource("3_front")
 sprite_side = ExtResource("4_side")
-hp_mod = 30.0
+hp_mod = 109.0
 defense_mod = 3.0
 tags = Array[StringName]([&"bone", &"armor"])
 ability = SubResource("Resource_ability")

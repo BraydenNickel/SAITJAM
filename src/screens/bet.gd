@@ -6,6 +6,7 @@ extends Control
 @onready var _hint_label: Label = %HintLabel
 @onready var _gold_label: Label = %GoldLabel
 @onready var _total_label: Label = %TotalLabel
+@onready var _adapt_label: Label = %AdaptLabel
 @onready var _back_button: Button = %BackButton
 @onready var _skip_button: Button = %SkipButton
 @onready var _fight_button: Button = %FightButton
@@ -31,10 +32,18 @@ func _ready() -> void:
 	_hint_label.text = "Max %d claims. Odds come from %d simulated fights." % [
 		Tuning.BET_MAX_CLAIMS, Tuning.SIM_RUNS]
 	_sim_label.visible = true
+	_show_adapt()
 	# Let "Simulating..." render for a frame before the blocking estimate.
 	await get_tree().process_frame
 	await get_tree().process_frame
 	_run_estimate()
+
+## Adaptive scaling is shown, never hidden (design/balance/stage3-tuning.md §6).
+## The odds below already simulate the adapted enemy team.
+func _show_adapt() -> void:
+	_adapt_label.visible = Game.enemy_adapt > 0
+	if Game.enemy_adapt > 0:
+		_adapt_label.text = "Enemies adapt to your lab: +%d power" % Game.enemy_adapt
 
 func _run_estimate() -> void:
 	var lineup: Dictionary = Game.build_lineup()

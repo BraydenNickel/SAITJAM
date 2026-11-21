@@ -4,7 +4,7 @@ extends RefCounted
 ## each mutation .tres; everything global lives here so balancing is one file.
 
 # --- Base human stats ---
-const BASE_HP: float = 100.0
+const BASE_HP: float = 360.0
 const BASE_ATK: float = 6.0
 const BASE_INTERVAL: float = 1.6
 const BASE_DEF: float = 0.0
@@ -19,26 +19,45 @@ const BATTLES_PER_RUN: int = 5
 const MAX_TEAM: int = 4
 const FORMATION_ROWS: int = 3
 const FORMATION_COLS: int = 2
-const BATTLE_REWARD: Array[int] = [20, 25, 30, 35, 0]
+const BATTLE_REWARD: Array[int] = [20, 25, 30, 28, 0]
 
 # --- Enemy generation (indexed by battle) ---
-const ENEMY_BUDGET: Array[int] = [1, 3, 6, 10, 16]
+const ENEMY_BUDGET: Array[int] = [2, 4, 6, 10, 14]
 const ENEMY_TEAM_SIZE: Array[int] = [2, 2, 3, 3, 4]
+## Enemy base-body HP multiplier per battle (scales BASE_HP only, not mutation hp_mod).
+const ENEMY_HP_MULT: Array[float] = [1.3, 1.35, 1.15, 1.2, 1.25]
+
+# --- Adaptive enemy scaling (design/balance/stage3-tuning.md §6) ---
+# Player power = sum of BUDGET_COST of every mutation on living monsters, plus
+# ADAPT_BODY_POWER per living monster beyond START_HUMANS. Extra enemy budget =
+# clamp(round(ADAPT_RATE * (power - ADAPT_EXPECTED[i])), 0, ADAPT_MAX[i]).
+# Shown to the player on the bet screen; only ever makes enemies harder.
+## Power a typical (greedy-sim) player has at each battle; at or below it there is no bonus.
+const ADAPT_EXPECTED: Array[int] = [7, 9, 10, 12, 14]
+## Extra enemy budget per point of power above ADAPT_EXPECTED.
+const ADAPT_RATE: float = 3.5
+## Cap on the extra enemy budget per battle.
+const ADAPT_MAX: Array[int] = [2, 4, 6, 8, 10]
+## Power counted for each living monster beyond START_HUMANS (a body is about a common+).
+const ADAPT_BODY_POWER: int = 2
+## Extra enemy base HP per adaptive budget point that could not be spent (sockets full).
+const ADAPT_HP_PER_POINT: float = 0.1
+
 ## Budget cost by rarity (COMMON, UNCOMMON, RARE).
 const BUDGET_COST: Array[int] = [1, 2, 3]
 const BUDGET_COST_FUSION: int = 3
 
 # --- Shop ---
-const PRICE_BY_RARITY: Array[int] = [12, 22, 38]
-const PRICE_HUMAN: int = 20
-const PRICE_STABILIZER: int = 15
+const PRICE_BY_RARITY: Array[int] = [10, 18, 30]
+const PRICE_HUMAN: int = 30
+const PRICE_STABILIZER: int = 10
 const REROLL_BASE: int = 5
 const REROLL_STEP: int = 3
 const RARITY_WEIGHTS: Array[int] = [60, 30, 10]
 const RARE_WEIGHT_PER_BATTLE: int = 5
 
 # --- Instability / risk ---
-const INSTABILITY_PER_RARITY: Array[int] = [10, 20, 30]
+const INSTABILITY_PER_RARITY: Array[int] = [10, 15, 25]
 const RISK_PER_RARITY: Array[int] = [0, 10, 20]
 const STABILIZER_BONUS: int = 25
 const STABILIZER_MAX: int = 2
@@ -89,7 +108,7 @@ const CRIT_MULT: float = 2.0
 ## Hook-generated damage at depth > this triggers no further hooks (loop guard).
 const HOOK_MAX_DEPTH: int = 1
 ## Blitz claim: win in under this many seconds.
-const BLITZ_TIME: float = 25.0
+const BLITZ_TIME: float = 30.0
 
 # --- Enemy generation archetypes ---
 ## Chance an enemy follows a coherent archetype instead of random mutations.

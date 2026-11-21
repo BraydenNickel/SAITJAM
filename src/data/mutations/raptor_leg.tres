@@ -7,19 +7,19 @@
 
 [sub_resource type="Resource" id="Resource_ability"]
 script = ExtResource("2_ab")
-chance = 0.12
+chance = 0.18
 
 [resource]
 script = ExtResource("1_mut")
 id = &"raptor_leg"
 display_name = "Raptor Leg"
 description = "Springy digitigrade legs.
-Attacks 0.15s faster.
-12% chance to dodge a hit."
+Attacks 0.25s faster.
+18% chance to dodge a hit."
 socket_type = 4
 rarity = 1
 sprite_front = ExtResource("3_front")
 sprite_side = ExtResource("4_side")
-interval_mod = -0.15
+interval_mod = -0.25
 tags = Array[StringName]([&"beast", &"speed"])
 ability = SubResource("Resource_ability")

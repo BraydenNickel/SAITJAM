@@ -30,6 +30,9 @@ var rng: RandomNumberGenerator
 var enemy_team: Array[MonsterData] = []
 ## Formation spot (0-5) of each enemy, parallel to enemy_team.
 var enemy_spots: Array[int] = []
+## Adaptive scaling bonus (extra enemy budget) of the upcoming battle; shown on
+## the bet screen (design/balance/stage3-tuning.md §6).
+var enemy_adapt: int = 0
 ## Placed bets: {claim: StringName, stake: int, mult: float, mvp_roster_idx: int}.
 var bets: Array[Dictionary] = []
 ## Result dictionary of the last finished battle (see BattleSim.result()).
@@ -47,6 +50,7 @@ func new_run() -> void:
 	rng.seed = run.rng_seed
 	enemy_team = []
 	enemy_spots = []
+	enemy_adapt = 0
 	bets = []
 	last_result = {}
 	run_victory = false
@@ -97,13 +101,18 @@ func battle_seed() -> int:
 	return hash([run.rng_seed, run.battle_index])
 
 ## Generates the enemy team for the current battle and clears old bets.
+## Called when the formation screen opens, i.e. after the hub (shop, lab,
+## incubator), so the adaptive power reflects the roster at fight time.
+## Formation cannot change the roster, so the power stays valid through the bet.
 func prepare_battle() -> void:
 	ensure_run()
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.seed = battle_seed()
-	var gen: Dictionary = EnemyGen.generate(run.battle_index, rng)
+	var gen: Dictionary = EnemyGen.generate(run.battle_index, rng,
+		EnemyGen.player_power(run.roster))
 	enemy_team.assign(gen["team"] as Array)
 	enemy_spots.assign(gen["spots"] as Array)
+	enemy_adapt = int(gen.get(&"adapt", 0))
 	bets = []
 	last_result = {}
 

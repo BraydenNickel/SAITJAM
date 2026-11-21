@@ -29,12 +29,43 @@ static func all_mutations() -> Array[MutationData]:
 static func cost_of(m: MutationData) -> int:
 	return Tuning.BUDGET_COST[int(m.rarity)]
 
-## Returns {team: Array[MonsterData], spots: Array[int], archetypes: Array[StringName]}.
+## Player power used by adaptive scaling (design/balance/stage3-tuning.md §6).
+## Over the whole living (non-mushed) roster, not the formation, so benching
+## cannot game it: sum of cost_of() of every installed mutation, plus
+## Tuning.ADAPT_BODY_POWER per living monster beyond Tuning.START_HUMANS.
+static func player_power(roster: Array[MonsterData]) -> int:
+	var power: int = 0
+	var living: int = 0
+	for mon: MonsterData in roster:
+		if mon == null or mon.mushed:
+			continue
+		living += 1
+		for value: Variant in mon.slots.values():
+			var mut: MutationData = value as MutationData
+			if mut != null:
+				power += cost_of(mut)
+	power += Tuning.ADAPT_BODY_POWER * maxi(0, living - Tuning.START_HUMANS)
+	return power
+
+## Extra enemy budget for `power` at battle `battle_index` (§6):
+## clampi(roundi(ADAPT_RATE * (power - ADAPT_EXPECTED[i])), 0, ADAPT_MAX[i]).
+## Never negative: adaptation only makes enemies harder.
+static func adapt_bonus(battle_index: int, power: int) -> int:
+	var i: int = clampi(battle_index, 0, Tuning.ADAPT_EXPECTED.size() - 1)
+	var raw: int = roundi(Tuning.ADAPT_RATE * float(power - Tuning.ADAPT_EXPECTED[i]))
+	return clampi(raw, 0, Tuning.ADAPT_MAX[i])
+
+## Returns {team: Array[MonsterData], spots: Array[int], archetypes: Array[StringName],
+## adapt: int}. `power` (from player_power()) adds adapt_bonus() to the budget;
+## the default 0 gives the unscaled team. Budget the round-robin cannot spend
+## (all sockets full) becomes extra base HP: x(1 + ADAPT_HP_PER_POINT * leftover).
 ## Battle index 4 is the "Dr. Splice" boss team (stage 4 replaces it with the champion).
-static func generate(battle_index: int, rng: RandomNumberGenerator) -> Dictionary:
+static func generate(battle_index: int, rng: RandomNumberGenerator,
+		power: int = 0) -> Dictionary:
 	var i: int = clampi(battle_index, 0, Tuning.ENEMY_BUDGET.size() - 1)
 	var size: int = Tuning.ENEMY_TEAM_SIZE[i]
-	var budget: int = Tuning.ENEMY_BUDGET[i]
+	var bonus: int = adapt_bonus(i, power)
+	var budget: int = Tuning.ENEMY_BUDGET[i] + bonus
 	var boss: bool = i == Tuning.BATTLES_PER_RUN - 1
 	var pool: Array[MutationData] = all_mutations()
 	var human: MonsterData = load(HUMAN_PATH) as MonsterData
@@ -54,6 +85,9 @@ static func generate(battle_index: int, rng: RandomNumberGenerator) -> Dictionar
 			used_numbers.append(num)
 			m.display_name = "Feral %02d" % num
 		team.append(m)
+		# Enemy toughness per battle (design/balance/stage3-tuning.md §1). Base body only,
+		# not mutation hp_mod. Stage 4 champions must skip this.
+		m.base_hp = Tuning.BASE_HP * Tuning.ENEMY_HP_MULT[i]
 		var arch: StringName = &""
 		if rng.randf() < Tuning.ENEMY_ARCHETYPE_CHANCE:
 			arch = archetype_names[rng.randi_range(0, archetype_names.size() - 1)]
@@ -73,7 +107,14 @@ static func generate(battle_index: int, rng: RandomNumberGenerator) -> Dictionar
 			budget -= cost_of(choice[0] as MutationData)
 		n = (n + 1) % size
 
-	return {&"team": team, &"spots": _place(archetypes, rng), &"archetypes": archetypes}
+	# Unspendable adaptive budget becomes toughness (base body only).
+	if budget > 0:
+		var hp_mult: float = 1.0 + Tuning.ADAPT_HP_PER_POINT * float(budget)
+		for m: MonsterData in team:
+			m.base_hp *= hp_mult
+
+	return {&"team": team, &"spots": _place(archetypes, rng), &"archetypes": archetypes,
+		&"adapt": bonus}
 
 ## [mutation, slot] affordable and socket-legal for `m`, or [] if none.
 static func _pick(m: MonsterData, arch: StringName, pool: Array[MutationData], budget: int,
