@@ -223,3 +223,24 @@ Key values: `BASE_HP` 360, `ENEMY_BUDGET [2,4,6,10,14]`, `ENEMY_HP_MULT [1.3,1.3
 - **Icons:** `tools/gen_icons.py` -> `assets/sprites/icons/` (stabilizer, gold, volunteer, cleanse, lucky_gene, insurance, catalyst). Used by the redesigned reward cards (`RewardCard.ICONS`; card root is now a Control holding a `Card` Button), lab and shop.
 - **Export:** `export_presets.cfg` has Windows Desktop + Web, `include_filter="*.json"`, dev addons/tests/tools excluded. 4.7.2 templates installed in `%APPDATA%/Godot/export_templates/4.7.2.stable`. Windows build verified to boot and contain the json files; Web exported but not browser-tested.
 - Tests: 199 passing.
+
+---
+
+## 10. Skill points + growing champion (2026-11-21, `79b89a7`)
+
+- **What:** +1 skill point per battle won, +2 for a run win, saved right away to `user://skills.json` (`SkillStore`). SKILLS button on the main menu → `src/screens/skills.tscn` (10 ranked skills, rank n costs n, free Refund all). Effects in `SkillEffects`, numbers in `tuning.gd` "Skills". Ranks are snapshotted into `RunState.skill_ranks` at `new_run()`.
+- **Champion growth:** +5% HP/ATK per run won, capped at +30% (`CHAMPION_GROWTH_PER_WIN/MAX`, `ChampionStore.total_wins`), applied after normalization, shown on the formation and bet labels.
+- Design: `docs/superpowers/specs/2026-11-21-skill-points-design.md`. Plan: `docs/superpowers/plans/2026-11-21-skill-points.md`. Parked option B: `design/ideas/skill-tree-branching.md`.
+- Delete `user://skills.json` to reset points; `user://champion.tres` holds the win count.
+
+### To test later
+- [ ] **Balance sim with a maxed profile:** pass all-max `skill_ranks` into `tools/balance/run_sim.gd` (it doesn't read skills yet) and compare run win % against §5a bands. Goal: bonuses stay "moderate", not trivialising.
+- [ ] **Champion at +30%:** play or sim battle 5 against a strong saved champion with growth 1.30 and with a 0-skill profile; it should be hard but winnable.
+- [ ] **Full playtest loop:** win a few battles, lose, check "+N skill points" on run end, buy skills, start a new run. Check starting gold, stabilizers, the lab/fusion "Skills" row, and that bet odds shift with combat skills.
+- [ ] **Bounty gold** shows up in the gold after a win (it is not in the logged battle net).
+- [ ] **Refund all** two-click confirm with real mouse input; Esc/Back from the Skills screen; keyboard/controller focus through the rows.
+- [ ] **Main menu layout:** NEW RUN moved up over the hazard stripe; get the art owner's OK.
+- [ ] **Buy pop fx** drifts up-left of the buy button (`buy_fx_anchor` in `skills.gd` to nudge).
+- [ ] **TDD gap:** the skills unit tests were never seen failing (the first red run hung). Break one effect on purpose once to confirm the tests catch it.
+- [ ] **Old saves:** a `champion.tres` from before this change loads with 0 wins; a corrupt `skills.json` loads empty (unit-tested, not tried in game).
+- [ ] **Web export:** `user://skills.json` persistence in the browser build.
