@@ -8,19 +8,19 @@ const WIRE_SAG := Vector2(214, 28)     ## lowest point of the sagging left cable
 
 ## Per-level look and hazards. [min, max] pairs are random intervals in seconds.
 const LEVELS := [
-	{"bg": "res://assets/sprites/lab_level_01.png", "left_vat": "intact", "right_vat": "intact",
+	{"bg": "res://assets/sprites/lab_level_01_full.png", "left_vat": "intact", "right_vat": "intact",
 		"flicker": [9.0, 15.0], "blackout_chance": 0.0, "sparks": [], "spark_every": [0.0, 0.0],
 		"alarm": 0, "sweep": false},
-	{"bg": "res://assets/sprites/lab_level_02.png", "left_vat": "hairline", "right_vat": "intact",
+	{"bg": "res://assets/sprites/lab_level_02_full.png", "left_vat": "hairline", "right_vat": "intact",
 		"flicker": [6.0, 10.0], "blackout_chance": 0.0, "sparks": [WIRE_LOOSE], "spark_every": [5.0, 9.0],
 		"alarm": 0, "sweep": false},
-	{"bg": "res://assets/sprites/lab_level_03.png", "left_vat": "leaking", "right_vat": "intact",
+	{"bg": "res://assets/sprites/lab_level_03_full.png", "left_vat": "leaking", "right_vat": "intact",
 		"flicker": [4.0, 7.0], "blackout_chance": 0.0, "sparks": [WIRE_LOOSE, WIRE_RIGHT], "spark_every": [3.0, 5.5],
 		"alarm": 1, "sweep": false},
-	{"bg": "res://assets/sprites/lab_level_04.png", "left_vat": "leaking", "right_vat": "leaking",
+	{"bg": "res://assets/sprites/lab_level_04_full.png", "left_vat": "leaking", "right_vat": "leaking",
 		"flicker": [2.5, 4.5], "blackout_chance": 0.15, "sparks": [WIRE_LOOSE, WIRE_RIGHT, WIRE_SAG],
 		"spark_every": [1.8, 3.5], "alarm": 2, "sweep": false},
-	{"bg": "res://assets/sprites/lab_level_05.png", "left_vat": "shattered", "right_vat": "leaking",
+	{"bg": "res://assets/sprites/lab_level_05_full.png", "left_vat": "shattered", "right_vat": "leaking",
 		"flicker": [1.2, 2.5], "blackout_chance": 0.35, "sparks": [WIRE_LOOSE, WIRE_RIGHT, WIRE_SAG],
 		"spark_every": [0.6, 1.6], "alarm": 2, "sweep": true},
 ]
@@ -39,6 +39,8 @@ const WINDOW_GLASS := "res://assets/sprites/window_glass_%02d.png"
 @export_range(1, 5) var level := 1
 ## When on and a run is active, the level is the run's battle number (Game.run.battle_index + 1).
 @export var follow_run := true
+## Play the lights-on / FIGHT intro (battle). Turn off for a static backdrop (formation screen).
+@export var play_intro := true
 
 @onready var _background: Sprite2D = $Background
 @onready var _left_vat: AnimatedSprite2D = $TestTube
@@ -61,6 +63,10 @@ func _ready() -> void:
 		if child is Light2D:
 			hazards.lights.append(child)
 	var intro := get_node_or_null("ArenaIntro")
+	if intro != null and not play_intro:
+		remove_child(intro)
+		intro.queue_free()
+		intro = null
 	hazards.intro = intro
 	add_child(hazards)  # last child, so sparks draw over the intro's darkness
 	if intro != null and intro.has_signal("lights_on"):

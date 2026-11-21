@@ -54,6 +54,7 @@ func _ready() -> void:
 	_fight.visible = false
 	_music_player = AudioStreamPlayer.new()
 	_music_player.name = "FightMusic"
+	_music_player.bus = GameSettings.BUS_MUSIC
 	add_child(_music_player)
 	if autoplay:
 		play()

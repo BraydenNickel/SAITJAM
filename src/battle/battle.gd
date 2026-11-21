@@ -26,6 +26,7 @@ const CELEBRATE_KEYS: Array[StringName] = [&"win_small", &"win_medium", &"win_bi
 @onready var _fx_layer: Node2D = %FxLayer
 @onready var _camera: Camera2D = %ShakeCamera
 @onready var _frenzy_spot: Marker2D = %FrenzySpot
+@onready var _arena: Node2D = %Arena
 @onready var _sfx: SfxPlayer = %Sfx
 @onready var _timer_label: Label = %TimerLabel
 @onready var _bet_label: Label = %BetLabel
@@ -78,8 +79,27 @@ func _ready() -> void:
 	_speed_button.pressed.connect(_on_speed_pressed)
 	_continue_button.pressed.connect(_on_continue_pressed)
 	_bet_label.text = _bet_summary()
-	_intro_left = Tuning.BATTLE_INTRO_TIME
 	_update_hud()
+	_hook_arena_intro()
+
+## The arena intro (lights flicker on, FIGHT splat) gates the match: units fade in with the
+## lights and the sim starts on match_started. Without an intro, fall back to the timed label.
+func _hook_arena_intro() -> void:
+	var intro: Node = _arena.get_node_or_null("ArenaIntro") if _arena != null else null
+	if intro == null or not intro.has_signal("match_started"):
+		_intro_left = Tuning.BATTLE_INTRO_TIME
+		return
+	_intro_label.visible = false
+	_intro_left = INF
+	for layer: CanvasItem in [_units_root, _player_spots, _enemy_spots]:
+		layer.modulate.a = 0.0
+	intro.lights_on.connect(_on_arena_lights_on)
+	intro.match_started.connect(func() -> void: _intro_left = 0.0)
+
+func _on_arena_lights_on() -> void:
+	var fade := create_tween().set_parallel()
+	for layer: CanvasItem in [_units_root, _player_spots, _enemy_spots]:
+		fade.tween_property(layer, "modulate:a", 1.0, Tuning.ARENA_UNIT_FADE_TIME)
 
 func _exit_tree() -> void:
 	Engine.time_scale = 1.0
@@ -89,6 +109,8 @@ func _process(delta: float) -> void:
 	if _ended:
 		return
 	if _intro_left > 0.0:
+		if is_inf(_intro_left):
+			return  # waiting for the arena intro's match_started
 		_intro_left -= delta
 		if _intro_left <= 0.0:
 			_intro_label.visible = false

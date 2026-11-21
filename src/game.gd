@@ -5,7 +5,7 @@ extends Node
 signal gold_changed(new_gold: int)
 
 const SCREENS: Dictionary = {
-	&"title": "res://src/main.tscn",
+	&"title": "res://scenes/main_menu.tscn",
 	&"hub": "res://src/screens/hub.tscn",
 	&"roster": "res://src/screens/roster.tscn",
 	&"formation": "res://src/screens/formation.tscn",

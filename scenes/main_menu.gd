@@ -2,9 +2,9 @@ extends Control
 ## Main menu: the mad scientist cackles, slime drips off the MUTANT title onto the breathing heap
 ## of flesh under a flickering overhead lamp, and the buttons glow neon green on hover or focus.
 
-## Emitted when CODEX is pressed (no codex screen yet).
+## Emitted when CODEX is pressed (then opens the Codex screen).
 signal codex_pressed
-## Emitted when SETTINGS is pressed (no settings screen yet).
+## Emitted when SETTINGS is pressed (then opens the settings overlay).
 signal settings_pressed
 ## Emitted when NEW RUN is pressed, before a run is started.
 signal new_run_pressed
@@ -35,7 +35,7 @@ const DROP_TEXTURE := preload("res://assets/sprites/menu/drop.png")
 const SPLAT_TEXTURE := preload("res://assets/sprites/menu/splat_sheet.png")
 const SPLAT_FRAMES := 5
 
-## Start a run (Game.new_run()) when NEW RUN is pressed. Turn off to handle new_run_pressed yourself.
+## Start a run (Game.new_run(), then the hub) when NEW RUN is pressed. Turn off to handle new_run_pressed yourself.
 @export var start_run_on_new_run := true
 
 var _time := 0.0
@@ -53,6 +53,7 @@ var _rng := RandomNumberGenerator.new()
 @onready var _codex: TextureButton = %Codex
 @onready var _settings: TextureButton = %Settings
 @onready var _quit: TextureButton = %Quit
+@onready var _settings_menu: CanvasLayer = %SettingsMenu
 
 
 func _ready() -> void:
@@ -63,6 +64,9 @@ func _ready() -> void:
 	_codex.pressed.connect(_on_pressed.bind(codex_pressed))
 	_settings.pressed.connect(_on_pressed.bind(settings_pressed))
 	_quit.pressed.connect(_on_quit)
+	codex_pressed.connect(Game.go_to.bind(&"codex"))
+	settings_pressed.connect(_settings_menu.open)
+	_settings_menu.closed.connect(_settings.grab_focus)
 	_start_music()
 	_new_run.grab_focus.call_deferred()
 	_connect_hover_sfx.call_deferred()   # after the first focus, so opening the menu is silent
@@ -108,6 +112,7 @@ func _on_new_run() -> void:
 	_on_pressed(new_run_pressed)
 	if start_run_on_new_run:
 		Game.new_run()
+		Game.go_to(&"hub")
 
 
 func _on_quit() -> void:

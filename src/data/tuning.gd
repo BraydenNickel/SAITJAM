@@ -157,6 +157,8 @@ const BOSS_NAME: String = "Dr. Splice"
 
 # --- Battle presentation (stage 2) ---
 const BATTLE_INTRO_TIME: float = 1.0
+## Seconds for units and placement zones to fade in when the arena lights come on.
+const ARENA_UNIT_FADE_TIME: float = 0.5
 ## Playback speeds cycled by the battle speed button (applied as Engine.time_scale).
 const BATTLE_SPEEDS: Array[float] = [1.0, 2.0, 4.0]
 ## Pause between the last hit and the result panel (real seconds).

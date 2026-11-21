@@ -182,3 +182,15 @@ Key values: `BASE_HP` 360, `ENEMY_BUDGET [2,4,6,10,14]`, `ENEMY_HP_MULT [1.3,1.3
 ### Later (user said "expand later")
 - More mutations beyond the first 6, more champion and "beat your last run" features.
 - Run the `game-chance-compliance-check` and `retention-loop-audit` skills before release.
+
+---
+
+## 7. Teammate art wired in (2026-11-21, session money-tree-d3)
+
+- Merged `origin/main` (teammate's art, merge commit `92c1696`). The 6 hand-made mutation `.tres` conflicted with an editor re-save on main; **ours (balance pass 2) was kept**.
+- **Main menu** `scenes/main_menu.tscn` is now `run/main_scene` and `Game.SCREENS[&"title"]`. NEW RUN → hub, CODEX → codex, SETTINGS opens `src/ui/settings_menu.tscn` (instanced as `%SettingsMenu`). Music on bus `Music`, Sfx on `SFX`. The old `src/main.tscn` is unused but kept.
+- **Arena** `scenes/arena.tscn` replaces the battle background (`battle.tscn` → `%Arena`). Level = `Game.run.battle_index + 1` (1–5, hazards get worse). Units and placement zones fade in on the intro's `lights_on`; the sim starts on `match_started` (fallback: `Tuning.BATTLE_INTRO_TIME`). Fade time: `Tuning.ARENA_UNIT_FADE_TIME`. Fight music on bus `Music`.
+- Arena art is now **640×360**: `tools/art/extend_arena.gd` continues the floor in perspective (horizon y 60, tile depth 0.00034) and writes `lab_*_full.png`. **Re-run it after `tools/art/lab_levels.py`**, then `--import`.
+- **Placement zones:** battle spots moved onto the new floor: front lane y 292 (x 240/160/80 and 400/480/560), back lane y 220 with x pulled toward the vanishing point (262/204/146 and 378/436/494). Each `SpotN` Marker2D has a `Zone` Sprite2D (`assets/sprites/battle/spot_zone.png`) at the feet. `tools/gen_battle_bg.py` / `arena_bg.png` are no longer used.
+- **Formation** shows the same level's arena as a static backdrop (`ArenaLayer` CanvasLayer -1, `play_intro = false`; Background ColorRect alpha 0.72).
+- Evidence: `production/qa/evidence/wiring_*.png` (script `production/qa/arena_wiring_shots.gd`). 172/172 unit tests pass.

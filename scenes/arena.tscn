@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://vpe83rbpx7sk"]
 
-[ext_resource type="Texture2D" uid="uid://bfhjh3232f77s" path="res://assets/sprites/lab_polished.png" id="1_xdvfk"]
+[ext_resource type="Texture2D" path="res://assets/sprites/lab_polished_full.png" id="1_xdvfk"]
 [ext_resource type="Texture2D" uid="uid://xjulx1rutu7t" path="res://assets/sprites/cylinder_polished.png" id="2_7ft05"]
 [ext_resource type="Texture2D" uid="uid://dcho0nvy0kexa" path="res://assets/sprites/fire_extinguisher.png" id="3_4ag8t"]
 [ext_resource type="Texture2D" uid="uid://dyb7kahhy6bkd" path="res://assets/sprites/mush_jar.png" id="4_dpxgc"]
