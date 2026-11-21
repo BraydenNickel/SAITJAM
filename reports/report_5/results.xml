@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites id="2026-11-21" name="report_5" tests="25" failures="0" skipped="0" flaky="0" time="0.000">
+	<testsuite id="0" name="battle_sim_test" package="tests/unit/battle" timestamp="2026-11-21T17:31:07" hostname="localhost" tests="14" failures="0" errors="0" skipped="0" flaky="0" time="2.594">
+		<testcase name="test_same_seed_gives_identical_result" classname="battle_sim_test" time="0.142">
+		</testcase>
+		<testcase name="test_human_vs_empty_side_wins_immediately" classname="battle_sim_test" time="0.086">
+		</testcase>
+		<testcase name="test_empty_player_side_loses" classname="battle_sim_test" time="0.100">
+		</testcase>
+		<testcase name="test_mirror_plain_humans_battle_ends_within_hard_cap" classname="battle_sim_test" time="0.095">
+		</testcase>
+		<testcase name="test_front_row_is_targeted_first" classname="battle_sim_test" time="0.087">
+		</testcase>
+		<testcase name="test_dodge_cancels_some_hits" classname="battle_sim_test" time="0.112">
+		</testcase>
+		<testcase name="test_reflect_damages_attacker_from_hook" classname="battle_sim_test" time="0.090">
+		</testcase>
+		<testcase name="test_venom_ticks_damage_on_target" classname="battle_sim_test" time="0.103">
+		</testcase>
+		<testcase name="test_lifesteal_heals" classname="battle_sim_test" time="0.055">
+		</testcase>
+		<testcase name="test_spore_pulse_hits_all_enemies" classname="battle_sim_test" time="0.051">
+		</testcase>
+		<testcase name="test_two_mantis_arms_double_strike_stacks" classname="battle_sim_test" time="0.054">
+		</testcase>
+		<testcase name="test_hook_recursion_terminates_with_everything_mirrored" classname="battle_sim_test" time="0.051">
+		</testcase>
+		<testcase name="test_depth_two_hook_damage_triggers_no_hooks" classname="battle_sim_test" time="0.100">
+		</testcase>
+		<testcase name="test_damage_by_roster_reports_every_player_unit" classname="battle_sim_test" time="0.097">
+		</testcase>
+	</testsuite>
+	<testsuite id="1" name="bet_odds_test" package="tests/unit/battle" timestamp="2026-11-21T17:31:10" hostname="localhost" tests="5" failures="0" errors="0" skipped="0" flaky="0" time="1.125">
+		<testcase name="test_payout_mult_bounds" classname="bet_odds_test" time="0.025">
+		</testcase>
+		<testcase name="test_claim_won_cases" classname="bet_odds_test" time="0.096">
+		</testcase>
+		<testcase name="test_estimate_returns_probabilities_and_is_deterministic" classname="bet_odds_test" time="0.137">
+		</testcase>
+		<testcase name="test_enemy_gen_respects_budget_and_sockets" classname="bet_odds_test" time="0.182">
+		</testcase>
+		<testcase name="test_enemy_gen_is_deterministic_and_boss_named" classname="bet_odds_test" time="0.102">
+		</testcase>
+	</testsuite>
+	<testsuite id="2" name="test_monster_data" package="tests/unit/monster" timestamp="2026-11-21T17:31:11" hostname="localhost" tests="6" failures="0" errors="0" skipped="0" flaky="0" time="1.329">
+		<testcase name="test_plain_human_has_base_stats" classname="test_monster_data" time="0.090">
+		</testcase>
+		<testcase name="test_total_stats_sum_all_mutation_modifiers" classname="test_monster_data" time="0.101">
+		</testcase>
+		<testcase name="test_interval_and_crit_are_clamped" classname="test_monster_data" time="0.098">
+		</testcase>
+		<testcase name="test_arm_fits_only_arm_slots" classname="test_monster_data" time="0.081">
+		</testcase>
+		<testcase name="test_occupied_slot_is_rejected" classname="test_monster_data" time="0.101">
+		</testcase>
+		<testcase name="test_slots_for_lists_free_matching_slots" classname="test_monster_data" time="0.082">
+		</testcase>
+	</testsuite>
+</testsuites>

@@ -1,0 +1,225 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/battle/battle.gd" id="1_battle"]
+[ext_resource type="Texture2D" path="res://assets/sprites/battle/arena_bg.png" id="2_bg"]
+[ext_resource type="Theme" path="res://src/ui/theme.tres" id="3_theme"]
+
+[node name="Battle" type="Node2D"]
+script = ExtResource("1_battle")
+
+[node name="Background" type="Sprite2D" parent="."]
+texture = ExtResource("2_bg")
+centered = false
+
+[node name="PlayerSpots" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="Spot0" type="Marker2D" parent="PlayerSpots"]
+position = Vector2(240, 180)
+
+[node name="Spot1" type="Marker2D" parent="PlayerSpots"]
+position = Vector2(240, 268)
+
+[node name="Spot2" type="Marker2D" parent="PlayerSpots"]
+position = Vector2(160, 180)
+
+[node name="Spot3" type="Marker2D" parent="PlayerSpots"]
+position = Vector2(160, 268)
+
+[node name="Spot4" type="Marker2D" parent="PlayerSpots"]
+position = Vector2(80, 180)
+
+[node name="Spot5" type="Marker2D" parent="PlayerSpots"]
+position = Vector2(80, 268)
+
+[node name="EnemySpots" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="Spot0" type="Marker2D" parent="EnemySpots"]
+position = Vector2(400, 180)
+
+[node name="Spot1" type="Marker2D" parent="EnemySpots"]
+position = Vector2(400, 268)
+
+[node name="Spot2" type="Marker2D" parent="EnemySpots"]
+position = Vector2(480, 180)
+
+[node name="Spot3" type="Marker2D" parent="EnemySpots"]
+position = Vector2(480, 268)
+
+[node name="Spot4" type="Marker2D" parent="EnemySpots"]
+position = Vector2(560, 180)
+
+[node name="Spot5" type="Marker2D" parent="EnemySpots"]
+position = Vector2(560, 268)
+
+[node name="Units" type="Node2D" parent="."]
+unique_name_in_owner = true
+y_sort_enabled = true
+
+[node name="FxLayer" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="HudRoot" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("3_theme")
+
+[node name="TopBar" type="HBoxContainer" parent="HUD/HudRoot"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 8.0
+offset_top = 16.0
+offset_right = -8.0
+offset_bottom = 40.0
+grow_horizontal = 2
+theme_override_constants/separation = 8
+
+[node name="TimerLabel" type="Label" parent="HUD/HudRoot/TopBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(110, 0)
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+text = "Time 0.0s"
+
+[node name="BetLabel" type="Label" parent="HUD/HudRoot/TopBar"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 8
+text = "No bets"
+horizontal_alignment = 1
+
+[node name="SpeedButton" type="Button" parent="HUD/HudRoot/TopBar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Speed 1x"
+
+[node name="IntroLabel" type="Label" parent="HUD/HudRoot"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -40.0
+offset_right = 150.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 32
+text = "FIGHT!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FrenzyBanner" type="Label" parent="HUD/HudRoot"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 44.0
+offset_bottom = 66.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.3, 0.25, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 16
+text = "FRENZY! Damage is ramping up"
+horizontal_alignment = 1
+
+[node name="Celebration" type="CPUParticles2D" parent="HUD/HudRoot"]
+unique_name_in_owner = true
+position = Vector2(320, 190)
+emitting = false
+amount = 8
+lifetime = 1.6
+one_shot = true
+explosiveness = 0.9
+direction = Vector2(0, -1)
+spread = 70.0
+gravity = Vector2(0, 380)
+initial_velocity_min = 140.0
+initial_velocity_max = 240.0
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+color = Color(1, 0.85, 0.3, 1)
+
+[node name="ResultPanel" type="PanelContainer" parent="HUD/HudRoot"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -170.0
+offset_top = -110.0
+offset_right = 170.0
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="HUD/HudRoot/ResultPanel"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="ResultTitle" type="Label" parent="HUD/HudRoot/ResultPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "VICTORY"
+horizontal_alignment = 1
+
+[node name="RewardLabel" type="Label" parent="HUD/HudRoot/ResultPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Battle reward: +20g"
+horizontal_alignment = 1
+
+[node name="BetLine1" type="Label" parent="HUD/HudRoot/ResultPanel/VBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Bet 1"
+horizontal_alignment = 1
+
+[node name="BetLine2" type="Label" parent="HUD/HudRoot/ResultPanel/VBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Bet 2"
+horizontal_alignment = 1
+
+[node name="NetLabel" type="Label" parent="HUD/HudRoot/ResultPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+theme_override_font_sizes/font_size = 16
+text = "Net: +0g"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ContinueButton" type="Button" parent="HUD/HudRoot/ResultPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Continue"

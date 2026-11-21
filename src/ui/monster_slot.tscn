@@ -1,0 +1,66 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/ui/monster_slot.gd" id="1_slot"]
+[ext_resource type="PackedScene" path="res://src/monster/monster_side.tscn" id="2_side"]
+
+[node name="MonsterSlot" type="Button"]
+custom_minimum_size = Vector2(80, 80)
+script = ExtResource("1_slot")
+
+[node name="Holder" type="Node2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(40, 32)
+scale = Vector2(0.75, 0.75)
+
+[node name="MonsterView" parent="Holder" instance=ExtResource("2_side")]
+unique_name_in_owner = true
+
+[node name="EmptyLabel" type="Label" parent="."]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.35)
+layout_mode = 0
+offset_right = 80.0
+offset_bottom = 80.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 16
+text = "+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NameLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_top = 56.0
+offset_right = 80.0
+offset_bottom = 68.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 8
+text = "Subject"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="StatsLabel" type="Label" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_top = 66.0
+offset_right = 80.0
+offset_bottom = 78.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.7, 0.85, 0.7, 1)
+theme_override_font_sizes/font_size = 8
+text = "100/6"
+horizontal_alignment = 1
+
+[node name="TagLabel" type="Label" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 3.0
+offset_top = 1.0
+offset_right = 43.0
+offset_bottom = 13.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+theme_override_font_sizes/font_size = 8
+text = "SET"

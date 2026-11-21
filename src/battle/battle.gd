@@ -1,0 +1,216 @@
+extends Node2D
+## Battle scene: runs a BattleSim on the player's lineup vs Game.enemy_team and
+## animates its events. Speed is applied through Engine.time_scale so tweens
+## stay in step with the simulation.
+
+const UNIT_SCENE: PackedScene = preload("res://src/battle/battle_unit.tscn")
+const NUMBER_SCENE: PackedScene = preload("res://src/battle/damage_number.tscn")
+
+const COLOR_DAMAGE: Color = Color(1.0, 1.0, 1.0)
+const COLOR_CRIT: Color = Color(1.0, 0.9, 0.2)
+const COLOR_VENOM: Color = Color(0.4, 1.0, 0.35)
+const COLOR_HOOK: Color = Color(0.8, 0.45, 1.0)
+const COLOR_HEAL: Color = Color(0.4, 1.0, 0.55)
+const COLOR_DODGE: Color = Color(0.75, 0.85, 1.0)
+const COLOR_ABILITY: Color = Color(1.0, 0.8, 0.5)
+const COLOR_LOSS: Color = Color(1.0, 0.45, 0.4)
+
+@onready var _player_spots: Node2D = %PlayerSpots
+@onready var _enemy_spots: Node2D = %EnemySpots
+@onready var _units_root: Node2D = %Units
+@onready var _fx_layer: Node2D = %FxLayer
+@onready var _timer_label: Label = %TimerLabel
+@onready var _bet_label: Label = %BetLabel
+@onready var _speed_button: Button = %SpeedButton
+@onready var _intro_label: Label = %IntroLabel
+@onready var _frenzy_banner: Label = %FrenzyBanner
+@onready var _celebration: CPUParticles2D = %Celebration
+@onready var _result_panel: PanelContainer = %ResultPanel
+@onready var _result_title: Label = %ResultTitle
+@onready var _reward_label: Label = %RewardLabel
+@onready var _bet_lines: Array[Label] = [%BetLine1, %BetLine2]
+@onready var _net_label: Label = %NetLabel
+@onready var _continue_button: Button = %ContinueButton
+
+var _sim: BattleSim
+var _views: Dictionary = {}
+var _intro_left: float = 0.0
+var _speed_index: int = 0
+var _ended: bool = false
+var _won: bool = false
+var _gold_delta: int = 0
+
+func _ready() -> void:
+	Game.ensure_run()
+	if Game.enemy_team.is_empty():
+		Game.prepare_battle()
+	var lineup: Dictionary = Game.build_lineup()
+	var team: Array[MonsterData] = lineup["team"]
+	var spots: Array[int] = lineup["spots"]
+	var roster_idx: Array[int] = lineup["roster_idx"]
+	_sim = BattleSim.new(team, spots, roster_idx, Game.enemy_team, Game.enemy_spots, Game.battle_seed())
+	for unit: UnitState in _sim.units:
+		var view: BattleUnit = UNIT_SCENE.instantiate() as BattleUnit
+		var is_enemy: bool = unit.side == 1
+		var marker: Marker2D = (_enemy_spots if is_enemy else _player_spots).get_node_or_null("Spot%d" % unit.spot) as Marker2D
+		_units_root.add_child(view)
+		view.global_position = marker.global_position if marker != null else Vector2(320, 200)
+		view.setup(unit, is_enemy)
+		_views[unit.index] = view
+	_sim.event.connect(_on_sim_event)
+	_speed_button.pressed.connect(_on_speed_pressed)
+	_continue_button.pressed.connect(_on_continue_pressed)
+	_bet_label.text = _bet_summary()
+	_intro_left = Tuning.BATTLE_INTRO_TIME
+	_update_hud()
+
+func _exit_tree() -> void:
+	Engine.time_scale = 1.0
+
+func _process(delta: float) -> void:
+	if _ended:
+		return
+	if _intro_left > 0.0:
+		_intro_left -= delta
+		if _intro_left <= 0.0:
+			_intro_label.visible = false
+		return
+	_sim.step(delta)
+	_update_hud()
+
+func _update_hud() -> void:
+	_timer_label.text = "Time %.1fs" % _sim.time
+	for unit: UnitState in _sim.units:
+		var view: BattleUnit = _views[unit.index] as BattleUnit
+		view.set_hp(float(unit.hp), float(unit.max_hp))
+
+func _bet_summary() -> String:
+	if Game.bets.is_empty():
+		return "No bets"
+	var parts: PackedStringArray = []
+	for bet: Dictionary in Game.bets:
+		parts.append("%s %dg x%.1f" % [BetText.name_of(bet[&"claim"] as StringName),
+			int(bet[&"stake"]), float(bet[&"mult"])])
+	return "Bets: " + ", ".join(parts)
+
+func _on_speed_pressed() -> void:
+	_speed_index = (_speed_index + 1) % Tuning.BATTLE_SPEEDS.size()
+	var speed: float = Tuning.BATTLE_SPEEDS[_speed_index]
+	Engine.time_scale = speed
+	_speed_button.text = "Speed %dx" % roundi(speed)
+
+# --- Sim event handlers -----------------------------------------------------
+
+func _on_sim_event(kind: StringName, info: Dictionary) -> void:
+	match kind:
+		&"attack":
+			var src: BattleUnit = _view_of(info.get(&"src", -1))
+			var dst: BattleUnit = _view_of(info.get(&"dst", -1))
+			if src != null and dst != null:
+				src.lunge(dst.global_position)
+		&"damage":
+			var dst: BattleUnit = _view_of(info.get(&"dst", -1))
+			if dst == null:
+				return
+			dst.flash()
+			var crit: bool = bool(info.get(&"crit", false))
+			var color: Color = COLOR_DAMAGE
+			if bool(info.get(&"from_hook", false)):
+				color = COLOR_VENOM if info.get(&"ability_id") == &"venom" else COLOR_HOOK
+			if crit:
+				color = COLOR_CRIT
+			_spawn_number(str(int(info.get(&"amount", 0))), dst, color, 1.5 if crit else 1.0)
+		&"heal":
+			var dst: BattleUnit = _view_of(info.get(&"dst", -1))
+			if dst != null:
+				_spawn_number("+%d" % int(info.get(&"amount", 0)), dst, COLOR_HEAL, 1.0)
+		&"dodge":
+			var dst: BattleUnit = _view_of(info.get(&"dst", -1))
+			if dst != null:
+				_spawn_number("DODGE", dst, COLOR_DODGE, 1.0)
+		&"ability":
+			var unit: BattleUnit = _view_of(info.get(&"unit", -1))
+			if unit != null:
+				_spawn_number(String(info.get(&"ability_id", &"")).capitalize(), unit, COLOR_ABILITY, 0.8, -14.0)
+		&"death":
+			var unit: BattleUnit = _view_of(info.get(&"unit", -1))
+			if unit != null:
+				unit.die()
+		&"frenzy":
+			_frenzy_banner.visible = true
+		&"end":
+			_on_battle_end(int(info.get(&"winner", 1)))
+
+func _view_of(index: Variant) -> BattleUnit:
+	return _views.get(int(index)) as BattleUnit
+
+func _spawn_number(message: String, view: BattleUnit, color: Color, size_mult: float, y_offset: float = 0.0) -> void:
+	var number: DamageNumber = NUMBER_SCENE.instantiate() as DamageNumber
+	_fx_layer.add_child(number)
+	var jitter: float = randf_range(-8.0, 8.0)
+	number.show_text(message, view.global_position + Vector2(jitter, -30.0 + y_offset), color, size_mult)
+
+# --- End of battle ----------------------------------------------------------
+
+func _on_battle_end(winner: int) -> void:
+	if _ended:
+		return
+	_ended = true
+	_won = winner == 0
+	Engine.time_scale = 1.0
+	_update_hud()
+	# Real-time wait (ignores time_scale) so the last hit is visible.
+	await get_tree().create_timer(Tuning.BATTLE_END_DELAY, true, false, true).timeout
+	_show_result()
+
+func _show_result() -> void:
+	var result: Dictionary = _sim.result()
+	Game.last_result = result
+	var reward: int = Tuning.BATTLE_REWARD[Game.run.battle_index] if _won else 0
+	var payouts: int = 0
+	var stakes: int = 0
+	for i: int in _bet_lines.size():
+		var line: Label = _bet_lines[i]
+		line.visible = i < Game.bets.size()
+		if not line.visible:
+			continue
+		var bet: Dictionary = Game.bets[i]
+		var stake: int = int(bet[&"stake"])
+		var claim: StringName = bet[&"claim"] as StringName
+		var won_bet: bool = BetOdds.claim_won(claim, result, int(bet.get(&"mvp_roster_idx", -1)))
+		var payout: int = roundi(stake * float(bet[&"mult"])) if won_bet else 0
+		stakes += stake
+		payouts += payout
+		line.text = "%s: WON %+dg" % [BetText.name_of(claim), payout - stake] if won_bet \
+			else "%s: LOST -%dg" % [BetText.name_of(claim), stake]
+		line.add_theme_color_override("font_color", COLOR_HEAL if won_bet else COLOR_LOSS)
+	_gold_delta = reward + payouts
+	var net: int = _gold_delta - stakes
+	_result_title.text = "VICTORY" if _won else "DEFEAT"
+	_result_title.add_theme_color_override("font_color", COLOR_CRIT if _won else COLOR_LOSS)
+	_reward_label.text = "Battle reward: +%dg" % reward if _won else "No reward - the run ends."
+	_net_label.text = "Net: %+dg" % net
+	_net_label.add_theme_color_override("font_color", COLOR_CRIT if net > 0 else (COLOR_LOSS if net < 0 else COLOR_DODGE))
+	_result_panel.visible = true
+	_celebrate(net)
+
+## Celebration scales with net gold; none on a net loss or break-even.
+func _celebrate(net: int) -> void:
+	var tier: int = -1
+	for i: int in Tuning.CELEBRATE_NET.size():
+		if net >= Tuning.CELEBRATE_NET[i]:
+			tier = i
+	if tier < 0:
+		return
+	_celebration.amount = Tuning.CELEBRATE_PARTICLES[tier]
+	_celebration.restart()
+	_celebration.emitting = true
+	_net_label.pivot_offset = _net_label.size * 0.5
+	var pop: float = 1.2 + 0.25 * tier
+	var tween: Tween = create_tween()
+	tween.tween_property(_net_label, "scale", Vector2(pop, pop), 0.15)
+	tween.tween_property(_net_label, "scale", Vector2.ONE, 0.2)
+
+func _on_continue_pressed() -> void:
+	_continue_button.disabled = true
+	Game.complete_battle(_won, _gold_delta)

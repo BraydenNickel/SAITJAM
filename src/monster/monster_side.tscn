@@ -1,0 +1,42 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/monster/monster_view.gd" id="1_view"]
+[ext_resource type="Texture2D" path="res://assets/sprites/torso/human_side.png" id="2_torso"]
+
+[node name="MonsterSide" type="Node2D"]
+script = ExtResource("1_view")
+view = 1
+
+[node name="Torso" type="Sprite2D" parent="."]
+texture = ExtResource("2_torso")
+
+[node name="Sockets" type="Node2D" parent="."]
+
+[node name="HEAD" type="Marker2D" parent="Sockets"]
+position = Vector2(2, -14)
+
+[node name="TORSO" type="Marker2D" parent="Sockets"]
+position = Vector2(2, 8)
+
+[node name="BACK" type="Marker2D" parent="Sockets"]
+position = Vector2(-3, 6)
+z_index = -1
+
+[node name="ARM_L" type="Marker2D" parent="Sockets"]
+position = Vector2(3, 8)
+z_index = -1
+
+[node name="ARM_R" type="Marker2D" parent="Sockets"]
+position = Vector2(3, 8)
+z_index = 1
+
+[node name="LEG_L" type="Marker2D" parent="Sockets"]
+position = Vector2(2, 24)
+z_index = -1
+
+[node name="LEG_R" type="Marker2D" parent="Sockets"]
+position = Vector2(2, 24)
+
+[node name="TAIL" type="Marker2D" parent="Sockets"]
+position = Vector2(-4, 16)
+z_index = -1

@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/monster_data.gd" id="1_mon"]
+[ext_resource type="Resource" path="res://src/data/mutations/leech_maw.tres" id="2_leech_maw"]
+[ext_resource type="Resource" path="res://src/data/mutations/bone_plating.tres" id="3_bone_plating"]
+[ext_resource type="Resource" path="res://src/data/mutations/spore_sacs.tres" id="4_spore_sacs"]
+[ext_resource type="Resource" path="res://src/data/mutations/mantis_arm.tres" id="5_mantis_arm"]
+[ext_resource type="Resource" path="res://src/data/mutations/raptor_leg.tres" id="6_raptor_leg"]
+[ext_resource type="Resource" path="res://src/data/mutations/scorpion_tail.tres" id="7_scorpion_tail"]
+
+[resource]
+script = ExtResource("1_mon")
+display_name = "Demo Mutant"
+title = "The Showcase"
+slots = {
+&"HEAD": ExtResource("2_leech_maw"),
+&"TORSO": ExtResource("3_bone_plating"),
+&"BACK": ExtResource("4_spore_sacs"),
+&"ARM_L": ExtResource("5_mantis_arm"),
+&"ARM_R": ExtResource("5_mantis_arm"),
+&"LEG_L": ExtResource("6_raptor_leg"),
+&"LEG_R": ExtResource("6_raptor_leg"),
+&"TAIL": ExtResource("7_scorpion_tail")
+}
+instability = 60.0

@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_dodge.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/raptor_leg_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/raptor_leg_side.png" id="4_side"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+chance = 0.12
+
+[resource]
+script = ExtResource("1_mut")
+id = &"raptor_leg"
+display_name = "Raptor Leg"
+description = "Springy digitigrade legs.
+Attacks 0.15s faster.
+12% chance to dodge a hit."
+socket_type = 4
+rarity = 1
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+interval_mod = -0.15
+tags = Array[StringName]([&"beast", &"speed"])
+ability = SubResource("Resource_ability")

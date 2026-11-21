@@ -1,0 +1,17 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://src/monster/monster_front.tscn" id="1_front"]
+[ext_resource type="PackedScene" path="res://src/monster/monster_side.tscn" id="2_side"]
+[ext_resource type="Resource" path="res://src/data/examples/demo_mutant.tres" id="3_data"]
+
+[node name="DemoMonster" type="Node2D"]
+position = Vector2(320, 180)
+scale = Vector2(2, 2)
+
+[node name="Front" parent="." instance=ExtResource("1_front")]
+position = Vector2(-48, 0)
+data = ExtResource("3_data")
+
+[node name="Side" parent="." instance=ExtResource("2_side")]
+position = Vector2(48, 0)
+data = ExtResource("3_data")

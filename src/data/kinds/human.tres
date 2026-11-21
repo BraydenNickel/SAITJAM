@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/monster_data.gd" id="1_mon"]
+
+[resource]
+script = ExtResource("1_mon")
+display_name = "Human"
+base_kind = &"human"

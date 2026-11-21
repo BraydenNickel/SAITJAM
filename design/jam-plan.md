@@ -79,3 +79,21 @@ moment you can **bank** your winnings. Fail before banking and you lose the unba
 - A good build should beat the target by 2–5× (the "broken combo" moment).
 - In at least 30% of runs, a different player choice should have changed the result
   (measure this in the simulation).
+
+---
+
+## CHOSEN DESIGN (2026-11-21): MUTANT LAB, theme "Unnatural Evolution"
+
+Hook A+C (Bet on Yourself), set in a roguelike auto-battler. Humans are mutated into monsters.
+
+- **Run:** start with 2 humans and 40g. Hub (Lab / Shop / Incubator / Roster) → bet → auto-battle → pick 1 of 3 rewards → hub. 5 battles. **One life**: losing a battle ends the run.
+- **Champion:** the team that wins battle 5 is saved to `user://` and becomes the next run's battle-5 boss, with stats normalized to 0.9–1.3× of that tier's budget. Runs with no saved champion face "Dr. Splice".
+- **Formation:** 6 spots per side: 2 front, 2 middle, 2 back. The player places 1–4 mutants; enemy spots are random. Units attack the front-most row that still has living units.
+- **Body (composition):** sockets HEAD, TORSO, BACK, ARM_L, ARM_R, LEG_L, LEG_R, TAIL. Each mutation is a `.tres` Resource (sprites, stat mods, ability with hooks `on_battle_start / on_tick / on_attack / on_hit / on_take_damage / on_ally_death`). Hooks combine through a shared HitInfo, with no glue code. Hook damage goes at most 1 level deep.
+- **6 mutations:** Bone Plating (TORSO), Mantis Arm (ARM), Leech Maw (HEAD), Spore Sacs (BACK), Raptor Leg (LEG), Scorpion Tail (TAIL).
+- **Lab risk:** instability rises +10/20/30 by rarity. `success% = clamp(100 − instability − rarity_risk + stabilizers, 5, 100)`. On a fail the monster becomes MUSH: retired, 40% refund, and +15% Mush Memory on the next operation.
+- **Fusion (Incubator):** two monsters with at least 2 mutations each. Stats = 0.6×(A+B)×1.25. `success% = clamp(90 − avg_instability + stabilizers, 10, 95)`. On a fail both become mush. Fusion titles fill the Codex.
+- **Bets:** Victory / Flawless / Blitz / Last Stand / MVP. Odds come from 200 simulations of the real matchup. `mult = clamp(0.9/p, 1.1, 10)`. At most 2 claims, each at most 50% of your gold. A 15g sponsor grant prevents a soft-lock. Celebrations scale with net gold.
+- **Shop:** 5 slots (3 mutations, 1 human, 1 stabilizer), with new stock every visit. Reroll costs 5g, +3g for each further reroll. A rare is guaranteed after 3 visits without one.
+- All global numbers are in `src/data/tuning.gd`. Per-mutation numbers are in `src/data/mutations/*.tres`.
+- **Build stages:** 1 monsters + hub, 2 battle + bets, 3 lab + shop + rewards, 4 fusion + run + champion, 5 pixelfx juice.
