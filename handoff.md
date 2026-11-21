@@ -1,6 +1,6 @@
 # Handoff: MUTANT LAB (theme: "Unnatural Evolution")
 
-_Last updated: 2026-11-21 (late). Stages 1–3 are committed. The mutation expansion (100 mutations, ULTRA tier), juice (VFX + SFX) and fusion (Splice, Incubator, Codex) are built and verified but **NOT committed**. Still open: champion save, balance follow-ups (see `design/balance/stage4-balance.md`)._
+_Last updated: 2026-11-21 (night). **Everything is committed** on `main`: stages 1–3, the mutation expansion (100 mutations, ULTRA tier), juice (VFX + SFX), fusion (Splice, Incubator, Codex), the UI pass (settings, drag and drop, unit renaming; `bee7101`) and the teammate's main menu + arena art wired in (`92c1696` merge, `99c68d0`; see §7). Still open: champion save, balance follow-ups (see `design/balance/stage4-balance.md`)._
 
 A 2D pixel-art roguelike **auto-battler**. Humans are mutated into monsters, and the player **bets on their own battles**. It is built in **Godot 4.7.2 / GDScript** for a game jam. See `JAM.md` for the jam rules, and `design/jam-plan.md` § "CHOSEN DESIGN" for the design note.
 
@@ -62,7 +62,7 @@ A 2D pixel-art roguelike **auto-battler**. Humans are mutated into monsters, and
 - `ENEMY_HP_MULT` sets enemy base HP per battle (Stage 4 champions must skip it).
 - Balance simulator: `tools/balance/run_sim.gd`. Policies are greedy, cautious, random and build. Command: `"<godot>" --headless --path . -s res://tools/balance/run_sim.gd -- runs=500 policy=all seed=1 odds=10` (use `runs=200 odds=0` for fast iterations). Reports go to `reports/` (gitignored). Design and results: `design/balance/stage3-tuning.md` §1–6.
 
-### Mutation expansion: 100 mutations + ULTRA ✅ (uncommitted)
+### Mutation expansion: 100 mutations + ULTRA ✅
 - Contract: `design/balance/stage4-mutations.md`. Source of truth for the 94 new mutations is `tools/mutation_table.py` (self-check: `python tools/mutation_table.py`); `python tools/gen_mutations.py` writes `src/data/mutations/<id>.tres` (never the 6 hand-made ones). Run the importer afterwards.
 - 45 common / 30 uncommon / 17 rare / 8 **ULTRA** (`MutationData.Rarity.ULTRA`). Rarity arrays in `Tuning` have 4 entries. Enemies get no ULTRA before `ULTRA_ENEMY_MIN_BATTLE`.
 - ULTRA = body override: `body_front/body_side/body_tint/body_scale/aura_fx` on `MutationData`, applied by `MonsterView` (first overriding mutation in SLOTS order wins; bodies grow up from the feet; aura is runtime-only, not shown in the editor). Styles: crystal, shadow, molten, slime, gold, skeletal, void, angelic.
@@ -70,12 +70,12 @@ A 2D pixel-art roguelike **auto-battler**. Humans are mutated into monsters, and
 - Enemy archetypes are tag-based (`Tuning.ENEMY_ARCHETYPES` -> tags).
 - Art: `python tools/gen_parts.py` regenerates all parts and ULTRA bodies (`tools/gen_parts_ext.py` has one drawer per motif). MonsterView root has `z_index = 1` so the z −1 parts and aura draw above backgrounds; battle `FxLayer` is z 5, HP bars/names z 3.
 
-### Juice: VFX + SFX ✅ (uncommitted)
+### Juice: VFX + SFX ✅
 - `src/data/fx_library.gd` (`FxLibrary`): ability / event / aura fx json and sfx lookups. Sheets in `assets/fx/` come from `node tools/export_fx.mjs` (pixelfx list + palettes in that file); sounds in `assets/sfx/` from `python tools/gen_sfx.py`.
 - `src/ui/sfx_player.tscn` (`SfxPlayer`, 6 voices, per-key rate limit) is instanced as `Sfx` in every screen; `play_detached` survives a scene change. Battle has `ShakeCamera`, fx throttles and caps (Tuning "Juice" section at the end of `tuning.gd`).
 - Celebrations still scale with NET gold only.
 
-### Fusion: Splice, Incubator, Codex ✅ (uncommitted)
+### Fusion: Splice, Incubator, Codex ✅
 - Contract: `design/fusion-contract.md`. One rule: two mutations of the same socket merge into one slot; `merge_count` 0/1/2, blocked above 2 (hybrid, twin, apex). Hybrid keeps both abilities at 75% summed stats; twin = one `empowered(1.5)` ability; apex keeps 2 abilities at 65%. 26 **signature** pairs (`tools/signature_table.py`) keep 100% and have bespoke names and sprites.
 - Logic: `src/data/fusion_logic.gd` (`merge`, `incubate_preview`, `incubate`, ...), Lab splice in `lab_logic.gd` (`operable_slots`, `splice_preview`, `operate(..., keep)`), `MutationData.all_abilities()`, `EnemyGen.cost_of` uses `fused_cost`, `src/data/codex_store.gd` (`user://codex.json`).
 - Art: `python tools/gen_hybrids.py` -> 12 atlases in `assets/sprites/hybrids/` (901 cells) + 52 signature sprites + `src/data/fusion_index.json`. Re-run it if the mutation or signature table changes ids/art.
@@ -158,7 +158,7 @@ Key values: `BASE_HP` 360, `ENEMY_BUDGET [2,4,6,10,14]`, `ENEMY_HP_MULT [1.3,1.3
 - [ ] Commits only when the user asks.
 
 ### After the expansion pass (2026-11-21)
-- [ ] **Nothing from the expansion, juice or fusion work is committed.** Commit only when the user asks.
+- [x] Expansion, juice and fusion work committed (`de530f5`). Still commit only when the user asks.
 - [ ] Balance: read `design/balance/stage4-balance.md` (pass 1 + pass 2) for the current table and misses. §5 below is the OLD stage-3 snapshot.
 - [ ] Sounds were generated but never listened to. Lab/shop/result fx were not screenshotted.
 - [ ] Unverified by hand: real mouse input on the fusion screens, the insured-failure branch, a full battle + reward flow with a chimera, Codex with many entries.
@@ -185,7 +185,7 @@ Key values: `BASE_HP` 360, `ENEMY_BUDGET [2,4,6,10,14]`, `ENEMY_HP_MULT [1.3,1.3
 
 ---
 
-## 7. Teammate art wired in (2026-11-21, session money-tree-d3)
+## 7. Teammate art wired in (2026-11-21, committed in `99c68d0`)
 
 - Merged `origin/main` (teammate's art, merge commit `92c1696`). The 6 hand-made mutation `.tres` conflicted with an editor re-save on main; **ours (balance pass 2) was kept**.
 - **Main menu** `scenes/main_menu.tscn` is now `run/main_scene` and `Game.SCREENS[&"title"]`. NEW RUN → hub, CODEX → codex, SETTINGS opens `src/ui/settings_menu.tscn` (instanced as `%SettingsMenu`). Music on bus `Music`, Sfx on `SFX`. The old `src/main.tscn` is unused but kept.
@@ -194,3 +194,5 @@ Key values: `BASE_HP` 360, `ENEMY_BUDGET [2,4,6,10,14]`, `ENEMY_HP_MULT [1.3,1.3
 - **Placement zones:** battle spots moved onto the new floor: front lane y 292 (x 240/160/80 and 400/480/560), back lane y 220 with x pulled toward the vanishing point (262/204/146 and 378/436/494). Each `SpotN` Marker2D has a `Zone` Sprite2D (`assets/sprites/battle/spot_zone.png`) at the feet. `tools/gen_battle_bg.py` / `arena_bg.png` are no longer used.
 - **Formation** shows the same level's arena as a static backdrop (`ArenaLayer` CanvasLayer -1, `play_intro = false`; Background ColorRect alpha 0.72).
 - Evidence: `production/qa/evidence/wiring_*.png` (script `production/qa/arena_wiring_shots.gd`). 172/172 unit tests pass.
+- **Parallel sessions:** several Claude sessions may work in this repo at once. Before editing, check `ListAgents`, message busy peers with the files you plan to touch, and keep their uncommitted work. The teammate's art arrives through the `art` branch / PRs to `main`; its editor re-saves can drop values from hand-made `.tres` files, so check mutation files on every merge.
+- Open: the teammate's `arena_intro.gd` keeps its own tuning consts (not in `tuning.gd`); the old `src/main.tscn` title and `assets/sprites/battle/arena_bg.png` + `tools/gen_battle_bg.py` are unused (delete only if the user agrees).
