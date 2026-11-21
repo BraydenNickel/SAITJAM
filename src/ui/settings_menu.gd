@@ -15,6 +15,17 @@ signal closed
 @onready var _sfx_value: Label = %SfxValue
 @onready var _close_button: Button = %CloseButton
 @onready var _sfx: SfxPlayer = %Sfx
+@onready var _run_buttons: HBoxContainer = %RunButtons
+@onready var _restart_button: Button = %RestartButton
+@onready var _quit_button: Button = %QuitButton
+
+const TEXT_RESTART: String = "Restart Run"
+const TEXT_RESTART_CONFIRM: String = "Confirm restart?"
+const TEXT_QUIT: String = "Quit to Menu"
+const TEXT_QUIT_CONFIRM: String = "Confirm quit?"
+
+var _restart_armed: bool = false
+var _quit_armed: bool = false
 
 ## Slider -> [bus, value label].
 var _bindings: Dictionary = {}
@@ -31,9 +42,13 @@ func _ready() -> void:
 	_sfx_slider.drag_ended.connect(func(_changed: bool) -> void: _sfx.play(&"click"))
 	_close_button.pressed.connect(close)
 	_close_button.pressed.connect(_sfx.play.bind(&"click"))
+	_restart_button.pressed.connect(_on_restart_pressed)
+	_quit_button.pressed.connect(_on_quit_pressed)
 
 ## Shows the panel with the current saved volumes.
 func open() -> void:
+	_reset_confirms()
+	_run_buttons.visible = _in_run()
 	for slider: HSlider in _bindings.keys():
 		var bus: StringName = (_bindings[slider] as Array)[0]
 		slider.set_value_no_signal(GameSettings.get_volume(bus))
@@ -46,6 +61,7 @@ func close() -> void:
 	if not visible:
 		return
 	visible = false
+	_reset_confirms()
 	GameSettings.save_settings()
 	closed.emit()
 
@@ -64,6 +80,46 @@ func _unhandled_input(event: InputEvent) -> void:
 	if visible and event.is_action_pressed(&"ui_cancel"):
 		get_viewport().set_input_as_handled()
 		close()
+
+## True when a run exists and the current scene is not the title screen (the run
+## object can outlive a finished run while the title is showing).
+func _in_run() -> bool:
+	if Game.run == null:
+		return false
+	var scene: Node = get_tree().current_scene
+	return scene == null or scene.scene_file_path != Game.SCREENS[&"title"]
+
+func _reset_confirms() -> void:
+	_restart_armed = false
+	_quit_armed = false
+	_restart_button.text = TEXT_RESTART
+	_quit_button.text = TEXT_QUIT
+
+func _on_restart_pressed() -> void:
+	if not _restart_armed:
+		_reset_confirms()
+		_restart_armed = true
+		_restart_button.text = TEXT_RESTART_CONFIRM
+		_sfx.play(&"click")
+		return
+	_sfx.play_detached(&"click")
+	close()
+	Engine.time_scale = 1.0
+	Game.new_run()
+	Game.go_to(&"hub")
+
+func _on_quit_pressed() -> void:
+	if not _quit_armed:
+		_reset_confirms()
+		_quit_armed = true
+		_quit_button.text = TEXT_QUIT_CONFIRM
+		_sfx.play(&"click")
+		return
+	_sfx.play_detached(&"click")
+	close()
+	Engine.time_scale = 1.0
+	Game.run = null
+	Game.go_to(&"title")
 
 func _on_slider_changed(value: float, slider: HSlider) -> void:
 	GameSettings.set_volume((_bindings[slider] as Array)[0] as StringName, value)

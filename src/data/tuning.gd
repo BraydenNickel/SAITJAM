@@ -56,7 +56,8 @@ const PRICE_STABILIZER: int = 10
 const REROLL_BASE: int = 5
 const REROLL_STEP: int = 3
 ## Shop roll weight by rarity (COMMON, UNCOMMON, RARE, ULTRA).
-const RARITY_WEIGHTS: Array[int] = [60, 30, 10, 2]
+## ULTRA is 8 of 108 (about 7.4% per slot, roughly +5 points over the old weight 2).
+const RARITY_WEIGHTS: Array[int] = [60, 30, 10, 8]
 ## Added to the RARE weight only, per battle index (ULTRA never grows).
 const RARE_WEIGHT_PER_BATTLE: int = 5
 
@@ -155,6 +156,21 @@ const ULTRA_ENEMY_MIN_BATTLE: int = 3
 ## Name of the battle-5 boss used until a champion is saved (stage 4).
 const BOSS_NAME: String = "Dr. Splice"
 
+# --- Champion boss (stage 4; handoff.md §2 "Champion") ---
+## Boss name shown when battle 5 is the team that won the player's last run.
+const CHAMPION_NAME: String = "Your Last Champion"
+## Prefix added to each champion unit's name so the player sees it is their old team.
+const CHAMPION_UNIT_PREFIX: String = "Champ "
+## Champion power (sum of EnemyGen.cost_of over its mutations) is normalized into
+## [CHAMPION_NORM_MIN, CHAMPION_NORM_MAX] x ENEMY_BUDGET[last battle] by scaling
+## every unit's total HP and ATK by the same factor. Inside the band: unchanged.
+const CHAMPION_NORM_MIN: float = 0.9
+const CHAMPION_NORM_MAX: float = 1.3
+## Safety clamp on that HP/ATK factor (a champion with almost no mutations would
+## otherwise be multiplied many times over). Outside it the band is not reached.
+const CHAMPION_SCALE_MIN: float = 0.1
+const CHAMPION_SCALE_MAX: float = 3.0
+
 # --- Battle presentation (stage 2) ---
 const BATTLE_INTRO_TIME: float = 1.0
 ## Seconds for units and placement zones to fade in when the arena lights come on.
@@ -194,6 +210,8 @@ const LUCKY_GENE_BONUS: int = 20
 ## Lab operation success % bounds.
 const MIN_SUCCESS: int = 5
 const MAX_SUCCESS: int = 100
+## Lab operations and Incubator fusions always succeed while run.battle_index < this.
+const SAFE_LAB_BATTLES: int = 1
 
 # --- Juice (stage 5) ---
 ## Volume of every SfxPlayer voice, in dB.

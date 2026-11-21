@@ -288,6 +288,11 @@ static func incubate_breakdown(run: RunState, a: MonsterData, b: MonsterData,
 	for p: Array in parts:
 		if int(p[1]) != 0:
 			rows.append({&"label": p[0] as String, &"value": int(p[1])})
+	if LabLogic.is_safe(run):
+		var sum: int = 0
+		for row: Dictionary in rows:
+			sum += int(row[&"value"])
+		rows.append({&"label": "Round 1: safe", &"value": 100 - sum})
 	return rows
 
 ## Incubator success % (clamped to FUSION_MIN_CHANCE..FUSION_MAX_CHANCE).
@@ -296,6 +301,8 @@ static func incubate_chance(run: RunState, a: MonsterData, b: MonsterData,
 	var total: int = 0
 	for row: Dictionary in incubate_breakdown(run, a, b, stabilizers_used):
 		total += int(row[&"value"])
+	if LabLogic.is_safe(run):
+		return 100
 	return clampi(total, Tuning.FUSION_MIN_CHANCE, Tuning.FUSION_MAX_CHANCE)
 
 ## What incubating `a` and `b` would give. Returns

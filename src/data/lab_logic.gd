@@ -14,6 +14,8 @@ static func success_chance(run: RunState, monster: MonsterData, mutation: Mutati
 	var total: int = 0
 	for row: Dictionary in chance_breakdown(run, monster, mutation, stabilizers_used):
 		total += int(row[&"value"])
+	if is_safe(run):
+		return 100
 	return clampi(total, Tuning.MIN_SUCCESS, Tuning.MAX_SUCCESS)
 
 ## Rows {label: String, value: int} that sum (before clamping) to the success %.
@@ -32,7 +34,16 @@ static func chance_breakdown(run: RunState, monster: MonsterData, mutation: Muta
 	for p: Array in parts:
 		if int(p[1]) != 0:
 			rows.append({&"label": p[0] as String, &"value": int(p[1])})
+	if is_safe(run):
+		var sum: int = 0
+		for row: Dictionary in rows:
+			sum += int(row[&"value"])
+		rows.append({&"label": "Round 1: safe", &"value": 100 - sum})
 	return rows
+
+## True while Lab operations and Incubator fusions cannot fail (Tuning.SAFE_LAB_BATTLES).
+static func is_safe(run: RunState) -> bool:
+	return run != null and run.battle_index < Tuning.SAFE_LAB_BATTLES
 
 ## True if `mutation` can be spliced into `slot` of `monster`: the slot fits the
 ## socket type, already holds a mutation, and FusionLogic.can_merge allows the

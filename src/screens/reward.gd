@@ -33,6 +33,9 @@ func _on_chosen(option: Dictionary) -> void:
 		return
 	_picked = true
 	RewardLogic.apply(Game.run, option)
+	var gift: MutationData = option.get(&"mutation") as MutationData
+	if option.get(&"id") == &"free_mutation" and gift != null:
+		CodexStore.record_mutation(gift.id)
 	_sfx.play_detached(&"coin")
 	Game.notify_gold()
 	Game.go_to(&"hub")

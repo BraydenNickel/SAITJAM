@@ -8,6 +8,7 @@ extends Control
 @onready var _gold_label: Label = %GoldLabel
 @onready var _total_label: Label = %TotalLabel
 @onready var _adapt_label: Label = %AdaptLabel
+@onready var _boss_label: Label = %BossLabel
 @onready var _back_button: Button = %BackButton
 @onready var _skip_button: Button = %SkipButton
 @onready var _fight_button: Button = %FightButton
@@ -38,6 +39,7 @@ func _ready() -> void:
 	_pick_label.visible = false
 	_sim_label.visible = true
 	_show_adapt()
+	_show_boss()
 	# Let "Simulating..." render for a frame before the blocking estimate.
 	await get_tree().process_frame
 	await get_tree().process_frame
@@ -49,6 +51,16 @@ func _show_adapt() -> void:
 	_adapt_label.visible = Game.enemy_adapt > 0
 	if Game.enemy_adapt > 0:
 		_adapt_label.text = "Enemies adapt to your lab: +%d power" % Game.enemy_adapt
+
+## Final battle only: names the boss, and calls out the player's last champion.
+func _show_boss() -> void:
+	var final_battle: bool = Game.run.battle_index == Tuning.BATTLES_PER_RUN - 1
+	_boss_label.visible = final_battle
+	if Game.enemy_is_champion:
+		_boss_label.text = "BOSS: %s
+Beat your last run!" % Tuning.CHAMPION_NAME
+	elif final_battle:
+		_boss_label.text = "BOSS: %s" % Tuning.BOSS_NAME
 
 func _run_estimate() -> void:
 	var lineup: Dictionary = Game.build_lineup()

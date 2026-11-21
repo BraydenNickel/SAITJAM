@@ -4,6 +4,12 @@
 [ext_resource type="Theme" path="res://src/ui/theme.tres" id="2_theme"]
 [ext_resource type="PackedScene" path="res://src/ui/sfx_player.tscn" id="90_sfx"]
 
+[sub_resource type="ButtonGroup" id="ButtonGroup_tabs"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_part"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_rarity"]
+
 [node name="Codex" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -27,14 +33,248 @@ color = Color(0.05, 0.04, 0.09, 1)
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_top = 6.0
-offset_bottom = 28.0
+offset_top = 4.0
+offset_bottom = 24.0
 grow_horizontal = 2
 theme_override_colors/font_color = Color(0.85, 0.6, 1, 1)
-text = "FUSION CODEX"
+text = "CODEX"
 horizontal_alignment = 1
 
-[node name="FusionTotal" type="Label" parent="."]
+[node name="Tabs" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 4.0
+offset_right = 220.0
+offset_bottom = 24.0
+theme_override_constants/separation = 4
+
+[node name="MutationsTab" type="Button" parent="Tabs"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_tabs")
+text = "Mutations"
+
+[node name="FusionsTab" type="Button" parent="Tabs"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+button_group = SubResource("ButtonGroup_tabs")
+text = "Fusions"
+
+[node name="MutationsPanel" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="PartFilter" type="HBoxContainer" parent="MutationsPanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 8.0
+offset_top = 28.0
+offset_right = 400.0
+offset_bottom = 48.0
+theme_override_constants/separation = 2
+
+[node name="PartLabel" type="Label" parent="MutationsPanel/PartFilter"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.7, 0.65, 1)
+theme_override_font_sizes/font_size = 8
+text = "Part"
+
+[node name="PartAll" type="Button" parent="MutationsPanel/PartFilter"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_part")
+text = "All"
+metadata/filter_value = -1
+
+[node name="PartHead" type="Button" parent="MutationsPanel/PartFilter"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+button_group = SubResource("ButtonGroup_part")
+text = "Head"
+metadata/filter_value = 0
+
+[node name="PartTorso" type="Button" parent="MutationsPanel/PartFilter"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+button_group = SubResource("ButtonGroup_part")
+text = "Torso"
+metadata/filter_value = 1
+
+[node name="PartBack" type="Button" parent="MutationsPanel/PartFilter"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+button_group = SubResource("ButtonGroup_part")
+text = "Back"
+metadata/filter_value = 2
+
+[node name="PartArm" type="Button" parent="MutationsPanel/PartFilter"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+button_group = SubResource("ButtonGroup_part")
+text = "Arm"
+metadata/filter_value = 3
+
+[node name="PartLeg" type="Button" parent="MutationsPanel/PartFilter"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+button_group = SubResource("ButtonGroup_part")
+text = "Leg"
+metadata/filter_value = 4
+
+[node name="PartTail" type="Button" parent="MutationsPanel/PartFilter"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+button_group = SubResource("ButtonGroup_part")
+text = "Tail"
+metadata/filter_value = 5
+
+[node name="RarityFilter" type="HBoxContainer" parent="MutationsPanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 8.0
+offset_top = 50.0
+offset_right = 400.0
+offset_bottom = 70.0
+theme_override_constants/separation = 2
+
+[node name="RarityLabel" type="Label" parent="MutationsPanel/RarityFilter"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.7, 0.65, 1)
+theme_override_font_sizes/font_size = 8
+text = "Rarity"
+
+[node name="RarityAll" type="Button" parent="MutationsPanel/RarityFilter"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_rarity")
+text = "All"
+metadata/filter_value = -1
+
+[node name="RarityCommon" type="Button" parent="MutationsPanel/RarityFilter"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.78, 0.95, 0.85, 1)
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+button_group = SubResource("ButtonGroup_rarity")
+text = "Common"
+metadata/filter_value = 0
+
+[node name="RarityUncommon" type="Button" parent="MutationsPanel/RarityFilter"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.75, 1, 1)
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+button_group = SubResource("ButtonGroup_rarity")
+text = "Uncommon"
+metadata/filter_value = 1
+
+[node name="RarityRare" type="Button" parent="MutationsPanel/RarityFilter"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.6, 0.95, 1)
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+button_group = SubResource("ButtonGroup_rarity")
+text = "Rare"
+metadata/filter_value = 2
+
+[node name="RarityUltra" type="Button" parent="MutationsPanel/RarityFilter"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.239, 0.941, 1)
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+button_group = SubResource("ButtonGroup_rarity")
+text = "Ultra"
+metadata/filter_value = 3
+
+[node name="OwnedTotal" type="Label" parent="MutationsPanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 404.0
+offset_top = 28.0
+offset_right = 632.0
+offset_bottom = 48.0
+theme_override_colors/font_color = Color(0.55, 1, 0.25, 1)
+theme_override_font_sizes/font_size = 8
+text = "Owned 0 / 100"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="ShownTotal" type="Label" parent="MutationsPanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 404.0
+offset_top = 50.0
+offset_right = 632.0
+offset_bottom = 70.0
+theme_override_colors/font_color = Color(0.6, 0.7, 0.65, 1)
+theme_override_font_sizes/font_size = 8
+text = "Showing 100 (0 owned)"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="MutationScroll" type="ScrollContainer" parent="MutationsPanel"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 74.0
+offset_right = 632.0
+offset_bottom = 314.0
+horizontal_scroll_mode = 0
+
+[node name="VBox" type="VBoxContainer" parent="MutationsPanel/MutationScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="MutationGrid" type="GridContainer" parent="MutationsPanel/MutationScroll/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 2
+theme_override_constants/v_separation = 4
+columns = 7
+
+[node name="MutationsEmpty" type="Label" parent="MutationsPanel/MutationScroll/VBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.7, 0.65, 1)
+theme_override_font_sizes/font_size = 8
+text = "No mutation matches this filter."
+
+[node name="FusionsPanel" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="FusionTotal" type="Label" parent="FusionsPanel"]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 8.0
@@ -45,7 +285,7 @@ theme_override_colors/font_color = Color(0.55, 1, 0.25, 1)
 theme_override_font_sizes/font_size = 8
 text = "Fusions discovered 0 / 0"
 
-[node name="SignatureTotal" type="Label" parent="."]
+[node name="SignatureTotal" type="Label" parent="FusionsPanel"]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 240.0
@@ -57,7 +297,7 @@ theme_override_font_sizes/font_size = 8
 text = "Signatures 0 / 26"
 horizontal_alignment = 2
 
-[node name="MainScroll" type="ScrollContainer" parent="."]
+[node name="MainScroll" type="ScrollContainer" parent="FusionsPanel"]
 layout_mode = 0
 offset_left = 8.0
 offset_top = 44.0
@@ -65,44 +305,44 @@ offset_right = 470.0
 offset_bottom = 314.0
 horizontal_scroll_mode = 0
 
-[node name="VBox" type="VBoxContainer" parent="MainScroll"]
+[node name="VBox" type="VBoxContainer" parent="FusionsPanel/MainScroll"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 4
 
-[node name="PartsHeader" type="Label" parent="MainScroll/VBox"]
+[node name="PartsHeader" type="Label" parent="FusionsPanel/MainScroll/VBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Discovered fusions"
 
-[node name="PartsEmpty" type="Label" parent="MainScroll/VBox"]
+[node name="PartsEmpty" type="Label" parent="FusionsPanel/MainScroll/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6, 0.7, 0.65, 1)
 theme_override_font_sizes/font_size = 8
 text = "Nothing yet. Splice two parts in the Lab, or incubate two monsters."
 
-[node name="PartGrid" type="GridContainer" parent="MainScroll/VBox"]
+[node name="PartGrid" type="GridContainer" parent="FusionsPanel/MainScroll/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/h_separation = 4
 theme_override_constants/v_separation = 4
 columns = 5
 
-[node name="SigHeader" type="Label" parent="MainScroll/VBox"]
+[node name="SigHeader" type="Label" parent="FusionsPanel/MainScroll/VBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.239, 0.941, 1)
 theme_override_font_sizes/font_size = 8
 text = "Signature fusions  (??? = not found yet; the body part is the hint)"
 
-[node name="SigGrid" type="GridContainer" parent="MainScroll/VBox"]
+[node name="SigGrid" type="GridContainer" parent="FusionsPanel/MainScroll/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/h_separation = 4
 theme_override_constants/v_separation = 4
 columns = 5
 
-[node name="TitlesHeader" type="Label" parent="."]
+[node name="TitlesHeader" type="Label" parent="FusionsPanel"]
 layout_mode = 0
 offset_left = 476.0
 offset_top = 30.0
@@ -112,14 +352,14 @@ theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
 theme_override_font_sizes/font_size = 8
 text = "Chimera titles"
 
-[node name="TitlesPanel" type="Panel" parent="."]
+[node name="TitlesPanel" type="Panel" parent="FusionsPanel"]
 layout_mode = 0
 offset_left = 476.0
 offset_top = 44.0
 offset_right = 632.0
 offset_bottom = 314.0
 
-[node name="TitlesScroll" type="ScrollContainer" parent="TitlesPanel"]
+[node name="TitlesScroll" type="ScrollContainer" parent="FusionsPanel/TitlesPanel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -132,7 +372,7 @@ grow_horizontal = 2
 grow_vertical = 2
 horizontal_scroll_mode = 0
 
-[node name="TitlesLabel" type="Label" parent="TitlesPanel/TitlesScroll"]
+[node name="TitlesLabel" type="Label" parent="FusionsPanel/TitlesPanel/TitlesScroll"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2

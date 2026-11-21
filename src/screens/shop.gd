@@ -45,6 +45,9 @@ func _on_buy_pressed(index: int) -> void:
 		_status_label.text = reason
 		return
 	if ShopLogic.buy(Game.run, index):
+		var bought: MutationData = stock[index].get(&"mutation") as MutationData
+		if bought != null:
+			CodexStore.record_mutation(bought.id)
 		_status_label.text = "Bought %s." % _entry_name(stock[index])
 		_play_purchase(index)
 	else:

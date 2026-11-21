@@ -1,6 +1,6 @@
 # Handoff: MUTANT LAB (theme: "Unnatural Evolution")
 
-_Last updated: 2026-11-21 (night). **Everything is committed** on `main`: stages 1–3, the mutation expansion (100 mutations, ULTRA tier), juice (VFX + SFX), fusion (Splice, Incubator, Codex), the UI pass (settings, drag and drop, unit renaming; `bee7101`) and the teammate's main menu + arena art wired in (`92c1696` merge, `99c68d0`; see §7). Still open: champion save, balance follow-ups (see `design/balance/stage4-balance.md`)._
+_Last updated: 2026-11-21 (late night). **Everything is committed** on `main`: stages 1–3, the mutation expansion (100 mutations, ULTRA tier), juice (VFX + SFX), fusion (Splice, Incubator, Codex), the UI pass (settings, drag and drop, unit renaming; `bee7101`), the teammate's main menu + arena art (`92c1696` merge, `99c68d0`; see §7), and the **champion boss + Codex mutations + settings Restart/Quit + round-1 safety** pass (see §8). Still open: balance follow-ups (see `design/balance/stage4-balance.md`), champion normalization tuning._
 
 A 2D pixel-art roguelike **auto-battler**. Humans are mutated into monsters, and the player **bets on their own battles**. It is built in **Godot 4.7.2 / GDScript** for a game jam. See `JAM.md` for the jam rules, and `design/jam-plan.md` § "CHOSEN DESIGN" for the design note.
 
@@ -168,7 +168,7 @@ Key values: `BASE_HP` 360, `ENEMY_BUDGET [2,4,6,10,14]`, `ENEMY_HP_MULT [1.3,1.3
 - [ ] `tools/balance/retune.py` / `retune_loop.sh` were added by the balance pass; delete if unwanted.
 - [ ] Subagent test runs with `-d` can hang; kill only by PID (the editor and other runs share the exe name).
 
-### Stage 4 remainder: champion (fusion screens are DONE, see above)
+### Stage 4 remainder: champion — DONE (see §8). Old notes kept below for reference.
 - Note: the champion boss must skip `ENEMY_HP_MULT`. Decide whether the adaptive bonus applies to it (probably not, since it is normalized to the budget instead). Fusion should add a gold sink (`FUSION_COST`), which helps the late-gold pile-up.
 - `src/screens/incubator.*`: pick 2 monsters, preview the fused result and success %; on overlapping slots choose which to keep, and the other becomes an "Echo" (50% of its stats, no ability); a generated title; the Codex.
 - Champion save: `ResourceSaver.save(..., "user://champion.tres")` using `duplicate_deep()`. Load with `CACHE_MODE_IGNORE`. Normalize the champion to 0.9–1.3× of the budget. Show "Beat your last run" on battle 5.
@@ -196,3 +196,17 @@ Key values: `BASE_HP` 360, `ENEMY_BUDGET [2,4,6,10,14]`, `ENEMY_HP_MULT [1.3,1.3
 - Evidence: `production/qa/evidence/wiring_*.png` (script `production/qa/arena_wiring_shots.gd`). 172/172 unit tests pass.
 - **Parallel sessions:** several Claude sessions may work in this repo at once. Before editing, check `ListAgents`, message busy peers with the files you plan to touch, and keep their uncommitted work. The teammate's art arrives through the `art` branch / PRs to `main`; its editor re-saves can drop values from hand-made `.tres` files, so check mutation files on every merge.
 - Open: the teammate's `arena_intro.gd` keeps its own tuning consts (not in `tuning.gd`); the old `src/main.tscn` title and `assets/sprites/battle/arena_bg.png` + `tools/gen_battle_bg.py` are unused (delete only if the user agrees).
+
+---
+
+## 8. Champion boss, Codex mutations, settings Restart/Quit, round-1 safety (2026-11-21)
+
+- **Champion boss:** `src/data/champion_store.gd` (`ChampionStore`, itself the saved Resource; `save_team/load_team/has_champion/clear`, path arg for tests; `duplicate_deep()`, `CACHE_MODE_IGNORE`). `Game.complete_battle` saves the battle-5 formation's living monsters (fallback: living roster, max 4) on a final win. `Game.prepare_battle` loads it for battle index 4 via `EnemyGen.generate_for_battle` / `generate_champion`: deep copy, "Champ " prefix, seeded random spots, **skips `ENEMY_HP_MULT` and adapt**. Power (sum of `cost_of`) is scaled into `CHAMPION_NORM_MIN/MAX` (0.9–1.3) × `ENEMY_BUDGET[4]` by one HP/ATK factor, capped by `CHAMPION_SCALE_MIN/MAX` (0.1–3.0). Flags `Game.enemy_is_champion / champion_saved / beat_champion`; `Game.champion_path` for tests. Labels: bet `%BossLabel`, formation `%EnemyLabel`, run_end `BeatChampionLabel` / `ChampionSavedLabel`. No champion -> Dr. Splice.
+  - **Balance watch:** a ~30-power winning team is scaled to ~0.39× HP/ATK (abilities stay full); a weak team is scaled up (×1.35 in the test). Not yet playtested through a real battle-5 win.
+- **Codex:** `codex.tscn` has Mutations (default) / Fusions tabs. Mutations tab: Part (All/Head/Torso/Back/Arm/Leg/Tail) and Rarity filter button groups (`metadata/filter_value`), "Owned X / 100" + "Showing N" counters, all 100 base mutations; unbought ones dimmed (`CodexEntry.setup(..., dim_unknown)`). `CodexStore` has a `"mutations"` list (`record_mutation`, `has_mutation`), recorded by `shop.gd` on buy and `reward.gd` on a free mutation. `codex.set_filters(part, rarity)` for QA.
+- **Settings:** `%RestartButton` / `%QuitButton` (two-click confirm), shown only with a run and not on the title. Restart = `Game.new_run()` + hub; Quit = `Game.run = null` + title. Both reset `Engine.time_scale`.
+- **Shop:** `RARITY_WEIGHTS` ULTRA 2 -> 8 (~7% per mutation slot).
+- **Round-1 safety:** `Tuning.SAFE_LAB_BATTLES = 1`; `LabLogic.is_safe(run)` makes lab and incubator chance 100 (row "Round 1: safe") while `battle_index < 1`. Lab/fusion test helpers start runs at `battle_index = SAFE_LAB_BATTLES`.
+- Tests: **193 passing** (new `tests/unit/champion/`, `tests/unit/codex/`). Evidence: `production/qa/evidence/codex_mutations*.png`, `settings_run_buttons.png`, `champion_formation.png`, `champion_bet.png` (script `production/qa/settings_champion_shots.gd`).
+- Gotcha: a `-s` SceneTree QA script must not reference class types whose scripts use the `Game` autoload (e.g. `as SettingsMenu`); they fail to compile before autoloads exist. Use `node.call("open")`.
+- Leftover: `tools/_tmp_champ/` (agent scratch, not committed) — delete if the user agrees.

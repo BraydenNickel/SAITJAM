@@ -165,6 +165,25 @@ theme_override_font_sizes/font_size = 10
 text = "Changes apply at once and are saved when you close."
 horizontal_alignment = 1
 
+[node name="RunButtons" type="HBoxContainer" parent="Root/Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="RestartButton" type="Button" parent="Root/Center/Panel/Margin/VBox/RunButtons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+text = "Restart Run"
+
+[node name="QuitButton" type="Button" parent="Root/Center/Panel/Margin/VBox/RunButtons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+text = "Quit to Menu"
+
 [node name="CloseButton" type="Button" parent="Root/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(120, 0)

@@ -1,12 +1,29 @@
 extends Control
-## Codex screen (read-only): every fused part and chimera title the player has
-## ever discovered (CodexStore, user://codex.json), the discovery totals, and all
-## signature fusions, with undiscovered ones as silhouettes that only hint at
-## their body part.
+## Codex screen (read-only), two tabs:
+## - Mutations (default): every base mutation in src/data/mutations/, filterable by
+##   body part and rarity. Mutations the player never obtained (CodexStore
+##   "mutations") are dimmed but keep their name and rarity.
+## - Fusions: every fused part and chimera title the player has ever discovered
+##   (CodexStore, user://codex.json), the discovery totals, and all signature
+##   fusions, with undiscovered ones as silhouettes that only hint at their body part.
+## Filtering only toggles the visibility of the entries built once in _ready().
 
 const ENTRY_SCENE: PackedScene = preload("res://src/ui/codex_entry.tscn")
 const UNKNOWN_NAME: String = "???"
+## Filter value of an "All" button (metadata/filter_value in codex.tscn).
+const FILTER_ALL: int = -1
+const META_FILTER: StringName = &"filter_value"
 
+@onready var _mutations_tab: Button = %MutationsTab
+@onready var _fusions_tab: Button = %FusionsTab
+@onready var _mutations_panel: Control = %MutationsPanel
+@onready var _fusions_panel: Control = %FusionsPanel
+@onready var _part_filter: HBoxContainer = %PartFilter
+@onready var _rarity_filter: HBoxContainer = %RarityFilter
+@onready var _mutation_grid: GridContainer = %MutationGrid
+@onready var _mutations_empty: Label = %MutationsEmpty
+@onready var _owned_total: Label = %OwnedTotal
+@onready var _shown_total: Label = %ShownTotal
 @onready var _fusion_total: Label = %FusionTotal
 @onready var _signature_total: Label = %SignatureTotal
 @onready var _sig_grid: GridContainer = %SigGrid
@@ -16,16 +33,126 @@ const UNKNOWN_NAME: String = "???"
 @onready var _back_button: Button = %BackButton
 @onready var _sfx: SfxPlayer = %Sfx
 
+## Current part filter (MutationData.SocketType or FILTER_ALL).
+var part_filter: int = FILTER_ALL
+## Current rarity filter (MutationData.Rarity or FILTER_ALL).
+var rarity_filter: int = FILTER_ALL
+
+var _mutation_entries: Array[CodexEntry] = []
+## Base mutation id (String) -> obtained.
+var _owned: Dictionary = {}
+
 func _ready() -> void:
 	_back_button.pressed.connect(_sfx.play_detached.bind(&"click"))
 	# Opened from the title screen there is no run yet: go back there.
 	_back_button.pressed.connect(func() -> void:
 		Game.go_to(&"hub" if Game.run != null else &"title"))
-	_build()
+	_mutations_tab.toggled.connect(_on_tab_toggled)
+	_fusions_tab.toggled.connect(_on_tab_toggled)
+	_connect_filter(_part_filter, _on_part_filter)
+	_connect_filter(_rarity_filter, _on_rarity_filter)
+	var data: Dictionary = CodexStore.load_codex()
+	_build_mutations(data)
+	_build_fusions(data)
+	_on_tab_toggled(true)
 	_back_button.grab_focus()
 
-func _build() -> void:
-	var data: Dictionary = CodexStore.load_codex()
+## Sets both filters and presses the matching buttons (also used by QA scripts).
+func set_filters(part: int, rarity: int) -> void:
+	_press_filter_button(_part_filter, part)
+	_press_filter_button(_rarity_filter, rarity)
+	part_filter = part
+	rarity_filter = rarity
+	_apply_filters()
+
+func _connect_filter(row: HBoxContainer, handler: Callable) -> void:
+	for child: Node in row.get_children():
+		var button: Button = child as Button
+		if button == null:
+			continue
+		var value: int = int(button.get_meta(META_FILTER, FILTER_ALL))
+		button.toggled.connect(func(on: bool) -> void:
+			if on:
+				handler.call(value))
+		button.pressed.connect(_sfx.play.bind(&"click"))
+
+func _press_filter_button(row: HBoxContainer, value: int) -> void:
+	for child: Node in row.get_children():
+		var button: Button = child as Button
+		# button_pressed (not set_pressed_no_signal) so the ButtonGroup releases
+		# the previously pressed button.
+		if button != null and int(button.get_meta(META_FILTER, FILTER_ALL)) == value:
+			button.button_pressed = true
+
+func _on_part_filter(value: int) -> void:
+	part_filter = value
+	_apply_filters()
+
+func _on_rarity_filter(value: int) -> void:
+	rarity_filter = value
+	_apply_filters()
+
+func _on_tab_toggled(_on: bool) -> void:
+	_mutations_panel.visible = _mutations_tab.button_pressed
+	_fusions_panel.visible = _fusions_tab.button_pressed
+
+# --- Mutations tab -------------------------------------------------------------
+
+func _build_mutations(data: Dictionary) -> void:
+	var defs: Array[MutationData] = []
+	for m: MutationData in EnemyGen.all_mutations():
+		if m.merge_count == 0:
+			defs.append(m)
+	defs.sort_custom(func(a: MutationData, b: MutationData) -> bool:
+		if a.rarity != b.rarity:
+			return a.rarity < b.rarity
+		return a.display_name.naturalnocasecmp_to(b.display_name) < 0)
+	for m: MutationData in defs:
+		var owned: bool = CodexStore.has_mutation(data, m.id)
+		_owned[String(m.id)] = owned
+		var entry: CodexEntry = ENTRY_SCENE.instantiate() as CodexEntry
+		entry.mutation = m
+		_mutation_grid.add_child(entry)
+		entry.setup(m.sprite_front, m.display_name, _mutation_tag(m),
+			InventoryItem.rarity_color(m.rarity), owned, _mutation_tip(m, owned), true)
+		_mutation_entries.append(entry)
+	_apply_filters()
+
+## Badge under a mutation tile: "Rare Arm".
+func _mutation_tag(m: MutationData) -> String:
+	return "%s %s" % [InventoryItem.rarity_name(m.rarity),
+		InventoryItem.socket_name(m.socket_type).capitalize()]
+
+func _mutation_tip(m: MutationData, owned: bool) -> String:
+	if owned:
+		return InventoryItem.mutation_tooltip(m)
+	return "%s (%s, %s)\nNot bought yet\n%s" % [m.display_name,
+		InventoryItem.rarity_name(m.rarity), InventoryItem.socket_name(m.socket_type),
+		InventoryItem.stat_summary(m)]
+
+func _apply_filters() -> void:
+	var shown: int = 0
+	var shown_owned: int = 0
+	var owned_total: int = 0
+	for entry: CodexEntry in _mutation_entries:
+		var m: MutationData = entry.mutation
+		var owned: bool = bool(_owned.get(String(m.id), false))
+		if owned:
+			owned_total += 1
+		var match_part: bool = part_filter == FILTER_ALL or int(m.socket_type) == part_filter
+		var match_rarity: bool = rarity_filter == FILTER_ALL or int(m.rarity) == rarity_filter
+		entry.visible = match_part and match_rarity
+		if entry.visible:
+			shown += 1
+			if owned:
+				shown_owned += 1
+	_owned_total.text = "Owned %d / %d" % [owned_total, _mutation_entries.size()]
+	_shown_total.text = "Showing %d (%d owned)" % [shown, shown_owned]
+	_mutations_empty.visible = shown == 0
+
+# --- Fusions tab ---------------------------------------------------------------
+
+func _build_fusions(data: Dictionary) -> void:
 	var parts: Dictionary = data.get(CodexStore.KEY_PARTS, {}) as Dictionary
 	var titles: Array = data.get(CodexStore.KEY_TITLES, []) as Array
 	var index: Dictionary = FusionLogic.index()

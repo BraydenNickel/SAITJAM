@@ -15,6 +15,7 @@ const SLOT_SCENE: PackedScene = preload("res://src/ui/monster_slot.tscn")
 @onready var _roster_row: HBoxContainer = %RosterRow
 @onready var _info_label: Label = %InfoLabel
 @onready var _battle_label: Label = %BattleLabel
+@onready var _enemy_label: Label = %EnemyLabel
 @onready var _back_button: Button = %BackButton
 @onready var _continue_button: Button = %ContinueButton
 
@@ -29,6 +30,10 @@ func _ready() -> void:
 	Game.ensure_run()
 	Game.prepare_battle()
 	_battle_label.text = "Battle %d/%d" % [Game.run.battle_index + 1, Tuning.BATTLES_PER_RUN]
+	if Game.enemy_is_champion:
+		_enemy_label.text = "%s - beat your last run!" % Tuning.CHAMPION_NAME.to_upper()
+	elif Game.run.battle_index == Tuning.BATTLES_PER_RUN - 1:
+		_enemy_label.text = "BOSS: %s  (Front | Middle | Back)" % Tuning.BOSS_NAME
 	for child: Node in _player_grid.get_children():
 		var slot: MonsterSlot = child as MonsterSlot
 		_spot_slots[slot.spot] = slot

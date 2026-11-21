@@ -9,6 +9,7 @@ func _mut(id: String) -> MutationData:
 
 func _run(n: int = 2) -> RunState:
 	var r: RunState = RunState.new()
+	r.battle_index = Tuning.SAFE_LAB_BATTLES  # past the always-succeed round
 	for i: int in n:
 		var m: MonsterData = MonsterData.new()
 		m.display_name = "Subject %02d" % (i + 1)
@@ -53,6 +54,28 @@ func test_success_chance_clamps() -> void:
 	r.mush_memory = Tuning.MUSH_MEMORY_BONUS
 	r.lucky_gene = true
 	assert_int(LabLogic.success_chance(r, m, _mut("mantis_arm"), 2)).is_equal(Tuning.MAX_SUCCESS)
+
+func test_round_one_chance_is_100_and_operate_never_fails() -> void:
+	var r: RunState = _run(1)
+	r.battle_index = 0
+	r.roster[0].instability = 100.0
+	r.inventory.append(_mut("scorpion_tail"))
+	var rare: MutationData = _mut("scorpion_tail")
+	assert_int(LabLogic.success_chance(r, r.roster[0], rare, 0)).is_equal(100)
+	var total: int = 0
+	for row: Dictionary in LabLogic.chance_breakdown(r, r.roster[0], rare, 0):
+		total += int(row[&"value"])
+	assert_int(total).is_equal(100)
+	var res: Dictionary = LabLogic.operate(r, 0, 0, &"TAIL", 0, _rng_roll(99, true))
+	assert_bool(res[&"success"]).is_true()
+	assert_bool(r.roster[0].mushed).is_false()
+
+func test_round_two_chance_uses_normal_formula() -> void:
+	var r: RunState = _run(1)
+	r.battle_index = 1
+	r.roster[0].instability = 100.0
+	assert_int(LabLogic.success_chance(r, r.roster[0], _mut("scorpion_tail"), 0)) \
+		.is_equal(Tuning.MIN_SUCCESS)
 
 func test_breakdown_omits_zero_rows() -> void:
 	var r: RunState = _run(1)

@@ -33,6 +33,7 @@ func _mut(id: String) -> MutationData:
 func _run(n: int) -> RunState:
 	var r: RunState = RunState.new()
 	r.gold = START_GOLD
+	r.battle_index = Tuning.SAFE_LAB_BATTLES  # past the always-succeed round
 	for i: int in n:
 		var m: MonsterData = MonsterData.new()
 		m.display_name = "Subject %02d" % (i + 1)
@@ -226,6 +227,29 @@ func test_incubate_chance_formula() -> void:
 	b.instability = 0.0
 	assert_int(FusionLogic.incubate_chance(r, a, b, Tuning.STABILIZER_MAX)) \
 		.is_equal(Tuning.FUSION_MAX_CHANCE)
+
+func test_incubate_round_one_chance_is_100_and_never_fails() -> void:
+	var r: RunState = _incubator_run()
+	r.battle_index = 0
+	var a: MonsterData = r.roster[0]
+	var b: MonsterData = r.roster[1]
+	a.instability = 100.0
+	b.instability = 100.0
+	assert_int(FusionLogic.incubate_chance(r, a, b, 0)).is_equal(100)
+	var total: int = 0
+	for row: Dictionary in FusionLogic.incubate_breakdown(r, a, b, 0):
+		total += int(row[&"value"])
+	assert_int(total).is_equal(100)
+	var res: Dictionary = FusionLogic.incubate(r, 0, 1, {}, _rng_roll(99, true))
+	assert_bool(res[&"success"]).is_true()
+
+func test_incubate_round_two_uses_normal_formula() -> void:
+	var r: RunState = _incubator_run()
+	r.battle_index = 1
+	r.roster[0].instability = 100.0
+	r.roster[1].instability = 100.0
+	assert_int(FusionLogic.incubate_chance(r, r.roster[0], r.roster[1], 0)) \
+		.is_equal(Tuning.FUSION_MIN_CHANCE)
 
 func test_incubate_success_replaces_parents_with_one_monster() -> void:
 	var r: RunState = _incubator_run()

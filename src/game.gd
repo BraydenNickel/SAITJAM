@@ -43,6 +43,14 @@ var last_result: Dictionary = {}
 var run_victory: bool = false
 ## Battles won in the current run (shown on the run-end screen).
 var battles_cleared: int = 0
+## Champion save file. Tests may point this elsewhere; the game uses the default.
+var champion_path: String = ChampionStore.DEFAULT_PATH
+## True if the upcoming battle's enemy is the saved champion (set by prepare_battle()).
+var enemy_is_champion: bool = false
+## Set at the end of a won run: true if this run beat a saved champion.
+var beat_champion: bool = false
+## Set at the end of a won run: true if the winning team was saved as champion.
+var champion_saved: bool = false
 
 func _ready() -> void:
 	# Player audio volumes (user://settings.cfg) onto the buses, once per launch.
@@ -62,6 +70,9 @@ func new_run() -> void:
 	last_result = {}
 	run_victory = false
 	battles_cleared = 0
+	enemy_is_champion = false
+	beat_champion = false
+	champion_saved = false
 	run.gold = Tuning.START_GOLD
 	var human: MonsterData = load(HUMAN_PATH) as MonsterData
 	for i: int in Tuning.START_HUMANS:
@@ -115,11 +126,16 @@ func prepare_battle() -> void:
 	ensure_run()
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.seed = battle_seed()
-	var gen: Dictionary = EnemyGen.generate(run.battle_index, rng,
-		EnemyGen.player_power(run.roster))
-	enemy_team.assign(gen["team"] as Array)
-	enemy_spots.assign(gen["spots"] as Array)
+	# Final battle: the saved champion replaces Dr. Splice (handoff.md §2).
+	var champion: Array[MonsterData] = []
+	if run.battle_index == Tuning.BATTLES_PER_RUN - 1:
+		champion = ChampionStore.load_team(champion_path)
+	var gen: Dictionary = EnemyGen.generate_for_battle(run.battle_index, rng,
+		EnemyGen.player_power(run.roster), champion)
+	enemy_team.assign(gen[&"team"] as Array)
+	enemy_spots.assign(gen[&"spots"] as Array)
 	enemy_adapt = int(gen.get(&"adapt", 0))
+	enemy_is_champion = bool(gen.get(&"champion", false))
 	bets = []
 	last_result = {}
 
@@ -166,4 +182,19 @@ func complete_battle(won: bool, gold_delta: int) -> void:
 		go_to(&"reward")
 	else:
 		run_victory = won
+		if won:
+			_save_champion()
 		go_to(&"run_end")
+
+## Final battle won: remembers whether a champion was beaten and saves the
+## battle-5 lineup (living monsters, max Tuning.MAX_TEAM) as the next champion,
+## falling back to the living roster if the lineup is empty.
+func _save_champion() -> void:
+	beat_champion = enemy_is_champion
+	var team: Array[MonsterData] = []
+	team.assign(build_lineup()["team"] as Array)
+	if team.is_empty():
+		for m: MonsterData in run.roster:
+			if m != null and not m.mushed:
+				team.append(m)
+	champion_saved = ChampionStore.save_team(team, champion_path)

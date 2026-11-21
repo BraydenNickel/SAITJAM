@@ -5,17 +5,21 @@ extends RefCounted
 ## path is a parameter so tests never touch the real user file.
 ##
 ## File / dictionary layout (String keys, as JSON gives them):
-## {"parts": {"<pair key>": {"name": String, "signature": bool}}, "titles": [String]}
+## {"parts": {"<pair key>": {"name": String, "signature": bool}}, "titles": [String],
+##  "mutations": [String]}
+## "mutations" holds the ids of every base mutation the player ever obtained
+## (bought in the Shop or taken as a reward). Older files without it load fine.
 
 ## The real save file.
 const DEFAULT_PATH: String = "user://codex.json"
 const KEY_PARTS: String = "parts"
 const KEY_TITLES: String = "titles"
+const KEY_MUTATIONS: String = "mutations"
 
-## The stored Codex, or an empty one ({"parts": {}, "titles": []}) if the file is
-## missing or unreadable.
+## The stored Codex, or an empty one ({"parts": {}, "titles": [], "mutations": []})
+## if the file is missing or unreadable.
 static func load_codex(path: String = DEFAULT_PATH) -> Dictionary:
-	var data: Dictionary = {KEY_PARTS: {}, KEY_TITLES: []}
+	var data: Dictionary = {KEY_PARTS: {}, KEY_TITLES: [], KEY_MUTATIONS: []}
 	if not FileAccess.file_exists(path):
 		return data
 	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
@@ -25,6 +29,8 @@ static func load_codex(path: String = DEFAULT_PATH) -> Dictionary:
 			data[KEY_PARTS] = d[KEY_PARTS]
 		if d.get(KEY_TITLES) is Array:
 			data[KEY_TITLES] = d[KEY_TITLES]
+		if d.get(KEY_MUTATIONS) is Array:
+			data[KEY_MUTATIONS] = d[KEY_MUTATIONS]
 	return data
 
 ## Writes `data` (same layout as load_codex()) to `path`. Returns false on failure.
@@ -39,6 +45,23 @@ static func save_codex(data: Dictionary, path: String = DEFAULT_PATH) -> bool:
 ## True if the pair key is a discovered fused part in `data`.
 static func has_part(data: Dictionary, key: String) -> bool:
 	return data.get(KEY_PARTS) is Dictionary and (data[KEY_PARTS] as Dictionary).has(key)
+
+## True if the base mutation `id` was ever obtained according to `data`.
+static func has_mutation(data: Dictionary, id: StringName) -> bool:
+	return data.get(KEY_MUTATIONS) is Array and (data[KEY_MUTATIONS] as Array).has(String(id))
+
+## Marks the base mutation `id` as obtained and saves the Codex if it is new.
+## Returns true on a first-ever obtain, false if already known or `id` is empty.
+static func record_mutation(id: StringName, path: String = DEFAULT_PATH) -> bool:
+	if id == &"":
+		return false
+	var data: Dictionary = load_codex(path)
+	var owned: Array = data[KEY_MUTATIONS]
+	if owned.has(String(id)):
+		return false
+	owned.append(String(id))
+	save_codex(data, path)
+	return true
 
 ## Adds `new_codex` entries (as reported by FusionLogic.incubate and
 ## LabLogic.operate: {&"kind": &"part"|&"title", &"key", &"name", &"signature"})

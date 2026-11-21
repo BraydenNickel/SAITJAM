@@ -62,6 +62,7 @@ text = "YOUR TEAM  (Back | Middle | Front)"
 horizontal_alignment = 1
 
 [node name="EnemyLabel" type="Label" parent="."]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 372.0
 offset_top = 30.0
