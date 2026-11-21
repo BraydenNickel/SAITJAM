@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_shield.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/crystal_lattice_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/crystal_lattice_side.png" id="4_side"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+amount = 75.0
+
+[resource]
+script = ExtResource("1_mut")
+id = &"crystal_lattice"
+display_name = "Crystal Lattice"
+description = "Mineral veins harden into a lattice.
++2 DEF.
+Battle start: a shield that absorbs 75 damage."
+socket_type = 1
+rarity = 1
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+defense_mod = 2.0
+tags = Array[StringName]([&"crystal", &"armor"])
+ability = SubResource("Resource_ability")

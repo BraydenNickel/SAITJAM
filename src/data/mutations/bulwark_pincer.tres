@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_shield.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/bulwark_pincer_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/bulwark_pincer_side.png" id="4_side"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+amount = 80.0
+
+[resource]
+script = ExtResource("1_mut")
+id = &"bulwark_pincer"
+display_name = "Bulwark Pincer"
+description = "A claw broad enough to hide behind.
++2 DEF.
+Battle start: a shield that absorbs 80 damage."
+socket_type = 3
+rarity = 1
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+defense_mod = 2.0
+tags = Array[StringName]([&"armor", &"insect"])
+ability = SubResource("Resource_ability")

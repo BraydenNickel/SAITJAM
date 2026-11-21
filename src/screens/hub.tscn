@@ -2,7 +2,57 @@
 
 [ext_resource type="Script" path="res://src/screens/hub.gd" id="1_hub"]
 [ext_resource type="Theme" path="res://src/ui/theme.tres" id="2_theme"]
-[ext_resource type="PackedScene" path="res://src/monster/monster_front.tscn" id="3_front"]
+[ext_resource type="PackedScene" path="res://src/ui/monster_card.tscn" id="3_card"]
+[ext_resource type="PackedScene" path="res://src/ui/sfx_player.tscn" id="90_sfx"]
+[ext_resource type="PackedScene" path="res://src/ui/settings_menu.tscn" id="91_settings"]
+
+[sub_resource type="StyleBoxFlat" id="sb_fight"]
+content_margin_left = 12.0
+content_margin_top = 6.0
+content_margin_right = 12.0
+content_margin_bottom = 6.0
+bg_color = Color(0.3, 0.7, 0.15, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.75, 1, 0.45, 1)
+
+[sub_resource type="StyleBoxFlat" id="sb_fight_hover"]
+content_margin_left = 12.0
+content_margin_top = 6.0
+content_margin_right = 12.0
+content_margin_bottom = 6.0
+bg_color = Color(0.4, 0.85, 0.2, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.95, 1, 0.7, 1)
+
+[sub_resource type="StyleBoxFlat" id="sb_fight_disabled"]
+content_margin_left = 12.0
+content_margin_top = 6.0
+content_margin_right = 12.0
+content_margin_bottom = 6.0
+bg_color = Color(0.08, 0.14, 0.1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.2, 0.3, 0.2, 1)
+
+[sub_resource type="StyleBoxFlat" id="sb_next"]
+content_margin_left = 8.0
+content_margin_top = 4.0
+content_margin_right = 8.0
+content_margin_bottom = 6.0
+bg_color = Color(0.06, 0.14, 0.1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.55, 1, 0.25, 1)
 
 [node name="Hub" type="Control"]
 layout_mode = 3
@@ -27,11 +77,12 @@ color = Color(0.03, 0.07, 0.08, 1)
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_left = 16.0
-offset_top = 8.0
-offset_right = -16.0
-offset_bottom = 32.0
+offset_left = 12.0
+offset_top = 6.0
+offset_right = -12.0
+offset_bottom = 30.0
 grow_horizontal = 2
+theme_override_constants/separation = 12
 
 [node name="GoldLabel" type="Label" parent="TopBar"]
 unique_name_in_owner = true
@@ -39,114 +90,36 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
 text = "Gold: 0"
+vertical_alignment = 1
 
 [node name="StockLabel" type="Label" parent="TopBar"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.45, 0.85, 1, 1)
+theme_override_font_sizes/font_size = 12
 text = "Stabilizers: 0   Mutations: 0"
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="BattleLabel" type="Label" parent="TopBar"]
+[node name="SettingsButton" type="Button" parent="TopBar"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Battle 1/5"
+tooltip_text = "Music and sound effects volume (Esc)"
+theme_override_font_sizes/font_size = 12
+text = "Settings"
 
-[node name="TeamRow" type="HBoxContainer" parent="."]
+[node name="HintLabel" type="Label" parent="."]
+unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -230.0
-offset_top = -80.0
-offset_right = 230.0
-offset_bottom = 70.0
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 32.0
+offset_bottom = 46.0
 grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 16
-alignment = 1
-
-[node name="Slot1" type="VBoxContainer" parent="TeamRow"]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="Preview" type="Control" parent="TeamRow/Slot1"]
-custom_minimum_size = Vector2(96, 96)
-layout_mode = 2
-
-[node name="Holder" type="Node2D" parent="TeamRow/Slot1/Preview"]
-position = Vector2(48, 48)
-
-[node name="Monster1" parent="TeamRow/Slot1/Preview/Holder" instance=ExtResource("3_front")]
-unique_name_in_owner = true
-
-[node name="Name1" type="Label" parent="TeamRow/Slot1"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Subject"
-horizontal_alignment = 1
-
-[node name="Slot2" type="VBoxContainer" parent="TeamRow"]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="Preview" type="Control" parent="TeamRow/Slot2"]
-custom_minimum_size = Vector2(96, 96)
-layout_mode = 2
-
-[node name="Holder" type="Node2D" parent="TeamRow/Slot2/Preview"]
-position = Vector2(48, 48)
-
-[node name="Monster2" parent="TeamRow/Slot2/Preview/Holder" instance=ExtResource("3_front")]
-unique_name_in_owner = true
-
-[node name="Name2" type="Label" parent="TeamRow/Slot2"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Subject"
-horizontal_alignment = 1
-
-[node name="Slot3" type="VBoxContainer" parent="TeamRow"]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="Preview" type="Control" parent="TeamRow/Slot3"]
-custom_minimum_size = Vector2(96, 96)
-layout_mode = 2
-
-[node name="Holder" type="Node2D" parent="TeamRow/Slot3/Preview"]
-position = Vector2(48, 48)
-
-[node name="Monster3" parent="TeamRow/Slot3/Preview/Holder" instance=ExtResource("3_front")]
-unique_name_in_owner = true
-
-[node name="Name3" type="Label" parent="TeamRow/Slot3"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Subject"
-horizontal_alignment = 1
-
-[node name="Slot4" type="VBoxContainer" parent="TeamRow"]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="Preview" type="Control" parent="TeamRow/Slot4"]
-custom_minimum_size = Vector2(96, 96)
-layout_mode = 2
-
-[node name="Holder" type="Node2D" parent="TeamRow/Slot4/Preview"]
-position = Vector2(48, 48)
-
-[node name="Monster4" parent="TeamRow/Slot4/Preview/Holder" instance=ExtResource("3_front")]
-unique_name_in_owner = true
-
-[node name="Name4" type="Label" parent="TeamRow/Slot4"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Subject"
+theme_override_colors/font_color = Color(0.5, 0.65, 0.6, 1)
+theme_override_font_sizes/font_size = 10
+text = "Mutate your subjects in the Lab, gear up in the Shop, then Fight. Win 5 battles to escape."
 horizontal_alignment = 1
 
 [node name="SponsorLabel" type="Label" parent="."]
@@ -155,53 +128,137 @@ visible = false
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_top = 36.0
-offset_bottom = 58.0
+offset_top = 30.0
+offset_bottom = 48.0
 grow_horizontal = 2
 theme_override_colors/font_color = Color(0.55, 1, 0.45, 1)
+theme_override_font_sizes/font_size = 12
 text = "Sponsor grant!"
 horizontal_alignment = 1
 
-[node name="Buttons" type="HBoxContainer" parent="."]
+[node name="TeamRow" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 50.0
+offset_right = -8.0
+offset_bottom = -78.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Card1" parent="TeamRow" instance=ExtResource("3_card")]
+unique_name_in_owner = true
+layout_mode = 2
+preview_scale = 1.25
+show_summary = true
+
+[node name="Card2" parent="TeamRow" instance=ExtResource("3_card")]
+unique_name_in_owner = true
+layout_mode = 2
+preview_scale = 1.25
+show_summary = true
+
+[node name="Card3" parent="TeamRow" instance=ExtResource("3_card")]
+unique_name_in_owner = true
+layout_mode = 2
+preview_scale = 1.25
+show_summary = true
+
+[node name="Card4" parent="TeamRow" instance=ExtResource("3_card")]
+unique_name_in_owner = true
+layout_mode = 2
+preview_scale = 1.25
+show_summary = true
+
+[node name="Bottom" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 16.0
-offset_top = -48.0
-offset_right = -16.0
-offset_bottom = -12.0
+offset_left = 12.0
+offset_top = -72.0
+offset_right = -12.0
+offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_constants/separation = 8
-alignment = 1
+theme_override_constants/separation = 12
 
-[node name="LabButton" type="Button" parent="Buttons"]
+[node name="Secondary" type="HBoxContainer" parent="Bottom"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+theme_override_constants/separation = 6
+
+[node name="LabButton" type="Button" parent="Bottom/Secondary"]
 unique_name_in_owner = true
 layout_mode = 2
-tooltip_text = "Apply mutations from your inventory"
+tooltip_text = "Apply mutations from your inventory to a subject"
 text = "Lab"
 
-[node name="ShopButton" type="Button" parent="Buttons"]
+[node name="ShopButton" type="Button" parent="Bottom/Secondary"]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Buy mutations, humans and stabilizers"
 text = "Shop"
 
-[node name="IncubatorButton" type="Button" parent="Buttons"]
+[node name="IncubatorButton" type="Button" parent="Bottom/Secondary"]
 unique_name_in_owner = true
 layout_mode = 2
-disabled = true
-tooltip_text = "Coming soon"
+tooltip_text = "Fuse two monsters into one chimera"
 text = "Incubator"
 
-[node name="RosterButton" type="Button" parent="Buttons"]
+[node name="RosterButton" type="Button" parent="Bottom/Secondary"]
 unique_name_in_owner = true
 layout_mode = 2
+tooltip_text = "Every monster's stats and parts, mush included"
 text = "Roster"
 
-[node name="FightButton" type="Button" parent="Buttons"]
+[node name="CodexButton" type="Button" parent="Bottom/Secondary"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Fight"
+tooltip_text = "Every fusion you have discovered"
+text = "Codex"
+
+[node name="NextPanel" type="PanelContainer" parent="Bottom"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("sb_next")
+
+[node name="VBox" type="VBoxContainer" parent="Bottom/NextPanel"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="BattleLabel" type="Label" parent="Bottom/NextPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 1, 0.25, 1)
+theme_override_font_sizes/font_size = 12
+text = "Next: Battle 1/5"
+horizontal_alignment = 1
+
+[node name="FightButton" type="Button" parent="Bottom/NextPanel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+tooltip_text = "Place your team, bet on the fight, then battle"
+theme_override_colors/font_color = Color(0.04, 0.1, 0.04, 1)
+theme_override_colors/font_hover_color = Color(0.02, 0.06, 0.02, 1)
+theme_override_colors/font_focus_color = Color(0.04, 0.1, 0.04, 1)
+theme_override_colors/font_pressed_color = Color(0.02, 0.06, 0.02, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("sb_fight")
+theme_override_styles/hover = SubResource("sb_fight_hover")
+theme_override_styles/pressed = SubResource("sb_fight_hover")
+theme_override_styles/focus = SubResource("sb_fight_hover")
+theme_override_styles/disabled = SubResource("sb_fight_disabled")
+text = "FIGHT!"
+
+[node name="Sfx" parent="." instance=ExtResource("90_sfx")]
+unique_name_in_owner = true
+
+[node name="SettingsMenu" parent="." instance=ExtResource("91_settings")]
+unique_name_in_owner = true

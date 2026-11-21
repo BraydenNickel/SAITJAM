@@ -1,0 +1,1057 @@
+{
+ "frames": [
+  {
+   "filename": "coin-drop 0",
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 1",
+   "frame": {
+    "x": 160,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 2",
+   "frame": {
+    "x": 320,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 3",
+   "frame": {
+    "x": 480,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 4",
+   "frame": {
+    "x": 640,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 5",
+   "frame": {
+    "x": 800,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 6",
+   "frame": {
+    "x": 0,
+    "y": 88,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 7",
+   "frame": {
+    "x": 160,
+    "y": 88,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 8",
+   "frame": {
+    "x": 320,
+    "y": 88,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 9",
+   "frame": {
+    "x": 480,
+    "y": 88,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 10",
+   "frame": {
+    "x": 640,
+    "y": 88,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 11",
+   "frame": {
+    "x": 800,
+    "y": 88,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 12",
+   "frame": {
+    "x": 0,
+    "y": 176,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 13",
+   "frame": {
+    "x": 160,
+    "y": 176,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 14",
+   "frame": {
+    "x": 320,
+    "y": 176,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 15",
+   "frame": {
+    "x": 480,
+    "y": 176,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 16",
+   "frame": {
+    "x": 640,
+    "y": 176,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 17",
+   "frame": {
+    "x": 800,
+    "y": 176,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 18",
+   "frame": {
+    "x": 0,
+    "y": 264,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 19",
+   "frame": {
+    "x": 160,
+    "y": 264,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 20",
+   "frame": {
+    "x": 320,
+    "y": 264,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 21",
+   "frame": {
+    "x": 480,
+    "y": 264,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 22",
+   "frame": {
+    "x": 640,
+    "y": 264,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 23",
+   "frame": {
+    "x": 800,
+    "y": 264,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 24",
+   "frame": {
+    "x": 0,
+    "y": 352,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 25",
+   "frame": {
+    "x": 160,
+    "y": 352,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 26",
+   "frame": {
+    "x": 320,
+    "y": 352,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 27",
+   "frame": {
+    "x": 480,
+    "y": 352,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 28",
+   "frame": {
+    "x": 640,
+    "y": 352,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 29",
+   "frame": {
+    "x": 800,
+    "y": 352,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 30",
+   "frame": {
+    "x": 0,
+    "y": 440,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 31",
+   "frame": {
+    "x": 160,
+    "y": 440,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 32",
+   "frame": {
+    "x": 320,
+    "y": 440,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 33",
+   "frame": {
+    "x": 480,
+    "y": 440,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 34",
+   "frame": {
+    "x": 640,
+    "y": 440,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 35",
+   "frame": {
+    "x": 800,
+    "y": 440,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 36",
+   "frame": {
+    "x": 0,
+    "y": 528,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 37",
+   "frame": {
+    "x": 160,
+    "y": 528,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 38",
+   "frame": {
+    "x": 320,
+    "y": 528,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 39",
+   "frame": {
+    "x": 480,
+    "y": 528,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 40",
+   "frame": {
+    "x": 640,
+    "y": 528,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 41",
+   "frame": {
+    "x": 800,
+    "y": 528,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 42",
+   "frame": {
+    "x": 0,
+    "y": 616,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 43",
+   "frame": {
+    "x": 160,
+    "y": 616,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 44",
+   "frame": {
+    "x": 320,
+    "y": 616,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  },
+  {
+   "filename": "coin-drop 45",
+   "frame": {
+    "x": 480,
+    "y": 616,
+    "w": 160,
+    "h": 88
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 160,
+    "h": 88
+   },
+   "sourceSize": {
+    "w": 160,
+    "h": 88
+   },
+   "duration": 33
+  }
+ ],
+ "meta": {
+  "app": "https://github.com/patch-gg/pixelfx",
+  "version": "1",
+  "image": "win_small.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 960,
+   "h": 704
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "win_small",
+    "from": 0,
+    "to": 45,
+    "direction": "forward"
+   }
+  ],
+  "pixelfx": {
+   "id": "spawn/coin-drop",
+   "name": "Coin drop",
+   "fps": 30,
+   "loop": false,
+   "frames": 46,
+   "frameSize": [
+    160,
+    88
+   ],
+   "pivot": [
+    80,
+    78
+   ],
+   "columns": 6,
+   "export": {
+    "out": "win_small",
+    "renderFps": 15,
+    "speed": 2,
+    "seconds": 1.53
+   }
+  }
+ }
+}

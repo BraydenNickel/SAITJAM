@@ -28,6 +28,12 @@ extends Resource
 @export var reroll_count: int = 0
 @export var shop_visits_since_rare: int = 0
 
+# --- Fusion (design/fusion-contract.md) ---
+## Ids (pair keys, e.g. "ember_horns+leech_maw") of fused parts made this run.
+@export var fusion_codex: Array[String] = []
+## Titles of incubated monsters made this run.
+@export var fusion_titles: Array[String] = []
+
 ## Number of roster monsters that are not mush.
 func living_count() -> int:
 	var n: int = 0

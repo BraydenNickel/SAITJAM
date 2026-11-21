@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://src/screens/reward.gd" id="1_reward"]
 [ext_resource type="Theme" path="res://src/ui/theme.tres" id="2_theme"]
+[ext_resource type="PackedScene" path="res://src/ui/sfx_player.tscn" id="90_sfx"]
 
 [node name="Reward" type="Control"]
 layout_mode = 3
@@ -62,3 +63,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 16
 alignment = 1
+
+[node name="Sfx" parent="." instance=ExtResource("90_sfx")]
+unique_name_in_owner = true

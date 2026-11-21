@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_chill.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/frost_crest_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/frost_crest_side.png" id="4_side"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+slow_per_hit = 0.05
+max_slow = 0.35
+
+[resource]
+script = ExtResource("1_mut")
+id = &"frost_crest"
+display_name = "Frost Crest"
+description = "A frill of ice-cold cartilage.
++40 HP.
+Hits slow the target's attacks by 0.05s (max 0.35s)."
+socket_type = 0
+rarity = 0
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+hp_mod = 40.0
+tags = Array[StringName]([&"frost", &"crystal"])
+ability = SubResource("Resource_ability")

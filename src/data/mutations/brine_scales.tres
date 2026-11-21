@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/brine_scales_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/brine_scales_side.png" id="4_side"]
+
+[resource]
+script = ExtResource("1_mut")
+id = &"brine_scales"
+display_name = "Brine Scales"
+description = "Overlapping scales slick with brine.
++70 HP, -0.5 ATK, +1 DEF."
+socket_type = 1
+rarity = 0
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+hp_mod = 70.0
+atk_mod = -0.5
+defense_mod = 1.0
+tags = Array[StringName]([&"aquatic", &"armor"])

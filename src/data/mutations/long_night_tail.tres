@@ -1,0 +1,35 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_snipe.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/long_night_tail_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/long_night_tail_side.png" id="4_side"]
+[ext_resource type="Texture2D" path="res://assets/sprites/torso/body_long_night_tail_front.png" id="5_bfront"]
+[ext_resource type="Texture2D" path="res://assets/sprites/torso/body_long_night_tail_side.png" id="6_bside"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+interval = 2.5
+damage = 13.0
+
+[resource]
+script = ExtResource("1_mut")
+id = &"long_night_tail"
+display_name = "Tail of the Long Night"
+description = "The body drains to living shadow.
+-50 HP, +4 ATK, +20% crit.
+Every 2.5s, 13 damage to the enemy with the lowest HP, ignoring DEF."
+socket_type = 5
+rarity = 3
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+hp_mod = -50.0
+atk_mod = 4.0
+crit_mod = 0.2
+tags = Array[StringName]([&"shadow", &"swift"])
+ability = SubResource("Resource_ability")
+body_front = ExtResource("5_bfront")
+body_side = ExtResource("6_bside")
+body_tint = Color(1, 1, 1, 1)
+body_scale = 1.1
+aura_fx = "res://assets/fx/aura_shadow.json"

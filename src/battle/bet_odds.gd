@@ -38,6 +38,34 @@ static func payout_mult(p: float) -> float:
 		return 0.0
 	return clampf(snappedf(Tuning.BET_EDGE / p, 0.1), Tuning.BET_MIN_MULT, Tuning.BET_MAX_MULT)
 
+## True if `claim` can be won at all with `placed_count` player monsters,
+## judged from claim_won() alone (no simulation):
+## - nothing is winnable with 0 placed monsters;
+## - Last Stand needs 2+ placed monsters: with 1, every win leaves exactly one
+##   monster standing, so it would be a duplicate of Victory at a worse price;
+## - Victory, Flawless, Blitz and MVP are always possible.
+static func claim_possible(claim: StringName, placed_count: int) -> bool:
+	if placed_count <= 0 or not CLAIMS.has(claim):
+		return false
+	if claim == &"last_stand":
+		return placed_count >= 2
+	return true
+
+## Multiplier offered on the bet screen and stored in the bet (battle settles
+## with exactly this value). A possible claim that won 0 of the simulated
+## fights is a longshot and pays Tuning.BET_MAX_MULT; an impossible claim
+## returns 0.0 (not bettable). Otherwise identical to payout_mult(p).
+static func offered_mult(p: float, possible: bool) -> float:
+	if not possible:
+		return 0.0
+	if p <= 0.0:
+		return Tuning.BET_MAX_MULT
+	return payout_mult(p)
+
+## True for a possible claim that no simulated fight produced (shown as "<1%").
+static func is_longshot(p: float, possible: bool) -> bool:
+	return possible and p <= 0.0
+
 ## True if `claim` is satisfied by a BattleSim.result(). MVP needs mvp_roster_idx
 ## (ties for top damage count as won).
 static func claim_won(claim: StringName, result: Dictionary, mvp_roster_idx := -1) -> bool:

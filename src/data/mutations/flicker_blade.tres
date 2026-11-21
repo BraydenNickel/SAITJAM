@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_double_strike.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/flicker_blade_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/flicker_blade_side.png" id="4_side"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+every_n = 2
+extra_strikes = 1
+
+[resource]
+script = ExtResource("1_mut")
+id = &"flicker_blade"
+display_name = "Flicker Blade"
+description = "A blade too fast to follow.
++2 ATK, attacks 0.15s faster.
+Every 2nd attack strikes twice."
+socket_type = 3
+rarity = 2
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+atk_mod = 2.0
+interval_mod = -0.15
+tags = Array[StringName]([&"swift", &"insect"])
+ability = SubResource("Resource_ability")

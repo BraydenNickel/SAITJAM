@@ -32,6 +32,10 @@ var abilities: Array = []
 ## Same entries split per hook (index = BattleSim.H_*), only abilities that use it.
 var by_hook: Array = [[], [], [], [], [], []]
 
+## Current HP as a fraction of max HP (0.0 - 1.0).
+func hp_fraction() -> float:
+	return float(hp) / float(max_hp) if max_hp > 0 else 0.0
+
 ## Formation row of this unit (0 front, 1 middle, 2 back).
 func row() -> int:
 	return RunState.row_of(spot)

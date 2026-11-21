@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_lifesteal.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/lamprey_tail_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/lamprey_tail_side.png" id="4_side"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+fraction = 0.28
+
+[resource]
+script = ExtResource("1_mut")
+id = &"lamprey_tail"
+display_name = "Lamprey Tail"
+description = "A second mouth on the end of the tail.
++1.5 ATK.
+Heals 28% of damage dealt."
+socket_type = 5
+rarity = 1
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+atk_mod = 1.5
+tags = Array[StringName]([&"parasite", &"aquatic"])
+ability = SubResource("Resource_ability")

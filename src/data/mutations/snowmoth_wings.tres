@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_dodge.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/snowmoth_wings_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/snowmoth_wings_side.png" id="4_side"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+chance = 0.35
+
+[resource]
+script = ExtResource("1_mut")
+id = &"snowmoth_wings"
+display_name = "Snowmoth Wings"
+description = "Powdery wings that shed frost.
+-10 HP.
+35% chance to dodge a hit."
+socket_type = 2
+rarity = 0
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+hp_mod = -10.0
+tags = Array[StringName]([&"frost", &"insect"])
+ability = SubResource("Resource_ability")

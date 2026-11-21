@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_shield.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/glacier_hide_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/glacier_hide_side.png" id="4_side"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+amount = 90.0
+
+[resource]
+script = ExtResource("1_mut")
+id = &"glacier_hide"
+display_name = "Glacier Hide"
+description = "Skin like packed blue ice.
++120 HP, +3 DEF, attacks 0.1s slower.
+Battle start: a shield that absorbs 90 damage."
+socket_type = 1
+rarity = 2
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+hp_mod = 120.0
+interval_mod = 0.1
+defense_mod = 3.0
+tags = Array[StringName]([&"frost", &"armor"])
+ability = SubResource("Resource_ability")

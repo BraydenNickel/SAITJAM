@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_second_wind.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/mycelium_coat_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/mycelium_coat_side.png" id="4_side"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+heal_fraction = 0.25
+
+[resource]
+script = ExtResource("1_mut")
+id = &"mycelium_coat"
+display_name = "Mycelium Coat"
+description = "Fungal threads that regrow what dies.
++60 HP.
+Once: survive a lethal hit and heal to 25% of max HP."
+socket_type = 1
+rarity = 1
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+hp_mod = 60.0
+tags = Array[StringName]([&"spore", &"parasite"])
+ability = SubResource("Resource_ability")

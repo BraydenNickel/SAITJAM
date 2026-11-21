@@ -21,3 +21,11 @@ func on_attack(ctx: BattleSim, me: UnitState, hit: HitInfo) -> void:
 		hit.extra_strikes += extra_strikes
 		if ctx.emit_events:
 			ctx.notify(&"ability", {&"unit": me.index, &"ability_id": get_id()})
+
+## Params empowered() multiplies (design/fusion-contract.md §2).
+func power_params() -> PackedStringArray:
+	return PackedStringArray(["extra_strikes"])
+
+## Params empowered() divides (smaller is better).
+func inverse_params() -> PackedStringArray:
+	return PackedStringArray(["every_n"])

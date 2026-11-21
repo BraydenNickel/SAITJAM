@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/ragged_claw_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/ragged_claw_side.png" id="4_side"]
+
+[resource]
+script = ExtResource("1_mut")
+id = &"ragged_claw"
+display_name = "Ragged Claw"
+description = "Torn nails grown into hooks.
+-10 HP, +2 ATK, +6% crit."
+socket_type = 3
+rarity = 0
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+hp_mod = -10.0
+atk_mod = 2.0
+crit_mod = 0.06
+tags = Array[StringName]([&"beast", &"claw"])

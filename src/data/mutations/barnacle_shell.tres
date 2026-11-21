@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/barnacle_shell_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/barnacle_shell_side.png" id="4_side"]
+
+[resource]
+script = ExtResource("1_mut")
+id = &"barnacle_shell"
+display_name = "Barnacle Shell"
+description = "A crusted shell, heavy as stone.
++70 HP, +2 DEF, attacks 0.2s slower."
+socket_type = 2
+rarity = 0
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+hp_mod = 70.0
+interval_mod = 0.2
+defense_mod = 2.0
+tags = Array[StringName]([&"aquatic", &"armor"])

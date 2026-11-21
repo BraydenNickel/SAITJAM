@@ -19,13 +19,13 @@ const BATTLES_PER_RUN: int = 5
 const MAX_TEAM: int = 4
 const FORMATION_ROWS: int = 3
 const FORMATION_COLS: int = 2
-const BATTLE_REWARD: Array[int] = [20, 25, 30, 28, 0]
+const BATTLE_REWARD: Array[int] = [20, 25, 25, 25, 0]
 
 # --- Enemy generation (indexed by battle) ---
-const ENEMY_BUDGET: Array[int] = [2, 4, 6, 10, 14]
+const ENEMY_BUDGET: Array[int] = [2, 4, 5, 8, 9]
 const ENEMY_TEAM_SIZE: Array[int] = [2, 2, 3, 3, 4]
 ## Enemy base-body HP multiplier per battle (scales BASE_HP only, not mutation hp_mod).
-const ENEMY_HP_MULT: Array[float] = [1.3, 1.35, 1.15, 1.2, 1.25]
+const ENEMY_HP_MULT: Array[float] = [1.04, 1.04, 0.9, 0.95, 0.81]
 
 # --- Adaptive enemy scaling (design/balance/stage3-tuning.md §6) ---
 # Player power = sum of BUDGET_COST of every mutation on living monsters, plus
@@ -37,28 +37,33 @@ const ADAPT_EXPECTED: Array[int] = [7, 9, 10, 12, 14]
 ## Extra enemy budget per point of power above ADAPT_EXPECTED.
 const ADAPT_RATE: float = 3.5
 ## Cap on the extra enemy budget per battle.
-const ADAPT_MAX: Array[int] = [2, 4, 6, 8, 10]
-## Power counted for each living monster beyond START_HUMANS (a body is about a common+).
-const ADAPT_BODY_POWER: int = 2
+const ADAPT_MAX: Array[int] = [2, 3, 4, 5, 6]
+## Power counted for each living monster beyond START_HUMANS (a body is worth
+## about three commons; design/balance/stage4-balance.md, Pass 2).
+const ADAPT_BODY_POWER: int = 3
 ## Extra enemy base HP per adaptive budget point that could not be spent (sockets full).
 const ADAPT_HP_PER_POINT: float = 0.1
 
-## Budget cost by rarity (COMMON, UNCOMMON, RARE).
-const BUDGET_COST: Array[int] = [1, 2, 3]
+## Budget cost by rarity (COMMON, UNCOMMON, RARE, ULTRA).
+const BUDGET_COST: Array[int] = [1, 2, 3, 5]
 const BUDGET_COST_FUSION: int = 3
 
 # --- Shop ---
-const PRICE_BY_RARITY: Array[int] = [10, 18, 30]
-const PRICE_HUMAN: int = 30
+## Shop price by rarity (COMMON, UNCOMMON, RARE, ULTRA).
+const PRICE_BY_RARITY: Array[int] = [10, 18, 30, 45]
+const PRICE_HUMAN: int = 35
 const PRICE_STABILIZER: int = 10
 const REROLL_BASE: int = 5
 const REROLL_STEP: int = 3
-const RARITY_WEIGHTS: Array[int] = [60, 30, 10]
+## Shop roll weight by rarity (COMMON, UNCOMMON, RARE, ULTRA).
+const RARITY_WEIGHTS: Array[int] = [60, 30, 10, 2]
+## Added to the RARE weight only, per battle index (ULTRA never grows).
 const RARE_WEIGHT_PER_BATTLE: int = 5
 
 # --- Instability / risk ---
-const INSTABILITY_PER_RARITY: Array[int] = [10, 15, 25]
-const RISK_PER_RARITY: Array[int] = [0, 10, 20]
+## Indexed by rarity (COMMON, UNCOMMON, RARE, ULTRA).
+const INSTABILITY_PER_RARITY: Array[int] = [10, 15, 25, 35]
+const RISK_PER_RARITY: Array[int] = [0, 10, 20, 35]
 const STABILIZER_BONUS: int = 25
 const STABILIZER_MAX: int = 2
 const PURGE_COST: int = 10
@@ -70,6 +75,25 @@ const FUSION_BASE_CHANCE: int = 90
 const FUSION_STAT_MULT: float = 0.6
 const FUSION_BOOST: float = 1.25
 const FUSION_START_INSTABILITY: int = 50
+## Fused-part stat multiplier indexed by merge_count (design/fusion-contract.md §1).
+const FUSION_PART_STAT_MULT: Array[float] = [1.0, 0.65, 0.6]
+## Stat multiplier of a signature fusion (replaces FUSION_PART_STAT_MULT[1]).
+const FUSION_SIGNATURE_STAT_MULT: float = 1.0
+## AbilityData.empowered() multiplier of a Twin fusion's single ability.
+const FUSION_TWIN_POWER: float = 1.5
+## Most abilities one fused mutation may carry.
+const FUSION_MAX_ABILITIES: int = 2
+## Highest merge_count a mutation can reach (0 base, 1 hybrid/twin, 2 apex).
+const FUSION_MAX_MERGES: int = 2
+## Mutations each parent needs before it may enter the Incubator.
+const FUSION_MIN_MUTATIONS: int = 2
+## Clamp of the Incubator success chance (percent).
+const FUSION_MIN_CHANCE: int = 10
+const FUSION_MAX_CHANCE: int = 95
+## Caps applied by AbilityData.empowered(): chances, damage reductions, fractions.
+const EMPOWER_MAX_CHANCE: float = 0.95
+const EMPOWER_MAX_REDUCTION: float = 0.6
+const EMPOWER_MAX_FRACTION: float = 1.0
 
 # --- Mush (failed mutation) ---
 const MUSH_REFUND: float = 0.4
@@ -88,7 +112,7 @@ const SPONSOR_THRESHOLD: int = 15
 const SPONSOR_GRANT: int = 15
 
 # --- Battle pacing ---
-const FRENZY_START: float = 45.0
+const FRENZY_START: float = 30.0
 const FRENZY_RAMP: float = 0.10
 const HARD_CAP: float = 60.0
 
@@ -113,12 +137,21 @@ const BLITZ_TIME: float = 30.0
 # --- Enemy generation archetypes ---
 ## Chance an enemy follows a coherent archetype instead of random mutations.
 const ENEMY_ARCHETYPE_CHANCE: float = 0.7
-## Archetype name -> preferred mutation ids.
+## Archetype name -> preferred mutation tags (matched against MutationData.tags;
+## a mutation is preferred if it carries at least one of them).
 const ENEMY_ARCHETYPES: Dictionary = {
-	&"venom": [&"scorpion_tail", &"mantis_arm"],
-	&"tank": [&"bone_plating", &"leech_maw"],
-	&"spore": [&"spore_sacs", &"raptor_leg"],
+	&"venom": [&"venom", &"insect", &"parasite"],
+	&"tank": [&"armor", &"bone", &"crystal"],
+	&"spore": [&"spore", &"fungus"],
+	&"fire": [&"fire"],
+	&"frost": [&"frost", &"aquatic"],
+	&"brute": [&"brute", &"beast"],
+	&"swift": [&"swift", &"speed", &"shadow"],
+	&"support": [&"support"],
+	&"storm": [&"electric"],
 }
+## Enemies never receive ULTRA mutations before this battle index.
+const ULTRA_ENEMY_MIN_BATTLE: int = 3
 ## Name of the battle-5 boss used until a champion is saved (stage 4).
 const BOSS_NAME: String = "Dr. Splice"
 
@@ -159,3 +192,39 @@ const LUCKY_GENE_BONUS: int = 20
 ## Lab operation success % bounds.
 const MIN_SUCCESS: int = 5
 const MAX_SUCCESS: int = 100
+
+# --- Juice (stage 5) ---
+## Volume of every SfxPlayer voice, in dB.
+const SFX_VOLUME_DB: float = -6.0
+## Minimum real seconds between two plays of the same sound key (stops
+## machine-gunning and clipping at 4x battle speed).
+const SFX_MIN_INTERVAL: float = 0.05
+## Random pitch spread (+/- fraction) on repeated battle sounds.
+const SFX_PITCH_JITTER: float = 0.08
+## Most pixelfx effects alive at once in a battle; more are skipped.
+const FX_MAX_ALIVE: int = 40
+## Abilities that deal damage over time: their effect is small and rare.
+const FX_TICK_ABILITIES: Array[StringName] = [&"venom", &"burn"]
+## Minimum real seconds between two tick-ability effects on one unit.
+const FX_TICK_INTERVAL: float = 1.0
+## Scale of a tick-ability effect.
+const FX_TICK_SCALE: float = 0.5
+## Minimum real seconds between repeats of any other ability / heal effect on one unit.
+const FX_REPEAT_INTERVAL: float = 0.3
+## Sheets whose pivot sits at or below this fraction of the frame height stand
+## on the ground: they anchor at a unit's feet instead of its centre.
+const FX_GROUND_PIVOT_RATIO: float = 0.7
+## Screen shake peak offset in px for a critical hit and for a death.
+const SHAKE_CRIT_AMPLITUDE: float = 3.0
+const SHAKE_DEATH_AMPLITUDE: float = 5.0
+## Screen shake length in real seconds (linear decay to zero).
+const SHAKE_DURATION: float = 0.18
+## Largest size, in MonsterView pixels (the body is 64x64), an ultra aura frame
+## may cover. Bigger sheets are scaled down to fit, so the aura reads as a glow
+## around the body instead of swallowing its neighbours.
+const AURA_MAX_SIZE: Vector2 = Vector2(120.0, 120.0)
+## Apex part outline (assets/shaders/apex_glow.gdshader, set by MonsterView):
+## colour, pulse speed (radians per second) and the alpha at the dimmest point.
+const APEX_GLOW_COLOR: Color = Color(1.0, 0.82, 0.25, 1.0)
+const APEX_GLOW_PULSE_SPEED: float = 3.0
+const APEX_GLOW_MIN: float = 0.35

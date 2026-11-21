@@ -1,0 +1,35 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_regen.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/primordial_ooze_mantle_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/primordial_ooze_mantle_side.png" id="4_side"]
+[ext_resource type="Texture2D" path="res://assets/sprites/torso/body_primordial_ooze_mantle_front.png" id="5_bfront"]
+[ext_resource type="Texture2D" path="res://assets/sprites/torso/body_primordial_ooze_mantle_side.png" id="6_bside"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+interval = 2.0
+amount = 14.0
+
+[resource]
+script = ExtResource("1_mut")
+id = &"primordial_ooze_mantle"
+display_name = "Primordial Ooze Mantle"
+description = "Flesh melts into glistening, self-knitting ooze.
++200 HP, -1 DEF, attacks 0.05s slower.
+Heals 14 HP every 2s."
+socket_type = 2
+rarity = 3
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+hp_mod = 200.0
+interval_mod = 0.05
+defense_mod = -1.0
+tags = Array[StringName]([&"parasite", &"spore", &"ooze"])
+ability = SubResource("Resource_ability")
+body_front = ExtResource("5_bfront")
+body_side = ExtResource("6_bside")
+body_tint = Color(1, 1, 1, 1)
+body_scale = 1.25
+aura_fx = "res://assets/fx/aura_slime.json"

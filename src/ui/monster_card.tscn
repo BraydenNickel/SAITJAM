@@ -20,12 +20,14 @@ layout_mode = 2
 theme_override_constants/separation = 2
 
 [node name="Preview" type="Control" parent="Margin/VBox"]
-custom_minimum_size = Vector2(96, 88)
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 size_flags_horizontal = 4
 
 [node name="Holder" type="Node2D" parent="Margin/VBox/Preview"]
-position = Vector2(48, 44)
+unique_name_in_owner = true
+position = Vector2(48, 62)
 
 [node name="MonsterView" parent="Margin/VBox/Preview/Holder" instance=ExtResource("2_front")]
 unique_name_in_owner = true
@@ -95,6 +97,15 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 8
 text = "CRIT 5%"
+
+[node name="SummaryLabel" type="Label" parent="Margin/VBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.85, 1, 1)
+theme_override_font_sizes/font_size = 8
+text = "0 mutations | 0% unstable"
+horizontal_alignment = 1
 
 [node name="InstabilityBar" type="ProgressBar" parent="Margin/VBox"]
 unique_name_in_owner = true

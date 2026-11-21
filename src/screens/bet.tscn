@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://src/screens/bet.gd" id="1_bet"]
 [ext_resource type="Theme" path="res://src/ui/theme.tres" id="2_theme"]
 [ext_resource type="PackedScene" path="res://src/screens/bet_row.tscn" id="3_row"]
+[ext_resource type="PackedScene" path="res://src/ui/sfx_player.tscn" id="90_sfx"]
 
 [node name="Bet" type="Control"]
 layout_mode = 3
@@ -171,3 +172,6 @@ text = "Skip bets"
 unique_name_in_owner = true
 layout_mode = 2
 text = "Fight!"
+
+[node name="Sfx" parent="." instance=ExtResource("90_sfx")]
+unique_name_in_owner = true

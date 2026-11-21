@@ -73,11 +73,21 @@ func _add_unit(m: MonsterData, side: int, spot: int, roster_idx: int) -> void:
 	u.attack_timer = rng.randf_range(0.0, Tuning.ATTACK_START_JITTER)
 	for slot: StringName in MonsterData.SLOTS:
 		var mut: MutationData = m.slots.get(slot) as MutationData
-		if mut != null and mut.ability != null:
-			var id: StringName = mut.ability.get_id()
-			var entry: Array = [slot, mut.ability, "%d|%s|%s" % [u.index, id, slot], id]
+		if mut == null:
+			continue
+		# A fused mutation carries several abilities (design/fusion-contract.md §2).
+		# Index 0 keeps the original key format, so base mutations are unchanged;
+		# later indices append "|<index>" so two abilities in one slot never share state.
+		var slot_abilities: Array[AbilityData] = mut.all_abilities()
+		for ai: int in slot_abilities.size():
+			var ab: AbilityData = slot_abilities[ai]
+			var id: StringName = ab.get_id()
+			var key: String = "%d|%s|%s" % [u.index, id, slot]
+			if ai > 0:
+				key = "%s|%d" % [key, ai]
+			var entry: Array = [slot, ab, key, id]
 			u.abilities.append(entry)
-			var mask: int = mut.ability.used_hooks()
+			var mask: int = ab.used_hooks()
 			for h: int in 6:
 				if mask & (1 << h):
 					(u.by_hook[h] as Array).append(entry)
@@ -179,6 +189,35 @@ func allies_of(u: UnitState) -> Array[UnitState]:
 		if o.alive and o.side == u.side and o != u:
 			out.append(o)
 	return out
+
+## Random living enemy of `u` anywhere on the board (not `exclude`), or null.
+## Uses one rng roll when at least one candidate exists, none otherwise.
+func random_enemy(u: UnitState, exclude: UnitState = null) -> UnitState:
+	var count: int = 0
+	for o: UnitState in units:
+		if o.alive and o.side != u.side and o != exclude:
+			count += 1
+	if count == 0:
+		return null
+	var k: int = rng.randi_range(0, count - 1)
+	for o: UnitState in units:
+		if o.alive and o.side != u.side and o != exclude:
+			if k == 0:
+				return o
+			k -= 1
+	return null
+
+## Front-most formation row that still holds a living enemy of `u`, or -1.
+func front_enemy_row(u: UnitState) -> int:
+	var best: int = -1
+	for o: UnitState in units:
+		if not o.alive or o.side == u.side:
+			continue
+		@warning_ignore("integer_division")
+		var r: int = o.spot / Tuning.FORMATION_COLS
+		if best < 0 or r < best:
+			best = r
+	return best
 
 ## Deals damage from `src` to `dst` (DEF applies unless ignore_def; min 1;
 ## frenzy scales it). Hook damage passes from_hook = true, its ability_id and

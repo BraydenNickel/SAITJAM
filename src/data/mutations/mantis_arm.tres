@@ -7,7 +7,7 @@
 
 [sub_resource type="Resource" id="Resource_ability"]
 script = ExtResource("2_ab")
-every_n = 3
+every_n = 4
 extra_strikes = 1
 
 [resource]
@@ -15,12 +15,11 @@ script = ExtResource("1_mut")
 id = &"mantis_arm"
 display_name = "Mantis Arm"
 description = "A serrated blade-arm.
-+4 ATK, attacks 0.2s faster.
-Every 3rd attack strikes twice."
++1 ATK.
+Every 4th attack strikes twice."
 socket_type = 3
 sprite_front = ExtResource("3_front")
 sprite_side = ExtResource("4_side")
-atk_mod = 4.0
-interval_mod = -0.2
+atk_mod = 1.0
 tags = Array[StringName]([&"insect", &"blade"])
 ability = SubResource("Resource_ability")

@@ -46,3 +46,7 @@ func on_tick(ctx: BattleSim, me: UnitState, delta: float) -> void:
 			t.state.erase(key)
 		if ctx.finished or not me.alive:
 			return
+
+## Params empowered() multiplies (design/fusion-contract.md §2).
+func power_params() -> PackedStringArray:
+	return PackedStringArray(["damage_per_second", "max_stacks"])

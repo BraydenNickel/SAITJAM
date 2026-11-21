@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_war_cry.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/resonant_ribcage_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/resonant_ribcage_side.png" id="4_side"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+atk_bonus = 0.0
+def_bonus = 1.0
+hp_bonus = 60.0
+
+[resource]
+script = ExtResource("1_mut")
+id = &"resonant_ribcage"
+display_name = "Resonant Ribcage"
+description = "A hollow chest that booms like a drum.
++110 HP.
+Battle start: every ally gains +1 DEF and +60 HP."
+socket_type = 1
+rarity = 1
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+hp_mod = 110.0
+tags = Array[StringName]([&"support", &"bone"])
+ability = SubResource("Resource_ability")

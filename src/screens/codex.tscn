@@ -1,0 +1,164 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/screens/codex.gd" id="1_codex"]
+[ext_resource type="Theme" path="res://src/ui/theme.tres" id="2_theme"]
+[ext_resource type="PackedScene" path="res://src/ui/sfx_player.tscn" id="90_sfx"]
+
+[node name="Codex" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_codex")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.05, 0.04, 0.09, 1)
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 6.0
+offset_bottom = 28.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.85, 0.6, 1, 1)
+text = "FUSION CODEX"
+horizontal_alignment = 1
+
+[node name="FusionTotal" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 8.0
+offset_top = 30.0
+offset_right = 240.0
+offset_bottom = 42.0
+theme_override_colors/font_color = Color(0.55, 1, 0.25, 1)
+theme_override_font_sizes/font_size = 8
+text = "Fusions discovered 0 / 0"
+
+[node name="SignatureTotal" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 240.0
+offset_top = 30.0
+offset_right = 470.0
+offset_bottom = 42.0
+theme_override_colors/font_color = Color(1, 0.239, 0.941, 1)
+theme_override_font_sizes/font_size = 8
+text = "Signatures 0 / 26"
+horizontal_alignment = 2
+
+[node name="MainScroll" type="ScrollContainer" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 44.0
+offset_right = 470.0
+offset_bottom = 314.0
+horizontal_scroll_mode = 0
+
+[node name="VBox" type="VBoxContainer" parent="MainScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="PartsHeader" type="Label" parent="MainScroll/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Discovered fusions"
+
+[node name="PartsEmpty" type="Label" parent="MainScroll/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.7, 0.65, 1)
+theme_override_font_sizes/font_size = 8
+text = "Nothing yet. Splice two parts in the Lab, or incubate two monsters."
+
+[node name="PartGrid" type="GridContainer" parent="MainScroll/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
+columns = 5
+
+[node name="SigHeader" type="Label" parent="MainScroll/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.239, 0.941, 1)
+theme_override_font_sizes/font_size = 8
+text = "Signature fusions  (??? = not found yet; the body part is the hint)"
+
+[node name="SigGrid" type="GridContainer" parent="MainScroll/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
+columns = 5
+
+[node name="TitlesHeader" type="Label" parent="."]
+layout_mode = 0
+offset_left = 476.0
+offset_top = 30.0
+offset_right = 632.0
+offset_bottom = 42.0
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+theme_override_font_sizes/font_size = 8
+text = "Chimera titles"
+
+[node name="TitlesPanel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 476.0
+offset_top = 44.0
+offset_right = 632.0
+offset_bottom = 314.0
+
+[node name="TitlesScroll" type="ScrollContainer" parent="TitlesPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = -6.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+
+[node name="TitlesLabel" type="Label" parent="TitlesPanel/TitlesScroll"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 8
+text = "Winterkill-Facet Chimera"
+autowrap_mode = 3
+
+[node name="Buttons" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -42.0
+offset_right = -16.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 1
+
+[node name="BackButton" type="Button" parent="Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Back"
+
+[node name="Sfx" parent="." instance=ExtResource("90_sfx")]
+unique_name_in_owner = true

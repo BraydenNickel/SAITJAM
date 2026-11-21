@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_mend.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/menders_halo_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/menders_halo_side.png" id="4_side"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+interval = 4.0
+amount = 18.0
+
+[resource]
+script = ExtResource("1_mut")
+id = &"menders_halo"
+display_name = "Mender's Halo"
+description = "A ring of soft bioluminescence.
++50 HP.
+Every 4s, heals the most wounded ally for 18 HP."
+socket_type = 0
+rarity = 2
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+hp_mod = 50.0
+tags = Array[StringName]([&"support", &"crystal"])
+ability = SubResource("Resource_ability")

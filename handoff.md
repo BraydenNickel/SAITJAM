@@ -1,6 +1,6 @@
 # Handoff: MUTANT LAB (theme: "Unnatural Evolution")
 
-_Last updated: 2026-11-21. Stages 1–3 of 5 are done, playable and committed. Next: Stage 4._
+_Last updated: 2026-11-21 (late). Stages 1–3 are committed. The mutation expansion (100 mutations, ULTRA tier), juice (VFX + SFX) and fusion (Splice, Incubator, Codex) are built and verified but **NOT committed**. Still open: champion save, balance follow-ups (see `design/balance/stage4-balance.md`)._
 
 A 2D pixel-art roguelike **auto-battler**. Humans are mutated into monsters, and the player **bets on their own battles**. It is built in **Godot 4.7.2 / GDScript** for a game jam. See `JAM.md` for the jam rules, and `design/jam-plan.md` § "CHOSEN DESIGN" for the design note.
 
@@ -62,6 +62,27 @@ A 2D pixel-art roguelike **auto-battler**. Humans are mutated into monsters, and
 - `ENEMY_HP_MULT` sets enemy base HP per battle (Stage 4 champions must skip it).
 - Balance simulator: `tools/balance/run_sim.gd`. Policies are greedy, cautious, random and build. Command: `"<godot>" --headless --path . -s res://tools/balance/run_sim.gd -- runs=500 policy=all seed=1 odds=10` (use `runs=200 odds=0` for fast iterations). Reports go to `reports/` (gitignored). Design and results: `design/balance/stage3-tuning.md` §1–6.
 
+### Mutation expansion: 100 mutations + ULTRA ✅ (uncommitted)
+- Contract: `design/balance/stage4-mutations.md`. Source of truth for the 94 new mutations is `tools/mutation_table.py` (self-check: `python tools/mutation_table.py`); `python tools/gen_mutations.py` writes `src/data/mutations/<id>.tres` (never the 6 hand-made ones). Run the importer afterwards.
+- 45 common / 30 uncommon / 17 rare / 8 **ULTRA** (`MutationData.Rarity.ULTRA`). Rarity arrays in `Tuning` have 4 entries. Enemies get no ULTRA before `ULTRA_ENEMY_MIN_BATTLE`.
+- ULTRA = body override: `body_front/body_side/body_tint/body_scale/aura_fx` on `MutationData`, applied by `MonsterView` (first overriding mutation in SLOTS order wins; bodies grow up from the feet; aura is runtime-only, not shown in the editor). Styles: crystal, shadow, molten, slime, gold, skeletal, void, angelic.
+- 28 ability classes in `src/data/abilities/` (22 new). Helpers: `AbilityData.announce/tick_timer`, `BattleSim.random_enemy/front_enemy_row`, `UnitState.hp_fraction`. DEF may go negative (corrode). Chill/Corrode/Burn are capped per target across sources.
+- Enemy archetypes are tag-based (`Tuning.ENEMY_ARCHETYPES` -> tags).
+- Art: `python tools/gen_parts.py` regenerates all parts and ULTRA bodies (`tools/gen_parts_ext.py` has one drawer per motif). MonsterView root has `z_index = 1` so the z −1 parts and aura draw above backgrounds; battle `FxLayer` is z 5, HP bars/names z 3.
+
+### Juice: VFX + SFX ✅ (uncommitted)
+- `src/data/fx_library.gd` (`FxLibrary`): ability / event / aura fx json and sfx lookups. Sheets in `assets/fx/` come from `node tools/export_fx.mjs` (pixelfx list + palettes in that file); sounds in `assets/sfx/` from `python tools/gen_sfx.py`.
+- `src/ui/sfx_player.tscn` (`SfxPlayer`, 6 voices, per-key rate limit) is instanced as `Sfx` in every screen; `play_detached` survives a scene change. Battle has `ShakeCamera`, fx throttles and caps (Tuning "Juice" section at the end of `tuning.gd`).
+- Celebrations still scale with NET gold only.
+
+### Fusion: Splice, Incubator, Codex ✅ (uncommitted)
+- Contract: `design/fusion-contract.md`. One rule: two mutations of the same socket merge into one slot; `merge_count` 0/1/2, blocked above 2 (hybrid, twin, apex). Hybrid keeps both abilities at 75% summed stats; twin = one `empowered(1.5)` ability; apex keeps 2 abilities at 65%. 26 **signature** pairs (`tools/signature_table.py`) keep 100% and have bespoke names and sprites.
+- Logic: `src/data/fusion_logic.gd` (`merge`, `incubate_preview`, `incubate`, ...), Lab splice in `lab_logic.gd` (`operable_slots`, `splice_preview`, `operate(..., keep)`), `MutationData.all_abilities()`, `EnemyGen.cost_of` uses `fused_cost`, `src/data/codex_store.gd` (`user://codex.json`).
+- Art: `python tools/gen_hybrids.py` -> 12 atlases in `assets/sprites/hybrids/` (901 cells) + 52 signature sprites + `src/data/fusion_index.json`. Re-run it if the mutation or signature table changes ids/art.
+- Screens: `src/screens/incubator.*`, `codex.*`, `src/ui/fusion_slot_row.*`, `codex_entry.*`; Lab splice in `lab.*`; apex glow `assets/shaders/apex_glow.gdshader` (assumes 32 px cells).
+- `Game.end_run_lost()`: a Lab or Incubator failure that leaves no living monster ends the run (warning shown before confirming).
+- QA scripts (run windowed): `production/qa/fusion_flow_check.gd` (57 PASS), `fusion_shots.gd`, `stage4_ultra_shots.gd`, `stage5_shots.gd`. Evidence in `production/qa/evidence/` (`stage4_*`, `stage5_*`, `fusion_*`).
+
 ### Art
 - `assets/sprites/torso/human_front.png`, `human_side.png`: the user's 64×64 art.
 - `assets/sprites/parts/<id>_front|side.png`: 32×32 parts, **centered on the socket**. ARM/LEG art is the LEFT side; the right side uses `flip_h`. Generated by `tools/gen_parts.py`.
@@ -102,7 +123,13 @@ A 2D pixel-art roguelike **auto-battler**. Humans are mutated into monsters, and
 
 ---
 
-## 5. Balance snapshot (after Stage 3 + adaptive enemies, 500 runs per policy, seed 1)
+## 5a. Current balance (pass 2, 100 mutations + fusion, 500 runs per policy, seed 1, odds=10, sim arg `bodies=2`)
+
+Run win: build 54.4% (band 40–55), cautious 16.0% (band 25–40, MISSED), greedy 18.0% (15–25), random 17.6% (10–20). B1 odds 85–93% (random 97%). Fights 41–49 s. Bands include the user's "5% easier" (+5 points; `ENEMY_HP_MULT` × 0.95).
+Key values: `ENEMY_HP_MULT [1.04,1.04,0.9,0.95,0.81]`, `ENEMY_BUDGET [2,4,5,8,9]`, `ADAPT_MAX [2,3,4,5,6]`, `ADAPT_BODY_POWER` 3, prices [10,18,30,45] / human 35, `BATTLE_REWARD [20,25,25,25,0]`, `FRENZY_START` 30, `FUSION_PART_STAT_MULT [1.0,0.65,0.6]`.
+Open: cautious under band; build B2–B5 each 4–7 points too easy; late gold ~50; ULTRA bought in ~1% of runs even at 45g; four signatures above 2× their stronger parent; buying bodies first still beats buying parts. Details: `design/balance/stage4-balance.md` (Pass 2 at the end).
+
+## 5. OLD balance snapshot (after Stage 3 + adaptive enemies, 500 runs per policy, seed 1)
 
 Key values: `BASE_HP` 360, `ENEMY_BUDGET [2,4,6,10,14]`, `ENEMY_HP_MULT [1.3,1.35,1.15,1.2,1.25]`, prices [10,18,30] / human 30 / stabilizer 10, `BATTLE_REWARD [20,25,30,28,0]`, `ADAPT_EXPECTED [7,9,10,12,14]`, `ADAPT_RATE` 3.5, `ADAPT_MAX [2,4,6,8,10]`.
 
@@ -130,7 +157,18 @@ Key values: `BASE_HP` 360, `ENEMY_BUDGET [2,4,6,10,14]`, `ENEMY_HP_MULT [1.3,1.3
 - [ ] Rename tests to `[system]_[feature]_test.gd` if strict naming is wanted (optional).
 - [ ] Commits only when the user asks.
 
-### Stage 4: Incubator, full run, champion (next, waiting for "go")
+### After the expansion pass (2026-11-21)
+- [ ] **Nothing from the expansion, juice or fusion work is committed.** Commit only when the user asks.
+- [ ] Balance: read `design/balance/stage4-balance.md` (pass 1 + pass 2) for the current table and misses. §5 below is the OLD stage-3 snapshot.
+- [ ] Sounds were generated but never listened to. Lab/shop/result fx were not screenshotted.
+- [ ] Unverified by hand: real mouse input on the fusion screens, the insured-failure branch, a full battle + reward flow with a chimera, Codex with many entries.
+- [ ] Art weak spots: BACK parts in the front view (hidden by the body), thin 1 px motifs, molten aura hidden behind the Colossus, abrupt limb grafts on some hybrids, Honeymaw's floating crown.
+- [ ] Hybrid naming follows the rule (noun from the higher-rarity parent), not the contract's "Leech Horns" example.
+- [ ] Exported builds need `*.json` in the export include filter (`fusion_index.json`, fx jsons are read with FileAccess).
+- [ ] `tools/balance/retune.py` / `retune_loop.sh` were added by the balance pass; delete if unwanted.
+- [ ] Subagent test runs with `-d` can hang; kill only by PID (the editor and other runs share the exe name).
+
+### Stage 4 remainder: champion (fusion screens are DONE, see above)
 - Note: the champion boss must skip `ENEMY_HP_MULT`. Decide whether the adaptive bonus applies to it (probably not, since it is normalized to the budget instead). Fusion should add a gold sink (`FUSION_COST`), which helps the late-gold pile-up.
 - `src/screens/incubator.*`: pick 2 monsters, preview the fused result and success %; on overlapping slots choose which to keep, and the other becomes an "Echo" (50% of its stats, no ability); a generated title; the Codex.
 - Champion save: `ResourceSaver.save(..., "user://champion.tres")` using `duplicate_deep()`. Load with `CACHE_MODE_IGNORE`. Normalize the champion to 0.9–1.3× of the budget. Show "Beat your last run" on battle 5.

@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_venom.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/venom_fangs_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/venom_fangs_side.png" id="4_side"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+stacks_per_hit = 1
+damage_per_second = 1.0
+duration = 4.0
+max_stacks = 2
+
+[resource]
+script = ExtResource("1_mut")
+id = &"venom_fangs"
+display_name = "Venom Fangs"
+description = "Hollow fangs dripping toxin.
++1 ATK.
+Hits add a venom stack (1 dmg/s, 4s, max 2)."
+socket_type = 0
+rarity = 1
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+atk_mod = 1.0
+tags = Array[StringName]([&"venom", &"parasite"])
+ability = SubResource("Resource_ability")

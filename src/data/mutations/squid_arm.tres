@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_stun.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/squid_arm_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/squid_arm_side.png" id="4_side"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+chance = 0.5
+delay = 0.8
+
+[resource]
+script = ExtResource("1_mut")
+id = &"squid_arm"
+display_name = "Squid Arm"
+description = "A grasping arm that will not let go.
++100 HP.
+50% chance on hit to delay the target's next attack by 0.8s."
+socket_type = 3
+rarity = 1
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+hp_mod = 100.0
+tags = Array[StringName]([&"aquatic", &"shadow"])
+ability = SubResource("Resource_ability")

@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/chitin_tread_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/chitin_tread_side.png" id="4_side"]
+
+[resource]
+script = ExtResource("1_mut")
+id = &"chitin_tread"
+display_name = "Chitin Tread"
+description = "Rows of plated segments grind forward.
++80 HP, +2 DEF, attacks 0.05s slower."
+socket_type = 4
+rarity = 0
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+hp_mod = 80.0
+interval_mod = 0.05
+defense_mod = 2.0
+tags = Array[StringName]([&"armor", &"insect"])

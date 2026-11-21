@@ -6,6 +6,7 @@ const CARD_SCENE: PackedScene = preload("res://src/ui/reward_card.tscn")
 
 @onready var _sub_label: Label = %SubLabel
 @onready var _card_row: HBoxContainer = %CardRow
+@onready var _sfx: SfxPlayer = %Sfx
 
 var _picked: bool = false
 
@@ -32,5 +33,6 @@ func _on_chosen(option: Dictionary) -> void:
 		return
 	_picked = true
 	RewardLogic.apply(Game.run, option)
+	_sfx.play_detached(&"coin")
 	Game.notify_gold()
 	Game.go_to(&"hub")

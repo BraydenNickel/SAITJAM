@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_chill.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/frostbite_claw_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/frostbite_claw_side.png" id="4_side"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+slow_per_hit = 0.03
+max_slow = 0.25
+
+[resource]
+script = ExtResource("1_mut")
+id = &"frostbite_claw"
+display_name = "Frostbite Claw"
+description = "Blue-black talons, cold to the bone.
++1.5 ATK.
+Hits slow the target's attacks by 0.03s (max 0.25s)."
+socket_type = 3
+rarity = 0
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+atk_mod = 1.5
+tags = Array[StringName]([&"frost", &"beast"])
+ability = SubResource("Resource_ability")

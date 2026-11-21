@@ -1,0 +1,595 @@
+{
+ "frames": [
+  {
+   "filename": "parry 0",
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 112
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 112
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 112
+   },
+   "duration": 26
+  },
+  {
+   "filename": "parry 1",
+   "frame": {
+    "x": 200,
+    "y": 0,
+    "w": 200,
+    "h": 112
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 112
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 112
+   },
+   "duration": 26
+  },
+  {
+   "filename": "parry 2",
+   "frame": {
+    "x": 400,
+    "y": 0,
+    "w": 200,
+    "h": 112
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 112
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 112
+   },
+   "duration": 26
+  },
+  {
+   "filename": "parry 3",
+   "frame": {
+    "x": 600,
+    "y": 0,
+    "w": 200,
+    "h": 112
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 112
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 112
+   },
+   "duration": 26
+  },
+  {
+   "filename": "parry 4",
+   "frame": {
+    "x": 0,
+    "y": 112,
+    "w": 200,
+    "h": 112
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 112
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 112
+   },
+   "duration": 26
+  },
+  {
+   "filename": "parry 5",
+   "frame": {
+    "x": 200,
+    "y": 112,
+    "w": 200,
+    "h": 112
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 112
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 112
+   },
+   "duration": 26
+  },
+  {
+   "filename": "parry 6",
+   "frame": {
+    "x": 400,
+    "y": 112,
+    "w": 200,
+    "h": 112
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 112
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 112
+   },
+   "duration": 26
+  },
+  {
+   "filename": "parry 7",
+   "frame": {
+    "x": 600,
+    "y": 112,
+    "w": 200,
+    "h": 112
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 112
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 112
+   },
+   "duration": 26
+  },
+  {
+   "filename": "parry 8",
+   "frame": {
+    "x": 0,
+    "y": 224,
+    "w": 200,
+    "h": 112
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 112
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 112
+   },
+   "duration": 26
+  },
+  {
+   "filename": "parry 9",
+   "frame": {
+    "x": 200,
+    "y": 224,
+    "w": 200,
+    "h": 112
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 112
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 112
+   },
+   "duration": 26
+  },
+  {
+   "filename": "parry 10",
+   "frame": {
+    "x": 400,
+    "y": 224,
+    "w": 200,
+    "h": 112
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 112
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 112
+   },
+   "duration": 26
+  },
+  {
+   "filename": "parry 11",
+   "frame": {
+    "x": 600,
+    "y": 224,
+    "w": 200,
+    "h": 112
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 112
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 112
+   },
+   "duration": 26
+  },
+  {
+   "filename": "parry 12",
+   "frame": {
+    "x": 0,
+    "y": 336,
+    "w": 200,
+    "h": 112
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 112
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 112
+   },
+   "duration": 26
+  },
+  {
+   "filename": "parry 13",
+   "frame": {
+    "x": 200,
+    "y": 336,
+    "w": 200,
+    "h": 112
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 112
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 112
+   },
+   "duration": 26
+  },
+  {
+   "filename": "parry 14",
+   "frame": {
+    "x": 400,
+    "y": 336,
+    "w": 200,
+    "h": 112
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 112
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 112
+   },
+   "duration": 26
+  },
+  {
+   "filename": "parry 15",
+   "frame": {
+    "x": 600,
+    "y": 336,
+    "w": 200,
+    "h": 112
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 112
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 112
+   },
+   "duration": 26
+  },
+  {
+   "filename": "parry 16",
+   "frame": {
+    "x": 0,
+    "y": 448,
+    "w": 200,
+    "h": 112
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 112
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 112
+   },
+   "duration": 26
+  },
+  {
+   "filename": "parry 17",
+   "frame": {
+    "x": 200,
+    "y": 448,
+    "w": 200,
+    "h": 112
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 112
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 112
+   },
+   "duration": 26
+  },
+  {
+   "filename": "parry 18",
+   "frame": {
+    "x": 400,
+    "y": 448,
+    "w": 200,
+    "h": 112
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 112
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 112
+   },
+   "duration": 26
+  },
+  {
+   "filename": "parry 19",
+   "frame": {
+    "x": 600,
+    "y": 448,
+    "w": 200,
+    "h": 112
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 112
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 112
+   },
+   "duration": 26
+  },
+  {
+   "filename": "parry 20",
+   "frame": {
+    "x": 0,
+    "y": 560,
+    "w": 200,
+    "h": 112
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 112
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 112
+   },
+   "duration": 26
+  },
+  {
+   "filename": "parry 21",
+   "frame": {
+    "x": 200,
+    "y": 560,
+    "w": 200,
+    "h": 112
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 112
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 112
+   },
+   "duration": 26
+  },
+  {
+   "filename": "parry 22",
+   "frame": {
+    "x": 400,
+    "y": 560,
+    "w": 200,
+    "h": 112
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 112
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 112
+   },
+   "duration": 26
+  },
+  {
+   "filename": "parry 23",
+   "frame": {
+    "x": 600,
+    "y": 560,
+    "w": 200,
+    "h": 112
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 112
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 112
+   },
+   "duration": 26
+  },
+  {
+   "filename": "parry 24",
+   "frame": {
+    "x": 0,
+    "y": 672,
+    "w": 200,
+    "h": 112
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 112
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 112
+   },
+   "duration": 26
+  }
+ ],
+ "meta": {
+  "app": "https://github.com/patch-gg/pixelfx",
+  "version": "1",
+  "image": "ab_reflect.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 800,
+   "h": 784
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "ab_reflect",
+    "from": 0,
+    "to": 24,
+    "direction": "forward"
+   }
+  ],
+  "pixelfx": {
+   "id": "impacts/parry",
+   "name": "Parry",
+   "fps": 38.400000000000006,
+   "loop": false,
+   "frames": 25,
+   "frameSize": [
+    200,
+    112
+   ],
+   "pivot": [
+    100,
+    96
+   ],
+   "columns": 4,
+   "export": {
+    "out": "ab_reflect",
+    "renderFps": 24,
+    "speed": 1.6,
+    "seconds": 0.65
+   }
+  }
+ }
+}

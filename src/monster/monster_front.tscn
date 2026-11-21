@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/torso/human_front.png" id="2_torso"]
 
 [node name="MonsterFront" type="Node2D"]
+z_index = 1
 script = ExtResource("1_view")
 
 [node name="Torso" type="Sprite2D" parent="."]

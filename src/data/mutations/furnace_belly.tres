@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_burn.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/furnace_belly_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/furnace_belly_side.png" id="4_side"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+fraction = 0.006
+duration = 4.0
+
+[resource]
+script = ExtResource("1_mut")
+id = &"furnace_belly"
+display_name = "Furnace Belly"
+description = "A gut full of living fire.
++40 HP, +2 ATK, attacks 0.1s slower.
+Hits burn for 0.6% of the target's max HP per second for 4s."
+socket_type = 1
+rarity = 2
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+hp_mod = 40.0
+atk_mod = 2.0
+interval_mod = 0.1
+tags = Array[StringName]([&"fire", &"brute"])
+ability = SubResource("Resource_ability")

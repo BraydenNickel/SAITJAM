@@ -27,3 +27,13 @@ func on_tick(ctx: BattleSim, me: UnitState, delta: float) -> void:
 				break
 			ctx.deal_damage(me, e, roundi(damage), true, get_id(), true, 1)
 	me.state[key] = t
+
+## Params empowered() multiplies (design/fusion-contract.md §2).
+func power_params() -> PackedStringArray:
+	return PackedStringArray(["damage"])
+
+## Params empowered() divides: none. A timed ability keeps its `interval` when
+## empowered; scaling the amount and the rate together made Twin parts about
+## 2.1x their parent (design/balance/stage4-balance.md, Pass 2).
+func inverse_params() -> PackedStringArray:
+	return PackedStringArray()

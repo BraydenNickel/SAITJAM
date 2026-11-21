@@ -15,6 +15,8 @@ const SCREENS: Dictionary = {
 	&"lab": "res://src/screens/lab.tscn",
 	&"shop": "res://src/screens/shop.tscn",
 	&"reward": "res://src/screens/reward.tscn",
+	&"incubator": "res://src/screens/incubator.tscn",
+	&"codex": "res://src/screens/codex.tscn",
 }
 const HUMAN_PATH: String = "res://src/data/kinds/human.tres"
 const MANTIS_ARM_PATH: String = "res://src/data/mutations/mantis_arm.tres"
@@ -41,6 +43,11 @@ var last_result: Dictionary = {}
 var run_victory: bool = false
 ## Battles won in the current run (shown on the run-end screen).
 var battles_cleared: int = 0
+
+func _ready() -> void:
+	# Player audio volumes (user://settings.cfg) onto the buses, once per launch.
+	GameSettings.load_settings()
+	GameSettings.apply()
 
 ## Starts a fresh run with the starting roster and gold.
 func new_run() -> void:
@@ -136,6 +143,14 @@ func build_lineup() -> Dictionary:
 		spots.append(spot)
 		roster_idx.append(ri)
 	return {"team": team, "spots": spots, "roster_idx": roster_idx}
+
+## Ends the run as a loss outside a battle (the Incubator turned the last living
+## monsters into mush) and shows the run-end screen, like a lost battle does.
+func end_run_lost() -> void:
+	ensure_run()
+	bets = []
+	run_victory = false
+	go_to(&"run_end")
 
 ## Applies the end of a battle: adds `gold_delta`, then routes to the reward
 ## pick before the next battle, or to the run-end screen on a loss / after the

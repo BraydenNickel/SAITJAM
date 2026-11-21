@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_double_strike.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/flail_tail_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/flail_tail_side.png" id="4_side"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+every_n = 4
+extra_strikes = 1
+
+[resource]
+script = ExtResource("1_mut")
+id = &"flail_tail"
+display_name = "Flail Tail"
+description = "A spiked ball of bone on a living chain.
++2 ATK.
+Every 4th attack strikes twice."
+socket_type = 5
+rarity = 1
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+atk_mod = 2.0
+tags = Array[StringName]([&"brute", &"bone"])
+ability = SubResource("Resource_ability")

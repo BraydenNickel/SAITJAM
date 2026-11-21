@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/bone_club_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/bone_club_side.png" id="4_side"]
+
+[resource]
+script = ExtResource("1_mut")
+id = &"bone_club"
+display_name = "Bone Club"
+description = "A knotted fist of solid bone.
++3 ATK, attacks 0.15s slower."
+socket_type = 3
+rarity = 0
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+atk_mod = 3.0
+interval_mod = 0.15
+tags = Array[StringName]([&"bone", &"brute"])

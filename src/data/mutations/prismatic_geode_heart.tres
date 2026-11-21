@@ -1,0 +1,35 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_reflect.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/prismatic_geode_heart_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/prismatic_geode_heart_side.png" id="4_side"]
+[ext_resource type="Texture2D" path="res://assets/sprites/torso/body_prismatic_geode_heart_front.png" id="5_bfront"]
+[ext_resource type="Texture2D" path="res://assets/sprites/torso/body_prismatic_geode_heart_side.png" id="6_bside"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+chance = 0.6
+damage = 12.0
+
+[resource]
+script = ExtResource("1_mut")
+id = &"prismatic_geode_heart"
+display_name = "Prismatic Geode Heart"
+description = "Skin splits into towering crystal facets.
++100 HP, -1.5 ATK, +3 DEF.
+60% chance to reflect 12 damage when hit."
+socket_type = 1
+rarity = 3
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+hp_mod = 100.0
+atk_mod = -1.5
+defense_mod = 3.0
+tags = Array[StringName]([&"crystal", &"armor"])
+ability = SubResource("Resource_ability")
+body_front = ExtResource("5_bfront")
+body_side = ExtResource("6_bside")
+body_tint = Color(1, 1, 1, 1)
+body_scale = 1.2
+aura_fx = "res://assets/fx/aura_crystal.json"

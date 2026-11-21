@@ -1,0 +1,160 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/ui/fusion_slot_row.gd" id="1_row"]
+
+[node name="FusionSlotRow" type="PanelContainer"]
+custom_minimum_size = Vector2(280, 0)
+size_flags_horizontal = 3
+script = ExtResource("1_row")
+
+[node name="HBox" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Left" type="VBoxContainer" parent="HBox"]
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="SlotLabel" type="Label" parent="HBox/Left"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "HEAD"
+
+[node name="KindLabel" type="Label" parent="HBox/Left"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 1, 0.25, 1)
+theme_override_font_sizes/font_size = 8
+text = "MERGE"
+
+[node name="Icon" type="TextureRect" parent="HBox"]
+unique_name_in_owner = true
+texture_filter = 1
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Info" type="VBoxContainer" parent="HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 1
+
+[node name="NameRow" type="HBoxContainer" parent="HBox/Info"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="NameLabel" type="Label" parent="HBox/Info/NameRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Winterkill"
+
+[node name="TagLabel" type="Label" parent="HBox/Info/NameRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.239, 0.941, 1)
+theme_override_font_sizes/font_size = 8
+text = "SIGNATURE"
+
+[node name="StatLabel" type="Label" parent="HBox/Info"]
+unique_name_in_owner = true
+theme_override_constants/line_spacing = -4
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.82, 0.72, 1)
+theme_override_font_sizes/font_size = 8
+text = "Frost Crest + Snapping Beak
++20 HP, +3 ATK."
+autowrap_mode = 3
+
+[node name="AbilityLabel" type="Label" parent="HBox/Info"]
+unique_name_in_owner = true
+theme_override_constants/line_spacing = -4
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.85, 1, 1)
+theme_override_font_sizes/font_size = 8
+text = "Ability sentence."
+autowrap_mode = 3
+
+[node name="ReasonLabel" type="Label" parent="HBox/Info"]
+unique_name_in_owner = true
+visible = false
+theme_override_constants/line_spacing = -4
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.55, 0.45, 1)
+theme_override_font_sizes/font_size = 8
+text = "Cannot merge: reason. Pick one to keep."
+autowrap_mode = 3
+
+[node name="ChooseRow" type="HBoxContainer" parent="HBox/Info"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="ChooseA" type="Button" parent="HBox/Info/ChooseRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+button_pressed = true
+text = "A: Part"
+clip_text = true
+
+[node name="ChooseB" type="Button" parent="HBox/Info/ChooseRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+text = "B: Part"
+clip_text = true
+
+[node name="KeepRow" type="HBoxContainer" parent="HBox/Info"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="KeepCaption" type="Label" parent="HBox/Info/KeepRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+theme_override_font_sizes/font_size = 8
+text = "Keep:"
+
+[node name="Keep0" type="Button" parent="HBox/Info/KeepRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+text = "Ability"
+
+[node name="Keep1" type="Button" parent="HBox/Info/KeepRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+text = "Ability"
+
+[node name="Keep2" type="Button" parent="HBox/Info/KeepRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+text = "Ability"
+
+[node name="Keep3" type="Button" parent="HBox/Info/KeepRow"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+text = "Ability"

@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_chill.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/frost_maul_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/frost_maul_side.png" id="4_side"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+slow_per_hit = 0.1
+max_slow = 0.65
+
+[resource]
+script = ExtResource("1_mut")
+id = &"frost_maul"
+display_name = "Frost Maul"
+description = "A fist of frozen rock.
++5 ATK, attacks 0.15s slower.
+Hits slow the target's attacks by 0.1s (max 0.65s)."
+socket_type = 3
+rarity = 2
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+atk_mod = 5.0
+interval_mod = 0.15
+tags = Array[StringName]([&"frost", &"brute"])
+ability = SubResource("Resource_ability")

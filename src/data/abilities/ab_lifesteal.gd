@@ -15,3 +15,7 @@ func on_hit(ctx: BattleSim, me: UnitState, hit: HitInfo) -> void:
 	var amount: int = roundi(hit.amount * fraction)
 	if amount > 0 and me.hp < me.max_hp:
 		ctx.heal(me, amount)
+
+## Params empowered() multiplies (design/fusion-contract.md §2).
+func power_params() -> PackedStringArray:
+	return PackedStringArray(["fraction"])

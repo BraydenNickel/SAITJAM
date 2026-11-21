@@ -1,0 +1,551 @@
+{
+ "frames": [
+  {
+   "filename": "firework-burst 0",
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 240,
+    "h": 248
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 240,
+    "h": 248
+   },
+   "sourceSize": {
+    "w": 240,
+    "h": 248
+   },
+   "duration": 83
+  },
+  {
+   "filename": "firework-burst 1",
+   "frame": {
+    "x": 240,
+    "y": 0,
+    "w": 240,
+    "h": 248
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 240,
+    "h": 248
+   },
+   "sourceSize": {
+    "w": 240,
+    "h": 248
+   },
+   "duration": 83
+  },
+  {
+   "filename": "firework-burst 2",
+   "frame": {
+    "x": 480,
+    "y": 0,
+    "w": 240,
+    "h": 248
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 240,
+    "h": 248
+   },
+   "sourceSize": {
+    "w": 240,
+    "h": 248
+   },
+   "duration": 83
+  },
+  {
+   "filename": "firework-burst 3",
+   "frame": {
+    "x": 720,
+    "y": 0,
+    "w": 240,
+    "h": 248
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 240,
+    "h": 248
+   },
+   "sourceSize": {
+    "w": 240,
+    "h": 248
+   },
+   "duration": 83
+  },
+  {
+   "filename": "firework-burst 4",
+   "frame": {
+    "x": 960,
+    "y": 0,
+    "w": 240,
+    "h": 248
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 240,
+    "h": 248
+   },
+   "sourceSize": {
+    "w": 240,
+    "h": 248
+   },
+   "duration": 83
+  },
+  {
+   "filename": "firework-burst 5",
+   "frame": {
+    "x": 0,
+    "y": 248,
+    "w": 240,
+    "h": 248
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 240,
+    "h": 248
+   },
+   "sourceSize": {
+    "w": 240,
+    "h": 248
+   },
+   "duration": 83
+  },
+  {
+   "filename": "firework-burst 6",
+   "frame": {
+    "x": 240,
+    "y": 248,
+    "w": 240,
+    "h": 248
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 240,
+    "h": 248
+   },
+   "sourceSize": {
+    "w": 240,
+    "h": 248
+   },
+   "duration": 83
+  },
+  {
+   "filename": "firework-burst 7",
+   "frame": {
+    "x": 480,
+    "y": 248,
+    "w": 240,
+    "h": 248
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 240,
+    "h": 248
+   },
+   "sourceSize": {
+    "w": 240,
+    "h": 248
+   },
+   "duration": 83
+  },
+  {
+   "filename": "firework-burst 8",
+   "frame": {
+    "x": 720,
+    "y": 248,
+    "w": 240,
+    "h": 248
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 240,
+    "h": 248
+   },
+   "sourceSize": {
+    "w": 240,
+    "h": 248
+   },
+   "duration": 83
+  },
+  {
+   "filename": "firework-burst 9",
+   "frame": {
+    "x": 960,
+    "y": 248,
+    "w": 240,
+    "h": 248
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 240,
+    "h": 248
+   },
+   "sourceSize": {
+    "w": 240,
+    "h": 248
+   },
+   "duration": 83
+  },
+  {
+   "filename": "firework-burst 10",
+   "frame": {
+    "x": 0,
+    "y": 496,
+    "w": 240,
+    "h": 248
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 240,
+    "h": 248
+   },
+   "sourceSize": {
+    "w": 240,
+    "h": 248
+   },
+   "duration": 83
+  },
+  {
+   "filename": "firework-burst 11",
+   "frame": {
+    "x": 240,
+    "y": 496,
+    "w": 240,
+    "h": 248
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 240,
+    "h": 248
+   },
+   "sourceSize": {
+    "w": 240,
+    "h": 248
+   },
+   "duration": 83
+  },
+  {
+   "filename": "firework-burst 12",
+   "frame": {
+    "x": 480,
+    "y": 496,
+    "w": 240,
+    "h": 248
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 240,
+    "h": 248
+   },
+   "sourceSize": {
+    "w": 240,
+    "h": 248
+   },
+   "duration": 83
+  },
+  {
+   "filename": "firework-burst 13",
+   "frame": {
+    "x": 720,
+    "y": 496,
+    "w": 240,
+    "h": 248
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 240,
+    "h": 248
+   },
+   "sourceSize": {
+    "w": 240,
+    "h": 248
+   },
+   "duration": 83
+  },
+  {
+   "filename": "firework-burst 14",
+   "frame": {
+    "x": 960,
+    "y": 496,
+    "w": 240,
+    "h": 248
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 240,
+    "h": 248
+   },
+   "sourceSize": {
+    "w": 240,
+    "h": 248
+   },
+   "duration": 83
+  },
+  {
+   "filename": "firework-burst 15",
+   "frame": {
+    "x": 0,
+    "y": 744,
+    "w": 240,
+    "h": 248
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 240,
+    "h": 248
+   },
+   "sourceSize": {
+    "w": 240,
+    "h": 248
+   },
+   "duration": 83
+  },
+  {
+   "filename": "firework-burst 16",
+   "frame": {
+    "x": 240,
+    "y": 744,
+    "w": 240,
+    "h": 248
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 240,
+    "h": 248
+   },
+   "sourceSize": {
+    "w": 240,
+    "h": 248
+   },
+   "duration": 83
+  },
+  {
+   "filename": "firework-burst 17",
+   "frame": {
+    "x": 480,
+    "y": 744,
+    "w": 240,
+    "h": 248
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 240,
+    "h": 248
+   },
+   "sourceSize": {
+    "w": 240,
+    "h": 248
+   },
+   "duration": 83
+  },
+  {
+   "filename": "firework-burst 18",
+   "frame": {
+    "x": 720,
+    "y": 744,
+    "w": 240,
+    "h": 248
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 240,
+    "h": 248
+   },
+   "sourceSize": {
+    "w": 240,
+    "h": 248
+   },
+   "duration": 83
+  },
+  {
+   "filename": "firework-burst 19",
+   "frame": {
+    "x": 960,
+    "y": 744,
+    "w": 240,
+    "h": 248
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 240,
+    "h": 248
+   },
+   "sourceSize": {
+    "w": 240,
+    "h": 248
+   },
+   "duration": 83
+  },
+  {
+   "filename": "firework-burst 20",
+   "frame": {
+    "x": 0,
+    "y": 992,
+    "w": 240,
+    "h": 248
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 240,
+    "h": 248
+   },
+   "sourceSize": {
+    "w": 240,
+    "h": 248
+   },
+   "duration": 83
+  },
+  {
+   "filename": "firework-burst 21",
+   "frame": {
+    "x": 240,
+    "y": 992,
+    "w": 240,
+    "h": 248
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 240,
+    "h": 248
+   },
+   "sourceSize": {
+    "w": 240,
+    "h": 248
+   },
+   "duration": 83
+  },
+  {
+   "filename": "firework-burst 22",
+   "frame": {
+    "x": 480,
+    "y": 992,
+    "w": 240,
+    "h": 248
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 240,
+    "h": 248
+   },
+   "sourceSize": {
+    "w": 240,
+    "h": 248
+   },
+   "duration": 83
+  }
+ ],
+ "meta": {
+  "app": "https://github.com/patch-gg/pixelfx",
+  "version": "1",
+  "image": "win_big.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 1200,
+   "h": 1240
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "win_big",
+    "from": 0,
+    "to": 22,
+    "direction": "forward"
+   }
+  ],
+  "pixelfx": {
+   "id": "explosions/firework-burst",
+   "name": "Firework burst",
+   "fps": 12,
+   "loop": false,
+   "frames": 23,
+   "frameSize": [
+    240,
+    248
+   ],
+   "pivot": [
+    120,
+    100
+   ],
+   "columns": 5,
+   "export": {
+    "out": "win_big",
+    "renderFps": 6,
+    "speed": 2,
+    "seconds": 1.92
+   }
+  }
+ }
+}

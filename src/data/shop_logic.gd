@@ -47,6 +47,7 @@ static func roll_stock(run: RunState, rng: RandomNumberGenerator) -> void:
 	run.shop_visits_since_rare = 0 if has_rare else run.shop_visits_since_rare + 1
 
 ## Random mutation using RARITY_WEIGHTS (rare + RARE_WEIGHT_PER_BATTLE * battle).
+## ULTRA rolls through its own fixed weight; the pity in roll_stock is rare-only.
 ## Falls back to any mutation if none exists at the rolled rarity. Ids in
 ## `exclude` are avoided: first another mutation of the rolled rarity, then any
 ## non-excluded mutation, and only if every mutation is excluded a duplicate.

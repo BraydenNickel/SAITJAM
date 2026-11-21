@@ -9,8 +9,8 @@ toggle_mode = true
 script = ExtResource("1_subject")
 
 [node name="Holder" type="Node2D" parent="."]
-position = Vector2(22, 22)
-scale = Vector2(0.6, 0.6)
+position = Vector2(22, 28)
+scale = Vector2(0.45, 0.45)
 
 [node name="MonsterView" parent="Holder" instance=ExtResource("2_front")]
 unique_name_in_owner = true
@@ -19,20 +19,22 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 44.0
-offset_top = 6.0
+offset_top = 7.0
 offset_right = 146.0
-offset_bottom = 24.0
+offset_bottom = 21.0
 mouse_filter = 2
+theme_override_font_sizes/font_size = 10
 text = "Subject 01"
+vertical_alignment = 1
 clip_text = true
 
 [node name="InfoLabel" type="Label" parent="."]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 44.0
-offset_top = 24.0
+offset_top = 22.0
 offset_right = 146.0
-offset_bottom = 38.0
+offset_bottom = 36.0
 mouse_filter = 2
 theme_override_colors/font_color = Color(0.6, 0.8, 0.7, 1)
 theme_override_font_sizes/font_size = 8

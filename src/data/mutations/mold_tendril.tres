@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_corrode.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/mold_tendril_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/mold_tendril_side.png" id="4_side"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+def_per_hit = 0.5
+max_total = 2.0
+
+[resource]
+script = ExtResource("1_mut")
+id = &"mold_tendril"
+display_name = "Mold Tendril"
+description = "A creeping vine of rot.
++0.5 ATK.
+Hits strip 0.5 DEF from the target (max 2)."
+socket_type = 3
+rarity = 0
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+atk_mod = 0.5
+tags = Array[StringName]([&"spore", &"venom"])
+ability = SubResource("Resource_ability")

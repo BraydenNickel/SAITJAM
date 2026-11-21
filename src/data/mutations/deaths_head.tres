@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_execute.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/deaths_head_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/deaths_head_side.png" id="4_side"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+threshold = 0.3
+bonus = 16.0
+
+[resource]
+script = ExtResource("1_mut")
+id = &"deaths_head"
+display_name = "Death's Head"
+description = "The face recedes to bare skull.
+-20 HP, +4 ATK, +10% crit.
+Hits on enemies under 30% HP deal +16 damage, ignoring DEF."
+socket_type = 0
+rarity = 2
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+hp_mod = -20.0
+atk_mod = 4.0
+crit_mod = 0.1
+tags = Array[StringName]([&"bone", &"shadow"])
+ability = SubResource("Resource_ability")

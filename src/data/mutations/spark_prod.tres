@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_stun.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/spark_prod_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/spark_prod_side.png" id="4_side"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+chance = 0.18
+delay = 0.6
+
+[resource]
+script = ExtResource("1_mut")
+id = &"spark_prod"
+display_name = "Spark Prod"
+description = "A forearm ending in a live electrode.
++2 ATK.
+18% chance on hit to delay the target's next attack by 0.6s."
+socket_type = 3
+rarity = 0
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+atk_mod = 2.0
+tags = Array[StringName]([&"electric", &"gland"])
+ability = SubResource("Resource_ability")

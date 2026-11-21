@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://src/battle/battle.gd" id="1_battle"]
 [ext_resource type="Texture2D" path="res://assets/sprites/battle/arena_bg.png" id="2_bg"]
 [ext_resource type="Theme" path="res://src/ui/theme.tres" id="3_theme"]
+[ext_resource type="PackedScene" path="res://src/ui/sfx_player.tscn" id="90_sfx"]
 
 [node name="Battle" type="Node2D"]
 script = ExtResource("1_battle")
@@ -59,6 +60,7 @@ y_sort_enabled = true
 
 [node name="FxLayer" type="Node2D" parent="."]
 unique_name_in_owner = true
+z_index = 5
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
@@ -162,6 +164,15 @@ scale_amount_min = 2.0
 scale_amount_max = 4.0
 color = Color(1, 0.85, 0.3, 1)
 
+[node name="ResultFx" type="Node2D" parent="HUD/HudRoot"]
+unique_name_in_owner = true
+
+[node name="SpotLeft" type="Marker2D" parent="HUD/HudRoot/ResultFx"]
+position = Vector2(80, 300)
+
+[node name="SpotRight" type="Marker2D" parent="HUD/HudRoot/ResultFx"]
+position = Vector2(560, 300)
+
 [node name="ResultPanel" type="PanelContainer" parent="HUD/HudRoot"]
 unique_name_in_owner = true
 visible = false
@@ -223,3 +234,14 @@ vertical_alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 text = "Continue"
+
+[node name="Sfx" parent="." instance=ExtResource("90_sfx")]
+unique_name_in_owner = true
+
+[node name="ShakeCamera" type="Camera2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(320, 180)
+
+[node name="FrenzySpot" type="Marker2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(320, 250)

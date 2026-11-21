@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_vengeance.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/grudge_flame_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/grudge_flame_side.png" id="4_side"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+atk_bonus = 2.0
+heal = 20.0
+
+[resource]
+script = ExtResource("1_mut")
+id = &"grudge_flame"
+display_name = "Grudge Flame"
+description = "A tail-tip flame that feeds on loss.
++1.5 ATK.
+When an ally dies: +2 ATK and heal 20 HP."
+socket_type = 5
+rarity = 0
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+atk_mod = 1.5
+tags = Array[StringName]([&"fire", &"shadow"])
+ability = SubResource("Resource_ability")

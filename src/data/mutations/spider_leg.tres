@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/spider_leg_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/spider_leg_side.png" id="4_side"]
+
+[resource]
+script = ExtResource("1_mut")
+id = &"spider_leg"
+display_name = "Spider Leg"
+description = "A jointed leg that never rests.
+-10 HP, attacks 0.25s faster."
+socket_type = 4
+rarity = 0
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+hp_mod = -10.0
+interval_mod = -0.25
+tags = Array[StringName]([&"insect", &"swift"])

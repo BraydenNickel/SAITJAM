@@ -10,6 +10,7 @@ extends Control
 @onready var _back_button: Button = %BackButton
 @onready var _skip_button: Button = %SkipButton
 @onready var _fight_button: Button = %FightButton
+@onready var _sfx: SfxPlayer = %Sfx
 
 var _rows: Array[BetRow] = []
 
@@ -25,6 +26,8 @@ func _ready() -> void:
 	_back_button.pressed.connect(func() -> void: Game.go_to(&"formation"))
 	_skip_button.pressed.connect(_on_skip_pressed)
 	_fight_button.pressed.connect(_on_fight_pressed)
+	for button: Button in [_back_button, _skip_button, _fight_button]:
+		button.pressed.connect(_sfx.play_detached.bind(&"click"))
 	_rows_box.visible = false
 	_fight_button.disabled = true
 	_skip_button.disabled = true

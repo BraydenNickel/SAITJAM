@@ -1,0 +1,24 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/ui/sfx_player.gd" id="1_sfx"]
+
+[node name="SfxPlayer" type="Node"]
+script = ExtResource("1_sfx")
+
+[node name="Voice1" type="AudioStreamPlayer" parent="."]
+bus = &"SFX"
+
+[node name="Voice2" type="AudioStreamPlayer" parent="."]
+bus = &"SFX"
+
+[node name="Voice3" type="AudioStreamPlayer" parent="."]
+bus = &"SFX"
+
+[node name="Voice4" type="AudioStreamPlayer" parent="."]
+bus = &"SFX"
+
+[node name="Voice5" type="AudioStreamPlayer" parent="."]
+bus = &"SFX"
+
+[node name="Voice6" type="AudioStreamPlayer" parent="."]
+bus = &"SFX"

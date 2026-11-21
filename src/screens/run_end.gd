@@ -6,6 +6,7 @@ extends Control
 @onready var _gold_label: Label = %GoldLabel
 @onready var _new_run_button: Button = %NewRunButton
 @onready var _title_button: Button = %TitleButton
+@onready var _sfx: SfxPlayer = %Sfx
 
 func _ready() -> void:
 	Game.ensure_run()
@@ -23,6 +24,9 @@ func _ready() -> void:
 			slots[i].set_monster(team[i])
 	_new_run_button.pressed.connect(_on_new_run_pressed)
 	_title_button.pressed.connect(func() -> void: Game.go_to(&"title"))
+	_new_run_button.pressed.connect(_sfx.play_detached.bind(&"click"))
+	_title_button.pressed.connect(_sfx.play_detached.bind(&"click"))
+	_sfx.play(&"win_big" if Game.run_victory else &"lose")
 
 func _on_new_run_pressed() -> void:
 	Game.new_run()

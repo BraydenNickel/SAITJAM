@@ -1,0 +1,496 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/screens/incubator.gd" id="1_inc"]
+[ext_resource type="Theme" path="res://src/ui/theme.tres" id="2_theme"]
+[ext_resource type="PackedScene" path="res://src/monster/monster_front.tscn" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/mush_jar.png" id="4_jar"]
+[ext_resource type="PackedScene" path="res://src/ui/sfx_player.tscn" id="90_sfx"]
+
+[node name="Incubator" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_inc")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.05, 0.04, 0.09, 1)
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 6.0
+offset_bottom = 28.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.85, 0.6, 1, 1)
+text = "INCUBATION CHAMBER"
+horizontal_alignment = 1
+
+[node name="GoldLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 16.0
+offset_top = 6.0
+offset_right = 200.0
+offset_bottom = 28.0
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+text = "Gold: 0"
+
+[node name="StabLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -200.0
+offset_top = 6.0
+offset_right = -16.0
+offset_bottom = 28.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(0.45, 0.85, 1, 1)
+text = "Stabilizers: 0"
+horizontal_alignment = 2
+
+[node name="ATitle" type="Label" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 30.0
+offset_right = 168.0
+offset_bottom = 42.0
+theme_override_font_sizes/font_size = 8
+text = "1. Parent A (keeps its spot)"
+
+[node name="AScroll" type="ScrollContainer" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 42.0
+offset_right = 168.0
+offset_bottom = 172.0
+horizontal_scroll_mode = 0
+
+[node name="AList" type="VBoxContainer" parent="AScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="BTitle" type="Label" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 174.0
+offset_right = 168.0
+offset_bottom = 186.0
+theme_override_font_sizes/font_size = 8
+text = "2. Parent B (absorbed)"
+
+[node name="BScroll" type="ScrollContainer" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 186.0
+offset_right = 168.0
+offset_bottom = 314.0
+horizontal_scroll_mode = 0
+
+[node name="BList" type="VBoxContainer" parent="BScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="SlotsTitle" type="Label" parent="."]
+layout_mode = 0
+offset_left = 174.0
+offset_top = 30.0
+offset_right = 470.0
+offset_bottom = 42.0
+theme_override_font_sizes/font_size = 8
+text = "3. Body plan: what each slot becomes"
+
+[node name="SlotScroll" type="ScrollContainer" parent="."]
+layout_mode = 0
+offset_left = 174.0
+offset_top = 42.0
+offset_right = 470.0
+offset_bottom = 314.0
+horizontal_scroll_mode = 0
+
+[node name="SlotList" type="VBoxContainer" parent="SlotScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 3
+
+[node name="SlotsEmptyLabel" type="Label" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 174.0
+offset_top = 42.0
+offset_right = 470.0
+offset_bottom = 314.0
+theme_override_colors/font_color = Color(0.6, 0.7, 0.65, 1)
+theme_override_font_sizes/font_size = 8
+text = "Pick two living monsters.
+Each needs 2 mutations."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="PreviewPanel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 476.0
+offset_top = 30.0
+offset_right = 632.0
+offset_bottom = 152.0
+
+[node name="ParentAHolder" type="Node2D" parent="PreviewPanel"]
+position = Vector2(22, 24)
+scale = Vector2(0.5, 0.5)
+
+[node name="ParentAView" parent="PreviewPanel/ParentAHolder" instance=ExtResource("3_front")]
+unique_name_in_owner = true
+
+[node name="ParentBHolder" type="Node2D" parent="PreviewPanel"]
+position = Vector2(134, 24)
+scale = Vector2(0.5, 0.5)
+
+[node name="ParentBView" parent="PreviewPanel/ParentBHolder" instance=ExtResource("3_front")]
+unique_name_in_owner = true
+
+[node name="ALabel" type="Label" parent="PreviewPanel"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 42.0
+offset_right = 40.0
+offset_bottom = 54.0
+theme_override_font_sizes/font_size = 8
+text = "A"
+horizontal_alignment = 1
+
+[node name="BLabel" type="Label" parent="PreviewPanel"]
+layout_mode = 0
+offset_left = 116.0
+offset_top = 42.0
+offset_right = 152.0
+offset_bottom = 54.0
+theme_override_font_sizes/font_size = 8
+text = "B"
+horizontal_alignment = 1
+
+[node name="PreviewHolder" type="Node2D" parent="PreviewPanel"]
+position = Vector2(78, 46)
+scale = Vector2(1.1, 1.1)
+
+[node name="PreviewView" parent="PreviewPanel/PreviewHolder" instance=ExtResource("3_front")]
+unique_name_in_owner = true
+
+[node name="PreviewTitle" type="Label" parent="PreviewPanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 2.0
+offset_top = 83.0
+offset_right = 154.0
+offset_bottom = 96.0
+theme_override_colors/font_color = Color(1, 0.239, 0.941, 1)
+theme_override_font_sizes/font_size = 8
+text = "Winterkill-Facet Chimera"
+horizontal_alignment = 1
+clip_text = true
+text_overrun_behavior = 3
+
+[node name="PreviewStats" type="Label" parent="PreviewPanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 2.0
+offset_top = 96.0
+offset_right = 154.0
+offset_bottom = 120.0
+theme_override_colors/font_color = Color(0.65, 0.82, 0.72, 1)
+theme_override_constants/line_spacing = -4
+theme_override_font_sizes/font_size = 8
+text = "HP 540  ATK 30  DEF 0
+SPD 1.50s  CRIT 5%"
+horizontal_alignment = 1
+
+[node name="ChanceLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 476.0
+offset_top = 154.0
+offset_right = 540.0
+offset_bottom = 182.0
+theme_override_colors/font_color = Color(0.55, 1, 0.25, 1)
+theme_override_font_sizes/font_size = 24
+text = "90%"
+vertical_alignment = 1
+
+[node name="ChanceCaption" type="Label" parent="."]
+layout_mode = 0
+offset_left = 542.0
+offset_top = 156.0
+offset_right = 632.0
+offset_bottom = 182.0
+theme_override_font_sizes/font_size = 8
+text = "success chance
+(fail = both MUSH)"
+vertical_alignment = 1
+
+[node name="BreakdownNames" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 476.0
+offset_top = 184.0
+offset_right = 590.0
+offset_bottom = 236.0
+theme_override_colors/font_color = Color(0.65, 0.82, 0.72, 1)
+theme_override_constants/line_spacing = -4
+theme_override_font_sizes/font_size = 8
+text = "Base
+Avg instability
+Stabilizers"
+
+[node name="BreakdownValues" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 590.0
+offset_top = 184.0
+offset_right = 632.0
+offset_bottom = 236.0
+theme_override_constants/line_spacing = -4
+theme_override_font_sizes/font_size = 8
+text = "+90
+-20
++25"
+horizontal_alignment = 2
+
+[node name="StabRow" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 476.0
+offset_top = 238.0
+offset_right = 632.0
+offset_bottom = 262.0
+theme_override_constants/separation = 6
+
+[node name="StabCaption" type="Label" parent="StabRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 8
+text = "Stabilizers
+(+25% each)"
+vertical_alignment = 1
+
+[node name="StabSpin" type="SpinBox" parent="StabRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+max_value = 2.0
+rounded = true
+
+[node name="CostLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 476.0
+offset_top = 264.0
+offset_right = 632.0
+offset_bottom = 276.0
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+theme_override_font_sizes/font_size = 8
+text = "Cost: 30g"
+
+[node name="WarningLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 476.0
+offset_top = 276.0
+offset_right = 632.0
+offset_bottom = 298.0
+theme_override_colors/font_color = Color(1, 0.4, 0.35, 1)
+theme_override_constants/line_spacing = -4
+theme_override_font_sizes/font_size = 8
+text = "Failure ends the run: these are your last two monsters."
+autowrap_mode = 3
+
+[node name="StatusLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 476.0
+offset_top = 298.0
+offset_right = 632.0
+offset_bottom = 316.0
+theme_override_colors/font_color = Color(1, 0.55, 0.45, 1)
+theme_override_font_sizes/font_size = 8
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Buttons" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -42.0
+offset_right = -16.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="BackButton" type="Button" parent="Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Back"
+
+[node name="ConfirmButton" type="Button" parent="Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+text = "Incubate (90%, 30g)"
+
+[node name="Flash" type="ColorRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.55, 1, 0.25, 0)
+
+[node name="ResultLayer" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+z_index = 10
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="ColorRect" parent="ResultLayer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="ResultPanel" type="PanelContainer" parent="ResultLayer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -140.0
+offset_right = 160.0
+offset_bottom = 140.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="ResultLayer/ResultPanel"]
+layout_mode = 2
+theme_override_constants/separation = 3
+alignment = 1
+
+[node name="ResultTitle" type="Label" parent="ResultLayer/ResultPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 1, 0.25, 1)
+theme_override_font_sizes/font_size = 24
+text = "IT LIVES!"
+horizontal_alignment = 1
+
+[node name="ResultSubtitle" type="Label" parent="ResultLayer/ResultPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.239, 0.941, 1)
+text = "Winterkill-Facet Chimera"
+horizontal_alignment = 1
+
+[node name="ResultArt" type="Control" parent="ResultLayer/ResultPanel/VBox"]
+custom_minimum_size = Vector2(140, 92)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="ResultJarA" type="TextureRect" parent="ResultLayer/ResultPanel/VBox/ResultArt"]
+unique_name_in_owner = true
+visible = false
+texture_filter = 1
+layout_mode = 0
+offset_left = 4.0
+offset_top = 14.0
+offset_right = 68.0
+offset_bottom = 88.0
+texture = ExtResource("4_jar")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ResultJarB" type="TextureRect" parent="ResultLayer/ResultPanel/VBox/ResultArt"]
+unique_name_in_owner = true
+visible = false
+texture_filter = 1
+layout_mode = 0
+offset_left = 72.0
+offset_top = 14.0
+offset_right = 136.0
+offset_bottom = 88.0
+texture = ExtResource("4_jar")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ResultHolder" type="Node2D" parent="ResultLayer/ResultPanel/VBox/ResultArt"]
+unique_name_in_owner = true
+position = Vector2(70, 50)
+scale = Vector2(1.25, 1.25)
+
+[node name="ResultMonster" parent="ResultLayer/ResultPanel/VBox/ResultArt/ResultHolder" instance=ExtResource("3_front")]
+unique_name_in_owner = true
+
+[node name="ResultFx" type="Node2D" parent="ResultLayer/ResultPanel/VBox/ResultArt"]
+unique_name_in_owner = true
+position = Vector2(70, 88)
+
+[node name="ResultNew" type="Label" parent="ResultLayer/ResultPanel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+theme_override_font_sizes/font_size = 8
+text = "NEW SIGNATURE: Winterkill"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="ResultBody" type="Label" parent="ResultLayer/ResultPanel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Chance 90%, rolled 42."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="ResultOkButton" type="Button" parent="ResultLayer/ResultPanel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "OK"
+
+[node name="Sfx" parent="." instance=ExtResource("90_sfx")]
+unique_name_in_owner = true

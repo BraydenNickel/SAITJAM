@@ -20,3 +20,7 @@ func on_take_damage(ctx: BattleSim, me: UnitState, hit: HitInfo) -> void:
 		if ctx.emit_events:
 			ctx.notify(&"ability", {&"unit": me.index, &"ability_id": get_id()})
 		ctx.deal_damage(me, hit.source, roundi(damage), true, get_id(), true, hit.depth + 1)
+
+## Params empowered() multiplies (design/fusion-contract.md §2).
+func power_params() -> PackedStringArray:
+	return PackedStringArray(["chance", "damage"])

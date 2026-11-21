@@ -4,6 +4,8 @@
 [ext_resource type="Theme" path="res://src/ui/theme.tres" id="2_theme"]
 [ext_resource type="PackedScene" path="res://src/monster/monster_front.tscn" id="3_front"]
 [ext_resource type="Resource" path="res://src/data/examples/demo_mutant.tres" id="4_demo"]
+[ext_resource type="PackedScene" path="res://src/ui/sfx_player.tscn" id="90_sfx"]
+[ext_resource type="PackedScene" path="res://src/ui/settings_menu.tscn" id="91_settings"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -55,6 +57,17 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "New Run"
 
+[node name="CodexButton" type="Button" parent="Menu"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Codex"
+
+[node name="SettingsButton" type="Button" parent="Menu"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Music and sound effects volume"
+text = "Settings"
+
 [node name="QuitButton" type="Button" parent="Menu"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -66,3 +79,9 @@ scale = Vector2(2, 2)
 
 [node name="MonsterView" parent="MonsterHolder" instance=ExtResource("3_front")]
 data = ExtResource("4_demo")
+
+[node name="Sfx" parent="." instance=ExtResource("90_sfx")]
+unique_name_in_owner = true
+
+[node name="SettingsMenu" parent="." instance=ExtResource("91_settings")]
+unique_name_in_owner = true

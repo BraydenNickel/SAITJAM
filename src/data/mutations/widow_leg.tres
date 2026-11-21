@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_venom.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/widow_leg_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/widow_leg_side.png" id="4_side"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+stacks_per_hit = 1
+damage_per_second = 2.0
+duration = 3.0
+max_stacks = 1
+
+[resource]
+script = ExtResource("1_mut")
+id = &"widow_leg"
+display_name = "Widow Leg"
+description = "A needle-tipped leg with a red mark.
++7% crit.
+Hits apply venom (2 dmg/s, 3s, does not stack)."
+socket_type = 4
+rarity = 1
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+crit_mod = 0.07
+tags = Array[StringName]([&"venom", &"insect"])
+ability = SubResource("Resource_ability")

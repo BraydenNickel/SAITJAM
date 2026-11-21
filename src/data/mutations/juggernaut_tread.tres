@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_berserk.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/juggernaut_tread_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/juggernaut_tread_side.png" id="4_side"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+threshold = 0.5
+interval_mult = 0.6
+
+[resource]
+script = ExtResource("1_mut")
+id = &"juggernaut_tread"
+display_name = "Juggernaut Tread"
+description = "An armoured crawler limb.
++90 HP, +1 DEF, attacks 0.15s slower.
+Once, below 50% HP: attack interval x0.6."
+socket_type = 4
+rarity = 2
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+hp_mod = 90.0
+interval_mod = 0.15
+defense_mod = 1.0
+tags = Array[StringName]([&"armor", &"brute"])
+ability = SubResource("Resource_ability")

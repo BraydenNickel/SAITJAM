@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_ambush.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/stalker_paw_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/stalker_paw_side.png" id="4_side"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+damage = 67.0
+
+[resource]
+script = ExtResource("1_mut")
+id = &"stalker_paw"
+display_name = "Stalker Paw"
+description = "Soft pads for a soundless approach.
++15% crit.
+Battle start: 67 damage to a random enemy, ignoring DEF."
+socket_type = 4
+rarity = 0
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+crit_mod = 0.15
+tags = Array[StringName]([&"shadow", &"beast"])
+ability = SubResource("Resource_ability")

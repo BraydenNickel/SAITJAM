@@ -1,0 +1,617 @@
+{
+ "frames": [
+  {
+   "filename": "magic-circle-cast 0",
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 220
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 220
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 220
+   },
+   "duration": 77
+  },
+  {
+   "filename": "magic-circle-cast 1",
+   "frame": {
+    "x": 200,
+    "y": 0,
+    "w": 200,
+    "h": 220
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 220
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 220
+   },
+   "duration": 77
+  },
+  {
+   "filename": "magic-circle-cast 2",
+   "frame": {
+    "x": 400,
+    "y": 0,
+    "w": 200,
+    "h": 220
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 220
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 220
+   },
+   "duration": 77
+  },
+  {
+   "filename": "magic-circle-cast 3",
+   "frame": {
+    "x": 600,
+    "y": 0,
+    "w": 200,
+    "h": 220
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 220
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 220
+   },
+   "duration": 77
+  },
+  {
+   "filename": "magic-circle-cast 4",
+   "frame": {
+    "x": 800,
+    "y": 0,
+    "w": 200,
+    "h": 220
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 220
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 220
+   },
+   "duration": 77
+  },
+  {
+   "filename": "magic-circle-cast 5",
+   "frame": {
+    "x": 1000,
+    "y": 0,
+    "w": 200,
+    "h": 220
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 220
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 220
+   },
+   "duration": 77
+  },
+  {
+   "filename": "magic-circle-cast 6",
+   "frame": {
+    "x": 0,
+    "y": 220,
+    "w": 200,
+    "h": 220
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 220
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 220
+   },
+   "duration": 77
+  },
+  {
+   "filename": "magic-circle-cast 7",
+   "frame": {
+    "x": 200,
+    "y": 220,
+    "w": 200,
+    "h": 220
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 220
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 220
+   },
+   "duration": 77
+  },
+  {
+   "filename": "magic-circle-cast 8",
+   "frame": {
+    "x": 400,
+    "y": 220,
+    "w": 200,
+    "h": 220
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 220
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 220
+   },
+   "duration": 77
+  },
+  {
+   "filename": "magic-circle-cast 9",
+   "frame": {
+    "x": 600,
+    "y": 220,
+    "w": 200,
+    "h": 220
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 220
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 220
+   },
+   "duration": 77
+  },
+  {
+   "filename": "magic-circle-cast 10",
+   "frame": {
+    "x": 800,
+    "y": 220,
+    "w": 200,
+    "h": 220
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 220
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 220
+   },
+   "duration": 77
+  },
+  {
+   "filename": "magic-circle-cast 11",
+   "frame": {
+    "x": 1000,
+    "y": 220,
+    "w": 200,
+    "h": 220
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 220
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 220
+   },
+   "duration": 77
+  },
+  {
+   "filename": "magic-circle-cast 12",
+   "frame": {
+    "x": 0,
+    "y": 440,
+    "w": 200,
+    "h": 220
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 220
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 220
+   },
+   "duration": 77
+  },
+  {
+   "filename": "magic-circle-cast 13",
+   "frame": {
+    "x": 200,
+    "y": 440,
+    "w": 200,
+    "h": 220
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 220
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 220
+   },
+   "duration": 77
+  },
+  {
+   "filename": "magic-circle-cast 14",
+   "frame": {
+    "x": 400,
+    "y": 440,
+    "w": 200,
+    "h": 220
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 220
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 220
+   },
+   "duration": 77
+  },
+  {
+   "filename": "magic-circle-cast 15",
+   "frame": {
+    "x": 600,
+    "y": 440,
+    "w": 200,
+    "h": 220
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 220
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 220
+   },
+   "duration": 77
+  },
+  {
+   "filename": "magic-circle-cast 16",
+   "frame": {
+    "x": 800,
+    "y": 440,
+    "w": 200,
+    "h": 220
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 220
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 220
+   },
+   "duration": 77
+  },
+  {
+   "filename": "magic-circle-cast 17",
+   "frame": {
+    "x": 1000,
+    "y": 440,
+    "w": 200,
+    "h": 220
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 220
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 220
+   },
+   "duration": 77
+  },
+  {
+   "filename": "magic-circle-cast 18",
+   "frame": {
+    "x": 0,
+    "y": 660,
+    "w": 200,
+    "h": 220
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 220
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 220
+   },
+   "duration": 77
+  },
+  {
+   "filename": "magic-circle-cast 19",
+   "frame": {
+    "x": 200,
+    "y": 660,
+    "w": 200,
+    "h": 220
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 220
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 220
+   },
+   "duration": 77
+  },
+  {
+   "filename": "magic-circle-cast 20",
+   "frame": {
+    "x": 400,
+    "y": 660,
+    "w": 200,
+    "h": 220
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 220
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 220
+   },
+   "duration": 77
+  },
+  {
+   "filename": "magic-circle-cast 21",
+   "frame": {
+    "x": 600,
+    "y": 660,
+    "w": 200,
+    "h": 220
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 220
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 220
+   },
+   "duration": 77
+  },
+  {
+   "filename": "magic-circle-cast 22",
+   "frame": {
+    "x": 800,
+    "y": 660,
+    "w": 200,
+    "h": 220
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 220
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 220
+   },
+   "duration": 77
+  },
+  {
+   "filename": "magic-circle-cast 23",
+   "frame": {
+    "x": 1000,
+    "y": 660,
+    "w": 200,
+    "h": 220
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 220
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 220
+   },
+   "duration": 77
+  },
+  {
+   "filename": "magic-circle-cast 24",
+   "frame": {
+    "x": 0,
+    "y": 880,
+    "w": 200,
+    "h": 220
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 220
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 220
+   },
+   "duration": 77
+  },
+  {
+   "filename": "magic-circle-cast 25",
+   "frame": {
+    "x": 200,
+    "y": 880,
+    "w": 200,
+    "h": 220
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 200,
+    "h": 220
+   },
+   "sourceSize": {
+    "w": 200,
+    "h": 220
+   },
+   "duration": 77
+  }
+ ],
+ "meta": {
+  "app": "https://github.com/patch-gg/pixelfx",
+  "version": "1",
+  "image": "ultra_reveal.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 1200,
+   "h": 1100
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "ultra_reveal",
+    "from": 0,
+    "to": 25,
+    "direction": "forward"
+   }
+  ],
+  "pixelfx": {
+   "id": "arcane/magic-circle-cast",
+   "name": "Magic circle cast",
+   "fps": 13,
+   "loop": false,
+   "frames": 26,
+   "frameSize": [
+    200,
+    220
+   ],
+   "pivot": [
+    100,
+    192
+   ],
+   "columns": 6,
+   "export": {
+    "out": "ultra_reveal",
+    "renderFps": 6.5,
+    "speed": 2,
+    "seconds": 2
+   }
+  }
+ }
+}

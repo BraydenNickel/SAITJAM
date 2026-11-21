@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_stun.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/capacitor_heel_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/capacitor_heel_side.png" id="4_side"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+chance = 0.5
+delay = 0.7
+
+[resource]
+script = ExtResource("1_mut")
+id = &"capacitor_heel"
+display_name = "Capacitor Heel"
+description = "A heel that discharges on impact.
+Attacks 0.25s faster.
+50% chance on hit to delay the target's next attack by 0.7s."
+socket_type = 4
+rarity = 1
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+interval_mod = -0.25
+tags = Array[StringName]([&"electric", &"swift"])
+ability = SubResource("Resource_ability")

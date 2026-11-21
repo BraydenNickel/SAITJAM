@@ -25,9 +25,35 @@ static func all_mutations() -> Array[MutationData]:
 	_cache.sort_custom(func(a: MutationData, b: MutationData) -> bool: return a.id < b.id)
 	return _cache
 
-## Budget cost of one mutation.
+## False for ULTRA mutations before Tuning.ULTRA_ENEMY_MIN_BATTLE (enemies never
+## receive them that early); true for everything else.
+static func allowed_for_battle(m: MutationData, battle_index: int) -> bool:
+	return m.rarity != MutationData.Rarity.ULTRA or battle_index >= Tuning.ULTRA_ENEMY_MIN_BATTLE
+
+## True if `m` carries at least one of archetype `arch`'s preferred tags
+## (Tuning.ENEMY_ARCHETYPES). Unknown or empty archetypes prefer nothing.
+static func matches_archetype(m: MutationData, arch: StringName) -> bool:
+	var preferred: Array = Tuning.ENEMY_ARCHETYPES.get(arch, [])
+	for tag: StringName in m.tags:
+		if preferred.has(tag):
+			return true
+	return false
+
+## Budget cost of one mutation. A fused mutation (fused_cost > 0) costs the sum
+## of its parents, so it counts fully toward adaptive scaling.
 static func cost_of(m: MutationData) -> int:
+	if m.fused_cost > 0:
+		return m.fused_cost
 	return Tuning.BUDGET_COST[int(m.rarity)]
+
+static var _by_id: Dictionary = {}
+
+## The base mutation with this id from MUTATIONS_DIR, or null.
+static func mutation_by_id(id: StringName) -> MutationData:
+	if _by_id.is_empty():
+		for m: MutationData in all_mutations():
+			_by_id[m.id] = m
+	return _by_id.get(id) as MutationData
 
 ## Player power used by adaptive scaling (design/balance/stage3-tuning.md §6).
 ## Over the whole living (non-mushed) roster, not the formation, so benching
@@ -98,7 +124,7 @@ static func generate(battle_index: int, rng: RandomNumberGenerator,
 	var n: int = 0
 	while budget > 0 and stuck < size:
 		var m: MonsterData = team[n]
-		var choice: Array = _pick(m, archetypes[n], pool, budget, rng)
+		var choice: Array = _pick(m, archetypes[n], pool, budget, rng, battle_index)
 		if choice.is_empty():
 			stuck += 1
 		else:
@@ -116,21 +142,22 @@ static func generate(battle_index: int, rng: RandomNumberGenerator,
 	return {&"team": team, &"spots": _place(archetypes, rng), &"archetypes": archetypes,
 		&"adapt": bonus}
 
-## [mutation, slot] affordable and socket-legal for `m`, or [] if none.
+## [mutation, slot] affordable, allowed at this battle and socket-legal for `m`,
+## or [] if none. Mutations tagged for the archetype are preferred.
 static func _pick(m: MonsterData, arch: StringName, pool: Array[MutationData], budget: int,
-		rng: RandomNumberGenerator) -> Array:
-	var preferred: Array = Tuning.ENEMY_ARCHETYPES.get(arch, [])
+		rng: RandomNumberGenerator, battle_index: int) -> Array:
+	var has_arch: bool = arch != &""
 	var fits: Array = []
 	var fits_pref: Array = []
 	for mut: MutationData in pool:
-		if cost_of(mut) > budget:
+		if cost_of(mut) > budget or not allowed_for_battle(mut, battle_index):
 			continue
 		var free: Array[StringName] = m.slots_for(mut)
 		if free.is_empty():
 			continue
 		var option: Array = [mut, free[0]]
 		fits.append(option)
-		if preferred.has(mut.id):
+		if has_arch and matches_archetype(mut, arch):
 			fits_pref.append(option)
 	var from: Array = fits_pref if not fits_pref.is_empty() else fits
 	if from.is_empty():

@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_rage.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/adrenal_tubes_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/adrenal_tubes_side.png" id="4_side"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+atk_per_stack = 0.5
+max_stacks = 5
+
+[resource]
+script = ExtResource("1_mut")
+id = &"adrenal_tubes"
+display_name = "Adrenal Tubes"
+description = "Exposed glands that pump with every blow.
++20 HP.
+Each basic hit taken: +0.5 ATK (max 5 stacks)."
+socket_type = 2
+rarity = 0
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+hp_mod = 20.0
+tags = Array[StringName]([&"brute", &"parasite"])
+ability = SubResource("Resource_ability")

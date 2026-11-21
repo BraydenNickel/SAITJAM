@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_phase.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/void_moth_wings_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/void_moth_wings_side.png" id="4_side"]
+[ext_resource type="Texture2D" path="res://assets/sprites/torso/body_void_moth_wings_front.png" id="5_bfront"]
+[ext_resource type="Texture2D" path="res://assets/sprites/torso/body_void_moth_wings_side.png" id="6_bside"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+chance = 0.3
+counter = 13.0
+
+[resource]
+script = ExtResource("1_mut")
+id = &"void_moth_wings"
+display_name = "Wings of the Void Moth"
+description = "The body thins to a starless outline.
+-50 HP, +6 ATK.
+30% chance to cancel any hit and strike back for 13."
+socket_type = 2
+rarity = 3
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+hp_mod = -50.0
+atk_mod = 6.0
+tags = Array[StringName]([&"shadow", &"swift", &"void"])
+ability = SubResource("Resource_ability")
+body_front = ExtResource("5_bfront")
+body_side = ExtResource("6_bside")
+body_tint = Color(1, 1, 1, 1)
+body_scale = 1.05
+aura_fx = "res://assets/fx/aura_void.json"

@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_spore_pulse.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/blight_stacks_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/blight_stacks_side.png" id="4_side"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+interval = 3.5
+damage = 8.0
+
+[resource]
+script = ExtResource("1_mut")
+id = &"blight_stacks"
+display_name = "Blight Stacks"
+description = "Chimneys that belch a toxic cloud.
++80 HP.
+Every 3.5s, 8 damage to all enemies, ignoring DEF."
+socket_type = 2
+rarity = 2
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+hp_mod = 80.0
+tags = Array[StringName]([&"spore", &"venom"])
+ability = SubResource("Resource_ability")

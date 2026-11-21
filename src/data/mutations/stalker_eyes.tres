@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_snipe.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/stalker_eyes_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/stalker_eyes_side.png" id="4_side"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+interval = 4.0
+damage = 8.0
+
+[resource]
+script = ExtResource("1_mut")
+id = &"stalker_eyes"
+display_name = "Stalker Eyes"
+description = "Slit pupils that find the weak.
++13% crit.
+Every 4s, 8 damage to the enemy with the lowest HP, ignoring DEF."
+socket_type = 0
+rarity = 1
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+crit_mod = 0.13
+tags = Array[StringName]([&"shadow", &"swift"])
+ability = SubResource("Resource_ability")

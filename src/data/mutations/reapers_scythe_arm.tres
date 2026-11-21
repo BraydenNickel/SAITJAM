@@ -1,0 +1,35 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_execute.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/reapers_scythe_arm_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/reapers_scythe_arm_side.png" id="4_side"]
+[ext_resource type="Texture2D" path="res://assets/sprites/torso/body_reapers_scythe_arm_front.png" id="5_bfront"]
+[ext_resource type="Texture2D" path="res://assets/sprites/torso/body_reapers_scythe_arm_side.png" id="6_bside"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+threshold = 0.35
+bonus = 26.0
+
+[resource]
+script = ExtResource("1_mut")
+id = &"reapers_scythe_arm"
+display_name = "Reaper's Scythe Arm"
+description = "Flesh sloughs away, leaving a grinning frame of bone.
+-50 HP, +6 ATK, +13% crit.
+Hits on enemies under 35% HP deal +26 damage, ignoring DEF."
+socket_type = 3
+rarity = 3
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+hp_mod = -50.0
+atk_mod = 6.0
+crit_mod = 0.13
+tags = Array[StringName]([&"bone", &"shadow"])
+ability = SubResource("Resource_ability")
+body_front = ExtResource("5_bfront")
+body_side = ExtResource("6_bside")
+body_tint = Color(1, 1, 1, 1)
+body_scale = 1.1
+aura_fx = "res://assets/fx/aura_skeletal.json"

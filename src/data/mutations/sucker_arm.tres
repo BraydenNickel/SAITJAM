@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_lifesteal.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/sucker_arm_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/sucker_arm_side.png" id="4_side"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+fraction = 0.15
+
+[resource]
+script = ExtResource("1_mut")
+id = &"sucker_arm"
+display_name = "Sucker Arm"
+description = "A boneless limb lined with suckers.
++1 ATK.
+Heals 15% of damage dealt."
+socket_type = 3
+rarity = 0
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+atk_mod = 1.0
+tags = Array[StringName]([&"aquatic", &"parasite"])
+ability = SubResource("Resource_ability")

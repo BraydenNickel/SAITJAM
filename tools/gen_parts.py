@@ -630,6 +630,9 @@ def main():
         write_png(os.path.join(PARTS_DIR, "preview_%s_4x.png" % view), scale(img, 4))
     print("wrote %d parts + previews to %s" % (len(MUTATIONS) * 2, PARTS_DIR))
     write_mush_jar()
+    # Stage 4: the 94 table-driven parts, 8 ULTRA bodies and the QA contact sheets.
+    import gen_parts_ext
+    gen_parts_ext.main()
 
 
 if __name__ == "__main__":

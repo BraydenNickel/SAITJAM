@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" path="res://src/data/abilities/ab_regen.gd" id="2_ab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/rootfoot_front.png" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/parts/rootfoot_side.png" id="4_side"]
+
+[sub_resource type="Resource" id="Resource_ability"]
+script = ExtResource("2_ab")
+interval = 3.0
+amount = 6.0
+
+[resource]
+script = ExtResource("1_mut")
+id = &"rootfoot"
+display_name = "Rootfoot"
+description = "Toes that burrow in and drink.
++100 HP, attacks 0.05s slower.
+Heals 6 HP every 3s."
+socket_type = 4
+rarity = 1
+sprite_front = ExtResource("3_front")
+sprite_side = ExtResource("4_side")
+hp_mod = 100.0
+interval_mod = 0.05
+tags = Array[StringName]([&"spore", &"support"])
+ability = SubResource("Resource_ability")
