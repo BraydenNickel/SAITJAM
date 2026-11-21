@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://production/qa/arena_intro_check.gd" id="1_check"]
+[ext_resource type="PackedScene" path="res://scenes/arena.tscn" id="2_arena"]
+
+[node name="ArenaIntroCheck" type="Node2D"]
+script = ExtResource("1_check")
+
+[node name="Arena" parent="." instance=ExtResource("2_arena")]

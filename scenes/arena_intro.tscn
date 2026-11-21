@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scenes/arena_intro.gd" id="1_intro"]
+[ext_resource type="Texture2D" path="res://assets/sprites/arena_light.png" id="2_light"]
+[ext_resource type="Texture2D" path="res://assets/sprites/fight_text_slime.png" id="3_fight"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_add"]
+blend_mode = 1
+
+[node name="ArenaIntro" type="Node2D"]
+script = ExtResource("1_intro")
+
+[node name="Darkness" type="ColorRect" parent="."]
+offset_right = 640.0
+offset_bottom = 360.0
+mouse_filter = 2
+color = Color(0.02, 0.03, 0.05, 0.93)
+
+[node name="LampLeft" type="Sprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_add")
+position = Vector2(102, 35)
+texture = ExtResource("2_light")
+centered = false
+
+[node name="LampRight" type="Sprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_add")
+position = Vector2(320, 35)
+texture = ExtResource("2_light")
+centered = false
+
+[node name="UI" type="CanvasLayer" parent="."]
+layer = 5
+
+[node name="Fight" type="Sprite2D" parent="UI"]
+position = Vector2(320, 180)
+texture = ExtResource("3_fight")
+hframes = 12

@@ -1,14 +1,12 @@
-[gd_resource type="Resource" script_class="MutationData" format=3]
+[gd_resource type="Resource" script_class="MutationData" format=3 uid="uid://d3t8ongyur15t"]
 
-[ext_resource type="Script" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
-[ext_resource type="Script" path="res://src/data/abilities/ab_reflect.gd" id="2_ab"]
-[ext_resource type="Texture2D" path="res://assets/sprites/parts/bone_plating_front.png" id="3_front"]
-[ext_resource type="Texture2D" path="res://assets/sprites/parts/bone_plating_side.png" id="4_side"]
+[ext_resource type="Script" uid="uid://cm3od6ihehgw" path="res://src/data/defs/mutation_data.gd" id="1_mut"]
+[ext_resource type="Script" uid="uid://brwx3lsrwfmhl" path="res://src/data/abilities/ab_reflect.gd" id="2_ab"]
+[ext_resource type="Texture2D" uid="uid://b4noeknro5yu5" path="res://assets/sprites/parts/bone_plating_front.png" id="3_front"]
+[ext_resource type="Texture2D" uid="uid://dbm72rrc6ctur" path="res://assets/sprites/parts/bone_plating_side.png" id="4_side"]
 
 [sub_resource type="Resource" id="Resource_ability"]
 script = ExtResource("2_ab")
-chance = 0.25
-damage = 4.0
 
 [resource]
 script = ExtResource("1_mut")
@@ -17,7 +15,6 @@ display_name = "Bone Plating"
 description = "Armoured plates grow over the torso.
 +109 HP, +3 DEF.
 25% chance to reflect 4 damage when hit."
-socket_type = 1
 sprite_front = ExtResource("3_front")
 sprite_side = ExtResource("4_side")
 hp_mod = 109.0
