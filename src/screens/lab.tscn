@@ -1,0 +1,534 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/screens/lab.gd" id="1_lab"]
+[ext_resource type="Theme" path="res://src/ui/theme.tres" id="2_theme"]
+[ext_resource type="PackedScene" path="res://src/monster/monster_front.tscn" id="3_front"]
+[ext_resource type="Texture2D" path="res://assets/sprites/mush_jar.png" id="4_jar"]
+
+[sub_resource type="ButtonGroup" id="bg_mode"]
+
+[sub_resource type="ButtonGroup" id="bg_slots"]
+allow_unpress = true
+
+[node name="Lab" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_lab")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.03, 0.07, 0.08, 1)
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 6.0
+offset_bottom = 28.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.55, 1, 0.25, 1)
+text = "MUTATION LAB"
+horizontal_alignment = 1
+
+[node name="GoldLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 16.0
+offset_top = 6.0
+offset_right = 200.0
+offset_bottom = 28.0
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+text = "Gold: 0"
+
+[node name="StabLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -200.0
+offset_top = 6.0
+offset_right = -16.0
+offset_bottom = 28.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(0.45, 0.85, 1, 1)
+text = "Stabilizers: 0"
+horizontal_alignment = 2
+
+[node name="BuffsLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 16.0
+offset_top = 28.0
+offset_right = -16.0
+offset_bottom = 40.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.85, 0.6, 1, 1)
+theme_override_font_sizes/font_size = 8
+text = "Active: Lucky Gene, Insurance"
+horizontal_alignment = 1
+
+[node name="SubjectsTitle" type="Label" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 42.0
+offset_right = 168.0
+offset_bottom = 56.0
+theme_override_font_sizes/font_size = 8
+text = "1. Pick a subject"
+
+[node name="SubjectScroll" type="ScrollContainer" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 56.0
+offset_right = 168.0
+offset_bottom = 314.0
+horizontal_scroll_mode = 0
+
+[node name="SubjectList" type="VBoxContainer" parent="SubjectScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="PreviewPanel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 174.0
+offset_top = 42.0
+offset_right = 394.0
+offset_bottom = 200.0
+
+[node name="PreviewHolder" type="Node2D" parent="PreviewPanel"]
+position = Vector2(110, 80)
+scale = Vector2(2, 2)
+
+[node name="PreviewView" parent="PreviewPanel/PreviewHolder" instance=ExtResource("3_front")]
+unique_name_in_owner = true
+
+[node name="GhostPart" type="Sprite2D" parent="PreviewPanel/PreviewHolder"]
+unique_name_in_owner = true
+visible = false
+modulate = Color(0.6, 1, 0.6, 0.6)
+
+[node name="NoSubjectLabel" type="Label" parent="PreviewPanel"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "No living subjects"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SlotTitle" type="Label" parent="."]
+layout_mode = 0
+offset_left = 174.0
+offset_top = 202.0
+offset_right = 394.0
+offset_bottom = 214.0
+theme_override_font_sizes/font_size = 8
+text = "3. Pick a body slot"
+
+[node name="SlotGrid" type="GridContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 174.0
+offset_top = 214.0
+offset_right = 394.0
+offset_bottom = 260.0
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
+columns = 4
+
+[node name="HEAD" type="Button" parent="SlotGrid"]
+custom_minimum_size = Vector2(52, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+button_group = SubResource("bg_slots")
+text = "HEAD"
+
+[node name="TORSO" type="Button" parent="SlotGrid"]
+custom_minimum_size = Vector2(52, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+button_group = SubResource("bg_slots")
+text = "TORSO"
+
+[node name="BACK" type="Button" parent="SlotGrid"]
+custom_minimum_size = Vector2(52, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+button_group = SubResource("bg_slots")
+text = "BACK"
+
+[node name="TAIL" type="Button" parent="SlotGrid"]
+custom_minimum_size = Vector2(52, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+button_group = SubResource("bg_slots")
+text = "TAIL"
+
+[node name="ARM_L" type="Button" parent="SlotGrid"]
+custom_minimum_size = Vector2(52, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+button_group = SubResource("bg_slots")
+text = "ARM L"
+
+[node name="ARM_R" type="Button" parent="SlotGrid"]
+custom_minimum_size = Vector2(52, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+button_group = SubResource("bg_slots")
+text = "ARM R"
+
+[node name="LEG_L" type="Button" parent="SlotGrid"]
+custom_minimum_size = Vector2(52, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+button_group = SubResource("bg_slots")
+text = "LEG L"
+
+[node name="LEG_R" type="Button" parent="SlotGrid"]
+custom_minimum_size = Vector2(52, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+button_group = SubResource("bg_slots")
+text = "LEG R"
+
+[node name="SelectionLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 174.0
+offset_top = 264.0
+offset_right = 394.0
+offset_bottom = 314.0
+theme_override_font_sizes/font_size = 8
+text = "Mantis Arm -> ARM R
++3 ATK
++20 instability on success"
+autowrap_mode = 3
+
+[node name="ModeRow" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 400.0
+offset_top = 42.0
+offset_right = 632.0
+offset_bottom = 64.0
+theme_override_constants/separation = 4
+
+[node name="OperateModeButton" type="Button" parent="ModeRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("bg_mode")
+text = "Operate"
+
+[node name="PurgeModeButton" type="Button" parent="ModeRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+button_group = SubResource("bg_mode")
+text = "Purge"
+
+[node name="InvTitle" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 400.0
+offset_top = 66.0
+offset_right = 632.0
+offset_bottom = 78.0
+theme_override_font_sizes/font_size = 8
+text = "2. Pick a mutation"
+
+[node name="InvScroll" type="ScrollContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 400.0
+offset_top = 78.0
+offset_right = 632.0
+offset_bottom = 130.0
+vertical_scroll_mode = 0
+
+[node name="InventoryRow" type="HBoxContainer" parent="InvScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="InvEmptyLabel" type="Label" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 400.0
+offset_top = 78.0
+offset_right = 632.0
+offset_bottom = 122.0
+theme_override_colors/font_color = Color(0.6, 0.7, 0.65, 1)
+theme_override_font_sizes/font_size = 8
+text = "No mutations in stock. Buy some in the Shop."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="ChanceBox" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 400.0
+offset_top = 132.0
+offset_right = 632.0
+offset_bottom = 290.0
+
+[node name="ChanceLabel" type="Label" parent="ChanceBox"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 120.0
+offset_bottom = 40.0
+theme_override_colors/font_color = Color(0.55, 1, 0.25, 1)
+theme_override_font_sizes/font_size = 32
+text = "75%"
+vertical_alignment = 1
+
+[node name="ChanceCaption" type="Label" parent="ChanceBox"]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 8.0
+offset_right = 232.0
+offset_bottom = 34.0
+theme_override_font_sizes/font_size = 8
+text = "success chance
+(fail = MUSH)"
+vertical_alignment = 1
+
+[node name="BreakdownNames" type="Label" parent="ChanceBox"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_top = 42.0
+offset_right = 170.0
+offset_bottom = 128.0
+theme_override_colors/font_color = Color(0.65, 0.82, 0.72, 1)
+theme_override_font_sizes/font_size = 8
+text = "Base
+Instability
+Rarity risk
+Stabilizers"
+
+[node name="BreakdownValues" type="Label" parent="ChanceBox"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 170.0
+offset_top = 42.0
+offset_right = 232.0
+offset_bottom = 128.0
+theme_override_font_sizes/font_size = 8
+text = "+100
+-20
+-10
++25"
+horizontal_alignment = 2
+
+[node name="StabRow" type="HBoxContainer" parent="ChanceBox"]
+layout_mode = 0
+offset_top = 130.0
+offset_right = 232.0
+offset_bottom = 156.0
+theme_override_constants/separation = 6
+
+[node name="StabCaption" type="Label" parent="ChanceBox/StabRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 8
+text = "Use stabilizers (+25% each)"
+vertical_alignment = 1
+
+[node name="StabSpin" type="SpinBox" parent="ChanceBox/StabRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+max_value = 2.0
+rounded = true
+
+[node name="PurgeInfoLabel" type="Label" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 400.0
+offset_top = 70.0
+offset_right = 632.0
+offset_bottom = 290.0
+theme_override_font_sizes/font_size = 8
+text = "Pick an applied slot to purge."
+autowrap_mode = 3
+
+[node name="StatusLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 400.0
+offset_top = 290.0
+offset_right = 632.0
+offset_bottom = 314.0
+theme_override_colors/font_color = Color(1, 0.55, 0.45, 1)
+theme_override_font_sizes/font_size = 8
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Buttons" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -42.0
+offset_right = -16.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="BackButton" type="Button" parent="Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Back"
+
+[node name="ConfirmButton" type="Button" parent="Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+text = "Operate (75%)"
+
+[node name="Flash" type="ColorRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.55, 1, 0.25, 0)
+
+[node name="ResultLayer" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="ColorRect" parent="ResultLayer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="ResultPanel" type="PanelContainer" parent="ResultLayer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -120.0
+offset_right = 150.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="ResultLayer/ResultPanel"]
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="ResultTitle" type="Label" parent="ResultLayer/ResultPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 1, 0.25, 1)
+theme_override_font_sizes/font_size = 24
+text = "SUCCESS!"
+horizontal_alignment = 1
+
+[node name="ResultArt" type="Control" parent="ResultLayer/ResultPanel/VBox"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="ResultJar" type="TextureRect" parent="ResultLayer/ResultPanel/VBox/ResultArt"]
+unique_name_in_owner = true
+visible = false
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_jar")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ResultHolder" type="Node2D" parent="ResultLayer/ResultPanel/VBox/ResultArt"]
+unique_name_in_owner = true
+position = Vector2(48, 48)
+scale = Vector2(1.5, 1.5)
+
+[node name="ResultMonster" parent="ResultLayer/ResultPanel/VBox/ResultArt/ResultHolder" instance=ExtResource("3_front")]
+unique_name_in_owner = true
+
+[node name="ResultBody" type="Label" parent="ResultLayer/ResultPanel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(280, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Chance 75%, rolled 42."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="ResultOkButton" type="Button" parent="ResultLayer/ResultPanel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "OK"

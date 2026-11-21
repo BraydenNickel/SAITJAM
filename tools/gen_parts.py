@@ -513,6 +513,106 @@ def composite(view, base, parts):
     return out
 
 
+MUSH_JAR_PATH = os.path.join(ROOT, "assets", "sprites", "mush_jar.png")
+JAR_SIZE = 64
+GLASS_D = (52, 92, 96, 255)
+GLASS = (88, 150, 150, 255)
+GLASS_IN = (22, 44, 48, 255)
+GLASS_HI = (196, 240, 232, 255)
+LID = (118, 124, 132, 255)
+LID_L = (176, 182, 190, 255)
+LID_D = (66, 70, 78, 255)
+GOOP = (96, 196, 70, 255)
+GOOP_L = (168, 236, 104, 255)
+GOOP_D = (46, 116, 50, 255)
+EYE_W = (240, 244, 226, 255)
+EYE_P = (24, 18, 30, 255)
+
+
+def mush_jar():
+    """64x64 glass specimen jar full of green goop with floating eyes (the MUSH state)."""
+    px = blank(JAR_SIZE, JAR_SIZE)
+
+    def put(x, y, c):
+        if 0 <= x < JAR_SIZE and 0 <= y < JAR_SIZE:
+            px[y][x] = c
+
+    def rect(x0, y0, x1, y1, c):
+        for y in range(y0, y1 + 1):
+            for x in range(x0, x1 + 1):
+                put(x, y, c)
+
+    def disc(cx, cy, r, c):
+        for y in range(int(cy - r - 1), int(cy + r + 2)):
+            for x in range(int(cx - r - 1), int(cx + r + 2)):
+                if (x - cx) ** 2 + (y - cy) ** 2 <= (r + 0.3) ** 2:
+                    put(x, y, c)
+
+    # glass body: rounded rectangle x 12..51, y 14..59 (2 px wall)
+    left, right, top, bottom = 12, 51, 14, 59
+    for y in range(top, bottom + 1):
+        inset = 0
+        if y in (top, bottom):
+            inset = 3
+        elif y in (top + 1, bottom - 1):
+            inset = 1
+        rect(left + inset, y, right - inset, y, GLASS_D)
+    for y in range(top + 2, bottom - 1):
+        inset = 1 if y in (top + 2, bottom - 2) else 0
+        rect(left + 2 + inset, y, right - 2 - inset, y, GLASS_IN)
+    # neck + lid
+    rect(17, 10, 46, 13, GLASS_D)
+    rect(15, 5, 48, 10, LID_D)
+    rect(16, 5, 47, 9, LID)
+    rect(16, 5, 47, 6, LID_L)
+    for x in range(18, 46, 4):
+        rect(x, 8, x, 9, LID_D)
+    # goop: wavy surface around y 27, fills to the bottom
+    for x in range(left + 2, right - 1):
+        surf = 27 + (1 if (x // 4) % 2 else 0) - (1 if x % 9 == 0 else 0)
+        for y in range(surf, bottom - 1):
+            if px[y][x] == GLASS_IN:
+                px[y][x] = GOOP
+        put(x, surf, GOOP_L)
+    # depth shading on the lower part and the right edge
+    for y in range(48, bottom - 1):
+        for x in range(left + 2, right - 1):
+            if px[y][x] == GOOP and (x + y) % 2 == 0:
+                px[y][x] = GOOP_D
+    for y in range(28, bottom - 1):
+        for x in (right - 3, right - 2):
+            if px[y][x] == GOOP:
+                px[y][x] = GOOP_D
+    # bubbles
+    for bx, by in ((20, 36), (41, 33), (24, 52), (44, 50), (34, 30)):
+        put(bx, by, GOOP_L)
+        put(bx + 1, by, GOOP_L)
+    disc(37, 22, 1, GOOP_L)
+    # floating eyes (white, dark pupil, one glint)
+    for ex, ey, r, (pdx, pdy) in ((24, 38, 4, (1, 1)), (39, 42, 5, (-1, 0)), (30, 51, 3, (0, -1))):
+        disc(ex, ey, r, EYE_W)
+        disc(ex + pdx, ey + pdy, max(1, r // 2), EYE_P)
+        put(ex + pdx - 1, ey + pdy - 1, EYE_W)
+    # glass wall + highlight streak drawn last so they sit on top of the goop
+    for y in range(top + 2, bottom - 1):
+        put(left, y, GLASS_D)
+        put(left + 1, y, GLASS)
+        put(right, y, GLASS_D)
+        put(right - 1, y, GLASS)
+    for y in range(top + 4, bottom - 6):
+        put(left + 4, y, GLASS_HI)
+    for y in range(top + 4, top + 12):
+        put(left + 5, y, GLASS_HI)
+    rect(left + 3, bottom - 1, right - 3, bottom - 1, GLASS)
+    return px
+
+
+def write_mush_jar():
+    write_png(MUSH_JAR_PATH, mush_jar())
+    write_png(os.path.join(PARTS_DIR, "preview_mush_jar_4x.png"), scale(mush_jar(), 4))
+    print("wrote %s" % MUSH_JAR_PATH)
+
+
 def main():
     os.makedirs(PARTS_DIR, exist_ok=True)
     _, _, base_front = read_png(os.path.join(TORSO_DIR, "human_front.png"))
@@ -529,6 +629,7 @@ def main():
         write_png(os.path.join(PARTS_DIR, "preview_%s.png" % view), img)
         write_png(os.path.join(PARTS_DIR, "preview_%s_4x.png" % view), scale(img, 4))
     print("wrote %d parts + previews to %s" % (len(MUTATIONS) * 2, PARTS_DIR))
+    write_mush_jar()
 
 
 if __name__ == "__main__":

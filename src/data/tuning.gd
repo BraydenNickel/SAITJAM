@@ -121,3 +121,22 @@ const CELEBRATE_NET: Array[int] = [1, 25, 60]
 const CELEBRATE_PARTICLES: Array[int] = [8, 24, 60]
 ## Default stake shown on a bet row when first toggled.
 const BET_DEFAULT_STAKE: int = 10
+
+# --- Stage 3 ---
+## Mutation slots in the shop (plus 1 human and 1 stabilizer).
+const SHOP_MUTATION_SLOTS: int = 3
+## Shop visits without a rare before a rare is forced.
+const SHOP_RARE_PITY: int = 3
+## Max living (non-mush) monsters in the roster.
+const ROSTER_MAX: int = 4
+## Post-battle reward options offered.
+const REWARD_CHOICES: int = 3
+const REWARD_GOLD: int = 25
+const REWARD_STABILIZERS: int = 2
+## Instability removed from the most unstable monster by the Cleanse reward.
+const CLEANSE_AMOUNT: int = 30
+## Success % added by the Lucky Gene reward to the next operation.
+const LUCKY_GENE_BONUS: int = 20
+## Lab operation success % bounds.
+const MIN_SUCCESS: int = 5
+const MAX_SUCCESS: int = 100

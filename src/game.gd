@@ -12,6 +12,9 @@ const SCREENS: Dictionary = {
 	&"bet": "res://src/screens/bet.tscn",
 	&"battle": "res://src/battle/battle.tscn",
 	&"run_end": "res://src/screens/run_end.tscn",
+	&"lab": "res://src/screens/lab.tscn",
+	&"shop": "res://src/screens/shop.tscn",
+	&"reward": "res://src/screens/reward.tscn",
 }
 const HUMAN_PATH: String = "res://src/data/kinds/human.tres"
 const MANTIS_ARM_PATH: String = "res://src/data/mutations/mantis_arm.tres"
@@ -19,6 +22,8 @@ const SCORPION_TAIL_PATH: String = "res://src/data/mutations/scorpion_tail.tres"
 
 ## The active run, or null before new_run()/ensure_run().
 var run: RunState
+## Run-wide RNG for the lab, shop and rewards. Seeded from run.rng_seed.
+var rng: RandomNumberGenerator
 
 # --- Transient battle setup (filled by prepare_battle(), bet screen) ---
 ## Enemy team for the upcoming battle.
@@ -38,6 +43,8 @@ var battles_cleared: int = 0
 func new_run() -> void:
 	run = RunState.new()
 	run.rng_seed = randi()
+	rng = RandomNumberGenerator.new()
+	rng.seed = run.rng_seed
 	enemy_team = []
 	enemy_spots = []
 	bets = []
@@ -61,11 +68,20 @@ func new_run() -> void:
 func ensure_run() -> void:
 	if run == null:
 		new_run()
+	if rng == null:
+		rng = RandomNumberGenerator.new()
+		rng.seed = run.rng_seed
 
 ## Adds (or subtracts, if negative) gold and notifies listeners.
 func add_gold(amount: int) -> void:
 	ensure_run()
 	run.gold += amount
+	gold_changed.emit(run.gold)
+
+## Re-emits gold_changed. Call after logic code (LabLogic, ShopLogic,
+## RewardLogic) that may have changed run.gold directly.
+func notify_gold() -> void:
+	ensure_run()
 	gold_changed.emit(run.gold)
 
 ## Switches to a screen registered in SCREENS.
@@ -112,8 +128,9 @@ func build_lineup() -> Dictionary:
 		roster_idx.append(ri)
 	return {"team": team, "spots": spots, "roster_idx": roster_idx}
 
-## Applies the end of a battle: adds `gold_delta`, then routes to the hub for
-## the next battle, or to the run-end screen on a loss / after the final win.
+## Applies the end of a battle: adds `gold_delta`, then routes to the reward
+## pick before the next battle, or to the run-end screen on a loss / after the
+## final win.
 func complete_battle(won: bool, gold_delta: int) -> void:
 	ensure_run()
 	add_gold(gold_delta)
@@ -122,8 +139,7 @@ func complete_battle(won: bool, gold_delta: int) -> void:
 		battles_cleared += 1
 	if won and run.battle_index < Tuning.BATTLES_PER_RUN - 1:
 		run.battle_index += 1
-		# TODO(stage 3): reward pick (1 of 3) before returning to the hub.
-		go_to(&"hub")
+		go_to(&"reward")
 	else:
 		run_victory = won
 		go_to(&"run_end")

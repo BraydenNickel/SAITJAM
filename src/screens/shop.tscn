@@ -1,0 +1,155 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/screens/shop.gd" id="1_shop"]
+[ext_resource type="Theme" path="res://src/ui/theme.tres" id="2_theme"]
+[ext_resource type="PackedScene" path="res://src/ui/shop_slot.tscn" id="3_slot"]
+
+[node name="Shop" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_shop")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.03, 0.07, 0.08, 1)
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 6.0
+offset_bottom = 28.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.55, 1, 0.25, 1)
+text = "GENE SHOP"
+horizontal_alignment = 1
+
+[node name="GoldLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 16.0
+offset_top = 6.0
+offset_right = 200.0
+offset_bottom = 28.0
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+text = "Gold: 0"
+
+[node name="StabLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -200.0
+offset_top = 6.0
+offset_right = -16.0
+offset_bottom = 28.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(0.45, 0.85, 1, 1)
+text = "Stabilizers: 0"
+horizontal_alignment = 2
+
+[node name="SlotRow" type="HBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 12.0
+offset_top = 32.0
+offset_right = 628.0
+offset_bottom = 224.0
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Slot1" parent="SlotRow" instance=ExtResource("3_slot")]
+layout_mode = 2
+
+[node name="Slot2" parent="SlotRow" instance=ExtResource("3_slot")]
+layout_mode = 2
+index = 1
+
+[node name="Slot3" parent="SlotRow" instance=ExtResource("3_slot")]
+layout_mode = 2
+index = 2
+
+[node name="Slot4" parent="SlotRow" instance=ExtResource("3_slot")]
+layout_mode = 2
+index = 3
+
+[node name="Slot5" parent="SlotRow" instance=ExtResource("3_slot")]
+layout_mode = 2
+index = 4
+
+[node name="RerollRow" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 228.0
+offset_right = 628.0
+offset_bottom = 254.0
+theme_override_constants/separation = 8
+
+[node name="RerollButton" type="Button" parent="RerollRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+text = "Reroll (5g)"
+
+[node name="StatusLabel" type="Label" parent="RerollRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.55, 1, 0.45, 1)
+theme_override_font_sizes/font_size = 8
+text = "New stock every visit. Rerolls get pricier."
+vertical_alignment = 1
+
+[node name="InvTitle" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 12.0
+offset_top = 258.0
+offset_right = 628.0
+offset_bottom = 270.0
+theme_override_font_sizes/font_size = 8
+text = "Inventory (0) - apply mutations in the Lab"
+
+[node name="InvScroll" type="ScrollContainer" parent="."]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 270.0
+offset_right = 628.0
+offset_bottom = 314.0
+vertical_scroll_mode = 0
+
+[node name="InventoryRow" type="HBoxContainer" parent="InvScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Buttons" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -42.0
+offset_right = -16.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="BackButton" type="Button" parent="Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Back"

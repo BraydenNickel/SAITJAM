@@ -1,8 +1,10 @@
 class_name MonsterCard
 extends PanelContainer
 ## Compact card showing a monster preview, name, stats and instability.
+## A mushed monster shows the mush-jar sprite instead of its body.
 
 @onready var _view: MonsterView = %MonsterView
+@onready var _mush_jar: TextureRect = %MushJar
 @onready var _name_label: Label = %NameLabel
 @onready var _hp_label: Label = %HpLabel
 @onready var _atk_label: Label = %AtkLabel
@@ -38,4 +40,7 @@ func _apply() -> void:
 	_crit_label.text = "CRIT %d%%" % roundi((stats[&"crit"] as float) * 100.0)
 	_instability_bar.value = _data.instability
 	_mush_tag.visible = _data.mushed
+	_mush_jar.visible = _data.mushed
+	_view.visible = not _data.mushed
+	_instability_bar.visible = not _data.mushed
 	_fused_tag.visible = _data.fused

@@ -1,5 +1,6 @@
 extends Control
-## Roster screen: one MonsterCard per roster monster.
+## Roster screen: one MonsterCard per roster monster (mushed ones show the
+## mush jar).
 
 const CARD_SCENE: PackedScene = preload("res://src/ui/monster_card.tscn")
 
@@ -9,6 +10,7 @@ const CARD_SCENE: PackedScene = preload("res://src/ui/monster_card.tscn")
 func _ready() -> void:
 	Game.ensure_run()
 	_back_button.pressed.connect(_on_back_pressed)
+	_back_button.grab_focus()
 	for monster: MonsterData in Game.run.roster:
 		var card: MonsterCard = CARD_SCENE.instantiate() as MonsterCard
 		_grid.add_child(card)

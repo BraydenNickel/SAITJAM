@@ -3,6 +3,9 @@ extends Control
 
 @onready var _gold_label: Label = %GoldLabel
 @onready var _battle_label: Label = %BattleLabel
+@onready var _stock_label: Label = %StockLabel
+@onready var _lab_button: Button = %LabButton
+@onready var _shop_button: Button = %ShopButton
 @onready var _roster_button: Button = %RosterButton
 @onready var _fight_button: Button = %FightButton
 @onready var _sponsor_label: Label = %SponsorLabel
@@ -18,6 +21,8 @@ func _ready() -> void:
 	_names.assign([%Name1, %Name2, %Name3, %Name4])
 	Game.gold_changed.connect(_on_gold_changed)
 	_roster_button.pressed.connect(_on_roster_pressed)
+	_lab_button.pressed.connect(func() -> void: Game.go_to(&"lab"))
+	_shop_button.pressed.connect(func() -> void: Game.go_to(&"shop"))
 	_fight_button.pressed.connect(_on_fight_pressed)
 	var can_fight: bool = false
 	for monster: MonsterData in Game.run.roster:
@@ -32,12 +37,20 @@ func _ready() -> void:
 		_sponsor_label.visible = true
 	_on_gold_changed(Game.run.gold)
 	_battle_label.text = "Battle %d/%d" % [Game.run.battle_index + 1, Tuning.BATTLES_PER_RUN]
+	_stock_label.text = "Stabilizers: %d   Mutations: %d" % [Game.run.stabilizers,
+		Game.run.inventory.size()]
+	# Living monsters only; mush is shown in the Roster.
+	var living: Array[MonsterData] = []
+	for monster: MonsterData in Game.run.roster:
+		if not monster.mushed:
+			living.append(monster)
 	for i: int in _slots.size():
-		var has_monster: bool = i < Game.run.roster.size()
+		var has_monster: bool = i < living.size()
 		_slots[i].visible = has_monster
 		if has_monster:
-			_monsters[i].data = Game.run.roster[i]
-			_names[i].text = Game.run.roster[i].display_name
+			_monsters[i].data = living[i]
+			_names[i].text = living[i].display_name
+	_fight_button.grab_focus()
 
 func _on_gold_changed(new_gold: int) -> void:
 	_gold_label.text = "Gold: %d" % new_gold

@@ -3,6 +3,7 @@ extends Control
 
 @onready var _rows_box: VBoxContainer = %RowsBox
 @onready var _sim_label: Label = %SimLabel
+@onready var _hint_label: Label = %HintLabel
 @onready var _gold_label: Label = %GoldLabel
 @onready var _total_label: Label = %TotalLabel
 @onready var _back_button: Button = %BackButton
@@ -27,6 +28,8 @@ func _ready() -> void:
 	_fight_button.disabled = true
 	_skip_button.disabled = true
 	_gold_label.text = "Gold: %d" % Game.run.gold
+	_hint_label.text = "Max %d claims. Odds come from %d simulated fights." % [
+		Tuning.BET_MAX_CLAIMS, Tuning.SIM_RUNS]
 	_sim_label.visible = true
 	# Let "Simulating..." render for a frame before the blocking estimate.
 	await get_tree().process_frame

@@ -40,6 +40,14 @@ size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
 text = "Gold: 0"
 
+[node name="StockLabel" type="Label" parent="TopBar"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.45, 0.85, 1, 1)
+text = "Stabilizers: 0   Mutations: 0"
+horizontal_alignment = 1
+
 [node name="BattleLabel" type="Label" parent="TopBar"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -172,22 +180,20 @@ alignment = 1
 [node name="LabButton" type="Button" parent="Buttons"]
 unique_name_in_owner = true
 layout_mode = 2
-disabled = true
-tooltip_text = "Coming in stage 3"
+tooltip_text = "Apply mutations from your inventory"
 text = "Lab"
 
 [node name="ShopButton" type="Button" parent="Buttons"]
 unique_name_in_owner = true
 layout_mode = 2
-disabled = true
-tooltip_text = "Coming in stage 3"
+tooltip_text = "Buy mutations, humans and stabilizers"
 text = "Shop"
 
 [node name="IncubatorButton" type="Button" parent="Buttons"]
 unique_name_in_owner = true
 layout_mode = 2
 disabled = true
-tooltip_text = "Coming in stage 4"
+tooltip_text = "Coming soon"
 text = "Incubator"
 
 [node name="RosterButton" type="Button" parent="Buttons"]

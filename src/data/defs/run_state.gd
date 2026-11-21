@@ -12,6 +12,30 @@ extends Resource
 ## Mutation ids the player has discovered.
 @export var codex: Array[StringName] = []
 
+# --- Stage 3: Lab, Shop, Rewards ---
+## Owned mutations not yet applied to a monster.
+@export var inventory: Array[MutationData] = []
+## Percent bonus pending for the next lab operation (set by a mush).
+@export var mush_memory: int = 0
+## One-shot reward buffs, consumed by the next lab operation.
+@export var lucky_gene: bool = false
+@export var insurance: bool = false
+@export var catalyst: bool = false
+## Current shop entries: {kind, mutation, price, sold}. See ShopLogic.
+@export var shop_stock: Array[Dictionary] = []
+## battle_index the stock was rolled for (-1 = never).
+@export var shop_stock_battle: int = -1
+@export var reroll_count: int = 0
+@export var shop_visits_since_rare: int = 0
+
+## Number of roster monsters that are not mush.
+func living_count() -> int:
+	var n: int = 0
+	for m: MonsterData in roster:
+		if m != null and not m.mushed:
+			n += 1
+	return n
+
 ## Row (0 front, 1 middle, 2 back) of a formation spot.
 static func row_of(spot: int) -> int:
 	@warning_ignore("integer_division")
