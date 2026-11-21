@@ -33,13 +33,20 @@ var _queued: bool = false
 
 func _ready() -> void:
 	if Engine.is_editor_hint():
+		set_process(false)
 		return
 	clip_text = false  # clip + wrap collapses a Label's height in a container
 	autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	max_lines_visible = max_lines
 	resized.connect(_queue_fit)
-	minimum_size_changed.connect(_queue_fit)  # Label.text changes emit this
+	minimum_size_changed.connect(_queue_fit)
 	_queue_fit(true)
+
+## Label has no text-changed signal, and a new text of the same height does not
+## emit minimum_size_changed (e.g. a shop reroll), so watch the text directly.
+func _process(_delta: float) -> void:
+	if text != _fit_text and not _queued:
+		_queue_fit()
 
 func _queue_fit(force: bool = false) -> void:
 	if Engine.is_editor_hint() or not is_inside_tree():
