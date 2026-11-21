@@ -105,6 +105,7 @@ func _on_restart_pressed() -> void:
 	_sfx.play_detached(&"click")
 	close()
 	Engine.time_scale = 1.0
+	get_tree().paused = false
 	Game.new_run()
 	Game.go_to(&"hub")
 
@@ -118,6 +119,7 @@ func _on_quit_pressed() -> void:
 	_sfx.play_detached(&"click")
 	close()
 	Engine.time_scale = 1.0
+	get_tree().paused = false
 	Game.run = null
 	Game.go_to(&"title")
 

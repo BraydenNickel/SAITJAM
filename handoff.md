@@ -210,3 +210,16 @@ Key values: `BASE_HP` 360, `ENEMY_BUDGET [2,4,6,10,14]`, `ENEMY_HP_MULT [1.3,1.3
 - Tests: **193 passing** (new `tests/unit/champion/`, `tests/unit/codex/`). Evidence: `production/qa/evidence/codex_mutations*.png`, `settings_run_buttons.png`, `champion_formation.png`, `champion_bet.png` (script `production/qa/settings_champion_shots.gd`).
 - Gotcha: a `-s` SceneTree QA script must not reference class types whose scripts use the `Game` autoload (e.g. `as SettingsMenu`); they fail to compile before autoloads exist. Use `node.call("open")`.
 - Leftover: `tools/_tmp_champ/` (agent scratch, not committed) — delete if the user agrees.
+
+---
+
+## 9. Final jam polish (2026-11-21, afternoon)
+
+- **Human art:** `assets/sprites/torso/human_front.png` / `human_side.png` replaced with the user's new 64×64 art (same names).
+- **Battle HUD:** damage counter `%DamagePanel` under the Speed button (`src/battle/damage_row.tscn`, live from `UnitState.damage_dealt`, leader marked MVP). **Pause** button + Esc pauses the tree and opens the `SettingsMenu` instance; Restart/Quit unpause.
+- **First-time hints:** `src/ui/hint_banner.tscn` on hub/bet/lab, seen ids in `user://hints.cfg` (`HintStore`). Delete the file to see them again.
+- **Run summary:** `RunState.battle_log` (recorded in `Game.complete_battle(won, gold_delta, net)`), `RunSummary` helpers, `src/ui/run_summary_row.tscn`, rows + "New this run" on `run_end`.
+- **Sockets moved** so TAIL/BACK show: front TAIL (45,44), front BACK (32,26) with marker scale 1.5, side TAIL (24,46), side BACK (27,35). `MonsterView.art_lean()` mirrors off-centre front tails to point away from the body. `tools/gen_parts.py`'s socket table and §3 above still list the OLD positions.
+- **Icons:** `tools/gen_icons.py` -> `assets/sprites/icons/` (stabilizer, gold, volunteer, cleanse, lucky_gene, insurance, catalyst). Used by the redesigned reward cards (`RewardCard.ICONS`; card root is now a Control holding a `Card` Button), lab and shop.
+- **Export:** `export_presets.cfg` has Windows Desktop + Web, `include_filter="*.json"`, dev addons/tests/tools excluded. 4.7.2 templates installed in `%APPDATA%/Godot/export_templates/4.7.2.stable`. Windows build verified to boot and contain the json files; Web exported but not browser-tested.
+- Tests: 199 passing.

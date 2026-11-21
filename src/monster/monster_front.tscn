@@ -18,7 +18,8 @@ position = Vector2(0, -20)
 [node name="TORSO" type="Marker2D" parent="Sockets"]
 
 [node name="BACK" type="Marker2D" parent="Sockets"]
-position = Vector2(0, -4)
+position = Vector2(0, -6)
+scale = Vector2(1.5, 1.5)
 z_index = -1
 
 [node name="ARM_L" type="Marker2D" parent="Sockets"]
@@ -34,5 +35,5 @@ position = Vector2(-8, 21)
 position = Vector2(8, 21)
 
 [node name="TAIL" type="Marker2D" parent="Sockets"]
-position = Vector2(0, 14)
+position = Vector2(13, 12)
 z_index = -1

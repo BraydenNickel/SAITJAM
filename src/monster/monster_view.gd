@@ -20,6 +20,8 @@ const PART_SCENE: PackedScene = preload("res://src/monster/part_sprite.tscn")
 const PART_META: StringName = &"_monster_view_part"
 const APEX_SHADER: Shader = preload("res://assets/shaders/apex_glow.gdshader")
 static var _apex_material: ShaderMaterial = null
+## Texture -> art_lean() result.
+static var _lean_cache: Dictionary = {}
 ## Name of the body sprite node in monster_front.tscn / monster_side.tscn.
 const BODY_NODE: NodePath = ^"Torso"
 const SOCKETS_NODE: NodePath = ^"Sockets"
@@ -105,12 +107,48 @@ func refresh() -> void:
 		var part: Sprite2D = PART_SCENE.instantiate() as Sprite2D
 		part.texture = tex
 		part.flip_h = view == View.FRONT and String(marker.name).ends_with("_R")
+		# Front TAIL art leans left or right depending on the part; mirror it
+		# so it always sticks out away from the body, on the marker's side.
+		if view == View.FRONT and marker.name == &"TAIL" and marker.position.x != 0.0:
+			var lean: int = art_lean(tex)
+			if lean != 0:
+				part.flip_h = (lean < 0) == (marker.position.x > 0.0)
 		# Apex parts glow. The part is a runtime node without an owner, so the
 		# material is never saved into a scene.
 		if mutation.merge_count >= Tuning.FUSION_MAX_MERGES:
 			part.material = apex_material()
 		part.set_meta(PART_META, true)
 		marker.add_child(part)
+
+## Which way part art leans: -1 if most opaque pixels are in the left half,
+## +1 if in the right half, 0 if roughly symmetric (within 25%). Cached per
+## texture, since the art never changes at runtime.
+static func art_lean(tex: Texture2D) -> int:
+	if tex == null:
+		return 0
+	if _lean_cache.has(tex):
+		return _lean_cache[tex]
+	var result: int = 0
+	var img: Image = tex.get_image()
+	if img != null:
+		if img.is_compressed():
+			img.decompress()
+		var half: int = img.get_width() / 2
+		var left: int = 0
+		var right: int = 0
+		for y: int in img.get_height():
+			for x: int in img.get_width():
+				if img.get_pixel(x, y).a > 0.5:
+					if x < half:
+						left += 1
+					else:
+						right += 1
+		if left > right * 1.25:
+			result = -1
+		elif right > left * 1.25:
+			result = 1
+	_lean_cache[tex] = result
+	return result
 
 ## The ShaderMaterial (assets/shaders/apex_glow.gdshader) shared by every Apex
 ## part sprite, created on first use with the Tuning.APEX_GLOW_* values.

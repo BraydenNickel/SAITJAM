@@ -5,6 +5,11 @@
 [ext_resource type="PackedScene" path="res://src/monster/monster_front.tscn" id="3_front"]
 [ext_resource type="Texture2D" path="res://assets/sprites/mush_jar.png" id="4_jar"]
 [ext_resource type="PackedScene" path="res://src/ui/sfx_player.tscn" id="90_sfx"]
+[ext_resource type="PackedScene" path="res://src/ui/hint_banner.tscn" id="93_hint"]
+[ext_resource type="Texture2D" path="res://assets/sprites/icons/stabilizer.png" id="95_stab"]
+[ext_resource type="Texture2D" path="res://assets/sprites/icons/lucky_gene.png" id="96_lucky"]
+[ext_resource type="Texture2D" path="res://assets/sprites/icons/insurance.png" id="97_insurance"]
+[ext_resource type="Texture2D" path="res://assets/sprites/icons/catalyst.png" id="98_catalyst"]
 
 [sub_resource type="StyleBoxFlat" id="sb_drop"]
 content_margin_left = 8.0
@@ -64,35 +69,86 @@ offset_bottom = 28.0
 theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
 text = "Gold: 0"
 
-[node name="StabLabel" type="Label" parent="."]
-unique_name_in_owner = true
+[node name="StabRow" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -200.0
+offset_left = -216.0
 offset_top = 6.0
 offset_right = -16.0
 offset_bottom = 28.0
 grow_horizontal = 0
+theme_override_constants/separation = 4
+alignment = 2
+
+[node name="StabIcon" type="TextureRect" parent="StabRow"]
+texture_filter = 1
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Stabilizer: +success on one operation"
+texture = ExtResource("95_stab")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="StabLabel" type="Label" parent="StabRow"]
+unique_name_in_owner = true
+layout_mode = 2
 theme_override_colors/font_color = Color(0.45, 0.85, 1, 1)
 text = "Stabilizers: 0"
-horizontal_alignment = 2
 
-[node name="BuffsLabel" type="Label" parent="."]
-unique_name_in_owner = true
+[node name="BuffsRow" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_left = 16.0
-offset_top = 28.0
+offset_top = 26.0
 offset_right = -16.0
-offset_bottom = 40.0
+offset_bottom = 42.0
 grow_horizontal = 2
+theme_override_constants/separation = 3
+alignment = 1
+
+[node name="LuckyIcon" type="TextureRect" parent="BuffsRow"]
+unique_name_in_owner = true
+texture_filter = 1
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Lucky Gene: bonus success on the next operation"
+texture = ExtResource("96_lucky")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="InsuranceIcon" type="TextureRect" parent="BuffsRow"]
+unique_name_in_owner = true
+texture_filter = 1
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Insurance: a failed operation leaves the monster unharmed"
+texture = ExtResource("97_insurance")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CatalystIcon" type="TextureRect" parent="BuffsRow"]
+unique_name_in_owner = true
+texture_filter = 1
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Catalyst: next success adds 0 instability"
+texture = ExtResource("98_catalyst")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="BuffsLabel" type="Label" parent="BuffsRow"]
+unique_name_in_owner = true
+layout_mode = 2
 theme_override_colors/font_color = Color(0.85, 0.6, 1, 1)
 theme_override_font_sizes/font_size = 8
-text = "Active: Lucky Gene, Insurance"
-horizontal_alignment = 1
+text = "Next operation: Lucky Gene, Insurance"
 
 [node name="SubjectsTitle" type="Label" parent="."]
 layout_mode = 0
@@ -462,7 +518,21 @@ offset_right = 232.0
 offset_bottom = 44.0
 theme_override_constants/separation = 2
 
-[node name="StabCaption" type="Label" parent="ChanceBox/StabBox"]
+[node name="StabCapRow" type="HBoxContainer" parent="ChanceBox/StabBox"]
+layout_mode = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="StabCapIcon" type="TextureRect" parent="ChanceBox/StabBox/StabCapRow"]
+texture_filter = 1
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("95_stab")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="StabCaption" type="Label" parent="ChanceBox/StabBox/StabCapRow"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.45, 0.85, 1, 1)
 theme_override_font_sizes/font_size = 8
@@ -526,6 +596,20 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(160, 0)
 layout_mode = 2
 text = "Operate (75%)"
+
+[node name="HintBanner" parent="." instance=ExtResource("93_hint")]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -104.0
+offset_right = 168.0
+offset_bottom = -4.0
+grow_vertical = 0
+hint_id = &"lab"
+text = "Operating can fail and turn a subject to MUSH (round 1 is safe). Stabilizers raise the chance; instability and rare parts lower it."
+vertical = true
 
 [node name="Flash" type="ColorRect" parent="."]
 unique_name_in_owner = true

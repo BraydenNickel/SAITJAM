@@ -21,6 +21,8 @@ const SCREENS: Dictionary = {
 const HUMAN_PATH: String = "res://src/data/kinds/human.tres"
 const MANTIS_ARM_PATH: String = "res://src/data/mutations/mantis_arm.tres"
 const SCORPION_TAIL_PATH: String = "res://src/data/mutations/scorpion_tail.tres"
+## complete_battle() `net` default: compute the net from the placed bets.
+const NET_FROM_BETS: int = -2147483648
 
 ## The active run, or null before new_run()/ensure_run().
 var run: RunState
@@ -51,6 +53,8 @@ var enemy_is_champion: bool = false
 var beat_champion: bool = false
 ## Set at the end of a won run: true if the winning team was saved as champion.
 var champion_saved: bool = false
+## Codex save file snapshotted at new_run() for the run-end "New this run" list.
+var codex_path: String = CodexStore.DEFAULT_PATH
 
 func _ready() -> void:
 	# Player audio volumes (user://settings.cfg) onto the buses, once per launch.
@@ -74,6 +78,7 @@ func new_run() -> void:
 	beat_champion = false
 	champion_saved = false
 	run.gold = Tuning.START_GOLD
+	run.codex_start = CodexStore.load_codex(codex_path)
 	var human: MonsterData = load(HUMAN_PATH) as MonsterData
 	for i: int in Tuning.START_HUMANS:
 		var m: MonsterData = human.clone()
@@ -168,11 +173,17 @@ func end_run_lost() -> void:
 	run_victory = false
 	go_to(&"run_end")
 
-## Applies the end of a battle: adds `gold_delta`, then routes to the reward
-## pick before the next battle, or to the run-end screen on a loss / after the
-## final win.
-func complete_battle(won: bool, gold_delta: int) -> void:
+## Applies the end of a battle: logs it for the run-end summary, adds
+## `gold_delta` (reward + bet payouts), then routes to the reward pick before the
+## next battle, or to the run-end screen on a loss / after the final win.
+## `net` = reward + payouts - stakes; left at NET_FROM_BETS it is computed from
+## `bets` (still the placed bets at this point).
+func complete_battle(won: bool, gold_delta: int, net: int = NET_FROM_BETS) -> void:
 	ensure_run()
+	if net == NET_FROM_BETS:
+		net = RunSummary.net_from_bets(gold_delta, bets)
+	run.battle_log.append(RunSummary.make_entry(run.battle_index + 1, won, net,
+		last_result, run.roster))
 	add_gold(gold_delta)
 	bets = []
 	if won:

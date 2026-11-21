@@ -248,3 +248,14 @@ const AURA_MAX_SIZE: Vector2 = Vector2(120.0, 120.0)
 const APEX_GLOW_COLOR: Color = Color(1.0, 0.82, 0.25, 1.0)
 const APEX_GLOW_PULSE_SPEED: float = 3.0
 const APEX_GLOW_MIN: float = 0.35
+
+# --- Run summary ---
+## Most "New this run" Codex names listed on the run-end screen; the rest are
+## counted as "+N more".
+const RUN_SUMMARY_MAX_NEW: int = 6
+
+# --- Hints ---
+## First-time hint banners (HintBanner / HintStore, user://hints.cfg).
+## false: a banner keeps showing on each visit until the player presses "Got it".
+## true: it is marked seen the first time it shows, even if never dismissed.
+const HINT_MARK_SEEN_ON_SHOW: bool = false

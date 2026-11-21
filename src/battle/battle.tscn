@@ -5,6 +5,19 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/battle/spot_zone.png" id="4_zone"]
 [ext_resource type="Theme" path="res://src/ui/theme.tres" id="3_theme"]
 [ext_resource type="PackedScene" path="res://src/ui/sfx_player.tscn" id="90_sfx"]
+[ext_resource type="PackedScene" path="res://src/ui/settings_menu.tscn" id="91_settings"]
+
+[sub_resource type="StyleBoxFlat" id="sb_damage_panel"]
+content_margin_left = 6.0
+content_margin_top = 4.0
+content_margin_right = 6.0
+content_margin_bottom = 4.0
+bg_color = Color(0.02, 0.05, 0.05, 0.75)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.25, 0.65, 0.35, 1)
 
 [node name="Battle" type="Node2D"]
 script = ExtResource("1_battle")
@@ -152,10 +165,49 @@ theme_override_font_sizes/font_size = 8
 text = "No bets"
 horizontal_alignment = 1
 
+[node name="PauseButton" type="Button" parent="HUD/HudRoot/TopBar"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Pause and open settings (Esc)"
+text = "Pause"
+
 [node name="SpeedButton" type="Button" parent="HUD/HudRoot/TopBar"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Speed 1x"
+
+[node name="DamagePanel" type="PanelContainer" parent="HUD/HudRoot"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -168.0
+offset_top = 54.0
+offset_right = -8.0
+offset_bottom = 74.0
+grow_horizontal = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("sb_damage_panel")
+
+[node name="VBox" type="VBoxContainer" parent="HUD/HudRoot/DamagePanel"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="DamageTitle" type="Label" parent="HUD/HudRoot/DamagePanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 8
+text = "DAMAGE THIS ROUND"
+
+[node name="DamageRows" type="VBoxContainer" parent="HUD/HudRoot/DamagePanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 1
 
 [node name="IntroLabel" type="Label" parent="HUD/HudRoot"]
 unique_name_in_owner = true
@@ -186,6 +238,7 @@ layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_top = 44.0
+offset_right = -176.0
 offset_bottom = 66.0
 grow_horizontal = 2
 theme_override_colors/font_color = Color(1, 0.3, 0.25, 1)
@@ -284,6 +337,9 @@ layout_mode = 2
 text = "Continue"
 
 [node name="Sfx" parent="." instance=ExtResource("90_sfx")]
+unique_name_in_owner = true
+
+[node name="SettingsMenu" parent="." instance=ExtResource("91_settings")]
 unique_name_in_owner = true
 
 [node name="ShakeCamera" type="Camera2D" parent="."]

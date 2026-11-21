@@ -33,6 +33,9 @@ const LAST_MONSTER_WARNING: String = "Failure ends the run: this is your last mo
 @onready var _gold_label: Label = %GoldLabel
 @onready var _stab_label: Label = %StabLabel
 @onready var _buffs_label: Label = %BuffsLabel
+@onready var _lucky_icon: TextureRect = %LuckyIcon
+@onready var _insurance_icon: TextureRect = %InsuranceIcon
+@onready var _catalyst_icon: TextureRect = %CatalystIcon
 @onready var _subject_list: VBoxContainer = %SubjectList
 @onready var _preview_view: MonsterView = %PreviewView
 @onready var _ghost_part: Sprite2D = %GhostPart
@@ -461,6 +464,9 @@ func _refresh_header() -> void:
 	if Game.run.mush_memory > 0:
 		buffs.append("Mush Memory +%d%%" % Game.run.mush_memory)
 	_buffs_label.text = "Next operation: " + ", ".join(buffs) if not buffs.is_empty() else ""
+	_lucky_icon.visible = Game.run.lucky_gene
+	_insurance_icon.visible = Game.run.insurance
+	_catalyst_icon.visible = Game.run.catalyst
 
 func _refresh() -> void:
 	_refresh_header()

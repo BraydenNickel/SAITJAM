@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" path="res://src/ui/sfx_player.tscn" id="90_sfx"]
 [ext_resource type="PackedScene" path="res://src/ui/settings_menu.tscn" id="91_settings"]
 [ext_resource type="PackedScene" path="res://src/ui/rename_dialog.tscn" id="92_rename"]
+[ext_resource type="PackedScene" path="res://src/ui/hint_banner.tscn" id="93_hint"]
 
 [sub_resource type="StyleBoxFlat" id="sb_fight"]
 content_margin_left = 12.0
@@ -261,6 +262,18 @@ theme_override_styles/pressed = SubResource("sb_fight_hover")
 theme_override_styles/focus = SubResource("sb_fight_hover")
 theme_override_styles/disabled = SubResource("sb_fight_disabled")
 text = "FIGHT!"
+
+[node name="HintBanner" parent="." instance=ExtResource("93_hint")]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 8.0
+offset_top = 30.0
+offset_right = -8.0
+offset_bottom = 50.0
+grow_horizontal = 2
+hint_id = &"hub"
+text = "Mutate your subjects in the Lab, buy parts in the Shop, then FIGHT. Lose a single battle and the run ends."
 
 [node name="Sfx" parent="." instance=ExtResource("90_sfx")]
 unique_name_in_owner = true

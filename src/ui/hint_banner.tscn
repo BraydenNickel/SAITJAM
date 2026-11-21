@@ -1,0 +1,85 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/ui/hint_banner.gd" id="1_hint"]
+[ext_resource type="Theme" path="res://src/ui/theme.tres" id="2_theme"]
+[ext_resource type="PackedScene" path="res://src/ui/sfx_player.tscn" id="90_sfx"]
+
+[sub_resource type="StyleBoxFlat" id="sb_hint"]
+content_margin_left = 6.0
+content_margin_top = 4.0
+content_margin_right = 6.0
+content_margin_bottom = 4.0
+bg_color = Color(0.05, 0.1, 0.08, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.85, 0.3, 1)
+
+[sub_resource type="StyleBoxFlat" id="sb_got_it"]
+content_margin_left = 6.0
+content_margin_top = 1.0
+content_margin_right = 6.0
+content_margin_bottom = 2.0
+bg_color = Color(0.07, 0.17, 0.17, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.85, 0.3, 1)
+
+[sub_resource type="StyleBoxFlat" id="sb_got_it_hover"]
+content_margin_left = 6.0
+content_margin_top = 1.0
+content_margin_right = 6.0
+content_margin_bottom = 2.0
+bg_color = Color(0.25, 0.22, 0.08, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.95, 0.6, 1)
+
+[node name="HintBanner" type="PanelContainer"]
+offset_right = 300.0
+offset_bottom = 24.0
+theme = ExtResource("2_theme")
+theme_override_styles/panel = SubResource("sb_hint")
+script = ExtResource("1_hint")
+text = "Help text goes here."
+
+[node name="Box" type="BoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Label" type="Label" parent="Box"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.93, 0.7, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 10
+text = "Help text goes here."
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="GotItButton" type="Button" parent="Box"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+tooltip_text = "Hide this hint for good"
+theme_override_colors/font_color = Color(1, 0.93, 0.7, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 0.85, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 0.85, 1)
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("sb_got_it")
+theme_override_styles/hover = SubResource("sb_got_it_hover")
+theme_override_styles/pressed = SubResource("sb_got_it_hover")
+theme_override_styles/focus = SubResource("sb_got_it_hover")
+text = "Got it"
+
+[node name="Sfx" parent="." instance=ExtResource("90_sfx")]
+unique_name_in_owner = true

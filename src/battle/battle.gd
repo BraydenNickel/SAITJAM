@@ -7,6 +7,7 @@ extends Node2D
 
 const UNIT_SCENE: PackedScene = preload("res://src/battle/battle_unit.tscn")
 const NUMBER_SCENE: PackedScene = preload("res://src/battle/damage_number.tscn")
+const DAMAGE_ROW_SCENE: PackedScene = preload("res://src/battle/damage_row.tscn")
 
 const COLOR_DAMAGE: Color = Color(1.0, 1.0, 1.0)
 const COLOR_CRIT: Color = Color(1.0, 0.9, 0.2)
@@ -31,6 +32,9 @@ const CELEBRATE_KEYS: Array[StringName] = [&"win_small", &"win_medium", &"win_bi
 @onready var _timer_label: Label = %TimerLabel
 @onready var _bet_label: Label = %BetLabel
 @onready var _speed_button: Button = %SpeedButton
+@onready var _pause_button: Button = %PauseButton
+@onready var _settings_menu: SettingsMenu = %SettingsMenu
+@onready var _damage_rows: VBoxContainer = %DamageRows
 @onready var _intro_label: Label = %IntroLabel
 @onready var _frenzy_banner: Label = %FrenzyBanner
 @onready var _celebration: CPUParticles2D = %Celebration
@@ -49,6 +53,8 @@ var _speed_index: int = 0
 var _ended: bool = false
 var _won: bool = false
 var _gold_delta: int = 0
+## Net gold of this battle (reward + payouts - stakes), for the run summary.
+var _net: int = 0
 ## PixelFxPlayer nodes currently alive (capped by Tuning.FX_MAX_ALIVE).
 var _fx_alive: int = 0
 ## Throttle key -> Time.get_ticks_msec() of the last effect shown for it.
@@ -57,6 +63,9 @@ var _fx_last: Dictionary = {}
 var _shake_amplitude: float = 0.0
 ## Time.get_ticks_msec() at which the running shake ends.
 var _shake_end_msec: int = 0
+## Player UnitStates shown in the damage counter, and their DamageRow views.
+var _damage_units: Array[UnitState] = []
+var _damage_row_views: Array[DamageRow] = []
 
 func _ready() -> void:
 	Game.ensure_run()
@@ -75,8 +84,15 @@ func _ready() -> void:
 		view.global_position = marker.global_position if marker != null else Vector2(320, 200)
 		view.setup(unit, is_enemy)
 		_views[unit.index] = view
+		if not is_enemy:
+			_damage_units.append(unit)
+			var row: DamageRow = DAMAGE_ROW_SCENE.instantiate() as DamageRow
+			_damage_rows.add_child(row)
+			_damage_row_views.append(row)
 	_sim.event.connect(_on_sim_event)
 	_speed_button.pressed.connect(_on_speed_pressed)
+	_pause_button.pressed.connect(_pause)
+	_settings_menu.closed.connect(_unpause)
 	_continue_button.pressed.connect(_on_continue_pressed)
 	_bet_label.text = _bet_summary()
 	_update_hud()
@@ -103,6 +119,7 @@ func _on_arena_lights_on() -> void:
 
 func _exit_tree() -> void:
 	Engine.time_scale = 1.0
+	get_tree().paused = false
 
 func _process(delta: float) -> void:
 	_update_shake()
@@ -123,6 +140,35 @@ func _update_hud() -> void:
 	for unit: UnitState in _sim.units:
 		var view: BattleUnit = _views[unit.index] as BattleUnit
 		view.set_hp(float(unit.hp), float(unit.max_hp))
+	_update_damage_counter()
+
+## Player units sorted by damage dealt this round; the leader is marked MVP.
+func _update_damage_counter() -> void:
+	var sorted: Array[UnitState] = _damage_units.duplicate()
+	sorted.sort_custom(func(a: UnitState, b: UnitState) -> bool:
+		return a.damage_dealt > b.damage_dealt if a.damage_dealt != b.damage_dealt else a.index < b.index)
+	var top: int = sorted[0].damage_dealt if not sorted.is_empty() else 0
+	for i: int in sorted.size():
+		var unit: UnitState = sorted[i]
+		_damage_row_views[i].set_values(unit.data.display_name, unit.damage_dealt, top, i == 0 and top > 0)
+
+# --- Pause ------------------------------------------------------------------
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed(&"ui_cancel") and not _settings_menu.is_open() and not _ended:
+		get_viewport().set_input_as_handled()
+		_pause()
+
+## Freezes the fight (tree pause) and opens the settings menu, which keeps running.
+func _pause() -> void:
+	if _ended or _settings_menu.is_open():
+		return
+	_sfx.play(&"click")
+	get_tree().paused = true
+	_settings_menu.open()
+
+func _unpause() -> void:
+	get_tree().paused = false
 
 func _bet_summary() -> String:
 	if Game.bets.is_empty():
@@ -313,6 +359,7 @@ func _on_battle_end(winner: int) -> void:
 		return
 	_ended = true
 	_won = winner == 0
+	_pause_button.disabled = true
 	Engine.time_scale = 1.0
 	_update_hud()
 	# Real-time wait (ignores time_scale) so the last hit is visible.
@@ -342,6 +389,7 @@ func _show_result() -> void:
 		line.add_theme_color_override("font_color", COLOR_HEAL if won_bet else COLOR_LOSS)
 	_gold_delta = reward + payouts
 	var net: int = _gold_delta - stakes
+	_net = net
 	_result_title.text = "VICTORY" if _won else "DEFEAT"
 	_result_title.add_theme_color_override("font_color", COLOR_CRIT if _won else COLOR_LOSS)
 	_reward_label.text = "Battle reward: +%dg" % reward if _won else "No reward - the run ends."
@@ -381,4 +429,4 @@ func _celebrate(net: int) -> void:
 func _on_continue_pressed() -> void:
 	_continue_button.disabled = true
 	_sfx.play_detached(&"click")
-	Game.complete_battle(_won, _gold_delta)
+	Game.complete_battle(_won, _gold_delta, _net)

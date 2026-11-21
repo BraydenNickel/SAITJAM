@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://src/ui/shop_slot.gd" id="1_slot"]
 [ext_resource type="Texture2D" path="res://assets/sprites/torso/human_front.png" id="2_human"]
 [ext_resource type="Texture2D" path="res://assets/sprites/parts/mantis_arm_front.png" id="3_sample"]
+[ext_resource type="Texture2D" path="res://assets/sprites/icons/stabilizer.png" id="4_stab"]
 
 [node name="ShopSlot" type="PanelContainer"]
 custom_minimum_size = Vector2(116, 0)
@@ -39,9 +40,10 @@ texture = ExtResource("3_sample")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="StabIcon" type="Control" parent="VBox/IconBox"]
+[node name="StabIcon" type="TextureRect" parent="VBox/IconBox"]
 unique_name_in_owner = true
 visible = false
+texture_filter = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -49,51 +51,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-
-[node name="Glass" type="ColorRect" parent="VBox/IconBox/StabIcon"]
-layout_mode = 0
-offset_left = 15.0
-offset_top = 12.0
-offset_right = 33.0
-offset_bottom = 45.0
-mouse_filter = 2
-color = Color(0.2, 0.36, 0.38, 1)
-
-[node name="Neck" type="ColorRect" parent="VBox/IconBox/StabIcon"]
-layout_mode = 0
-offset_left = 19.5
-offset_top = 7.5
-offset_right = 28.5
-offset_bottom = 13.5
-mouse_filter = 2
-color = Color(0.2, 0.36, 0.38, 1)
-
-[node name="Cap" type="ColorRect" parent="VBox/IconBox/StabIcon"]
-layout_mode = 0
-offset_left = 18.0
-offset_top = 3.0
-offset_right = 30.0
-offset_bottom = 7.5
-mouse_filter = 2
-color = Color(0.55, 0.58, 0.62, 1)
-
-[node name="Liquid" type="ColorRect" parent="VBox/IconBox/StabIcon"]
-layout_mode = 0
-offset_left = 16.5
-offset_top = 21.0
-offset_right = 31.5
-offset_bottom = 43.5
-mouse_filter = 2
-color = Color(0.3, 0.8, 1, 1)
-
-[node name="Shine" type="ColorRect" parent="VBox/IconBox/StabIcon"]
-layout_mode = 0
-offset_left = 18.0
-offset_top = 15.0
-offset_right = 19.5
-offset_bottom = 39.0
-mouse_filter = 2
-color = Color(0.85, 1, 1, 1)
+texture = ExtResource("4_stab")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="RarityLabel" type="Label" parent="VBox"]
 unique_name_in_owner = true

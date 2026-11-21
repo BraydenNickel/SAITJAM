@@ -34,6 +34,13 @@ extends Resource
 ## Titles of incubated monsters made this run.
 @export var fusion_titles: Array[String] = []
 
+# --- Run summary (run_end.tscn) ---
+## One entry per battle played; layout in RunSummary.make_entry().
+@export var battle_log: Array[Dictionary] = []
+## Persistent Codex (CodexStore.load_codex()) as it was when the run started,
+## diffed at run end for "New this run".
+@export var codex_start: Dictionary = {}
+
 ## Number of roster monsters that are not mush.
 func living_count() -> int:
 	var n: int = 0

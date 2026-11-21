@@ -20,7 +20,7 @@ position = Vector2(2, -14)
 position = Vector2(2, 8)
 
 [node name="BACK" type="Marker2D" parent="Sockets"]
-position = Vector2(-3, 6)
+position = Vector2(-5, 3)
 z_index = -1
 
 [node name="ARM_L" type="Marker2D" parent="Sockets"]
@@ -39,5 +39,5 @@ z_index = -1
 position = Vector2(2, 24)
 
 [node name="TAIL" type="Marker2D" parent="Sockets"]
-position = Vector2(-4, 16)
+position = Vector2(-8, 14)
 z_index = -1

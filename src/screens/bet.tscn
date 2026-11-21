@@ -4,6 +4,7 @@
 [ext_resource type="Theme" path="res://src/ui/theme.tres" id="2_theme"]
 [ext_resource type="PackedScene" path="res://src/screens/bet_row.tscn" id="3_row"]
 [ext_resource type="PackedScene" path="res://src/ui/sfx_player.tscn" id="90_sfx"]
+[ext_resource type="PackedScene" path="res://src/ui/hint_banner.tscn" id="93_hint"]
 
 [node name="Bet" type="Control"]
 layout_mode = 3
@@ -203,6 +204,20 @@ text = "Skip bets"
 unique_name_in_owner = true
 layout_mode = 2
 text = "Fight!"
+
+[node name="HintBanner" parent="." instance=ExtResource("93_hint")]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -58.0
+offset_right = 200.0
+offset_bottom = -4.0
+grow_vertical = 0
+hint_id = &"bet"
+text = "Bet on your own fight. Odds come from simulating this exact matchup."
+vertical = true
 
 [node name="Sfx" parent="." instance=ExtResource("90_sfx")]
 unique_name_in_owner = true

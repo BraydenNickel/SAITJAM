@@ -3,11 +3,64 @@
 [ext_resource type="Script" path="res://src/ui/reward_card.gd" id="1_card"]
 [ext_resource type="Texture2D" path="res://assets/sprites/parts/bone_plating_front.png" id="2_sample"]
 
-[node name="RewardCard" type="Button"]
-custom_minimum_size = Vector2(176, 180)
-script = ExtResource("1_card")
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_frame"]
+content_margin_left = 6.0
+content_margin_top = 6.0
+content_margin_right = 6.0
+content_margin_bottom = 6.0
+bg_color = Color(0.06, 0.1, 0.11, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.45, 0.75, 0.3, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+shadow_color = Color(0, 0, 0, 0.5)
+shadow_size = 3
+shadow_offset = Vector2(0, 2)
 
-[node name="Margin" type="MarginContainer" parent="."]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_focus"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_specimen"]
+bg_color = Color(0.015, 0.035, 0.04, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.2, 0.32, 0.3, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[node name="RewardCard" type="Control"]
+custom_minimum_size = Vector2(176, 208)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 176.0
+offset_bottom = 208.0
+mouse_filter = 2
+script = ExtResource("1_card")
+frame_style = SubResource("StyleBoxFlat_frame")
+
+[node name="Card" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(88, 104)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
+theme_override_styles/normal = SubResource("StyleBoxFlat_frame")
+theme_override_styles/hover = SubResource("StyleBoxFlat_frame")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_frame")
+
+[node name="Margin" type="MarginContainer" parent="Card"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,53 +73,61 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="VBox" type="VBoxContainer" parent="Margin"]
+[node name="VBox" type="VBoxContainer" parent="Card/Margin"]
 layout_mode = 2
 mouse_filter = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 3
 
-[node name="TitleLabel" type="Label" parent="Margin/VBox"]
+[node name="Specimen" type="PanelContainer" parent="Card/Margin/VBox"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 76)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.55, 1, 0.25, 1)
-text = "Free Bone Plating"
-horizontal_alignment = 1
-autowrap_mode = 3
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_specimen")
 
-[node name="IconBox" type="Control" parent="Margin/VBox"]
+[node name="Icon" type="TextureRect" parent="Card/Margin/VBox/Specimen"]
 unique_name_in_owner = true
+texture_filter = 1
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 size_flags_horizontal = 4
-mouse_filter = 2
-
-[node name="Icon" type="TextureRect" parent="Margin/VBox/IconBox"]
-unique_name_in_owner = true
-texture_filter = 1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+size_flags_vertical = 4
 mouse_filter = 2
 texture = ExtResource("2_sample")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="RarityLabel" type="Label" parent="Margin/VBox"]
+[node name="TitleLabel" type="Label" parent="Card/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.92, 1, 0.9, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+text = "Free Bone Plating"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="TagLabel" type="Label" parent="Card/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.75, 0.3, 1)
+theme_override_font_sizes/font_size = 8
+text = "COMMON TORSO"
+horizontal_alignment = 1
+
+[node name="StatsLabel" type="Label" parent="Card/Margin/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.78, 0.95, 0.85, 1)
 theme_override_font_sizes/font_size = 8
-text = "Common TORSO
-+30 HP  +2 DEF"
+text = "+30 HP  +2 DEF"
 horizontal_alignment = 1
 
-[node name="DescLabel" type="Label" parent="Margin/VBox"]
+[node name="DescLabel" type="Label" parent="Card/Margin/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.62, 0.75, 0.7, 1)
 theme_override_font_sizes/font_size = 8
 text = "Add Bone Plating (Common) to your inventory."
 horizontal_alignment = 1
