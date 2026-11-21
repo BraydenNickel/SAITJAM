@@ -2,10 +2,10 @@
 
 | Field | Value |
 |-------|-------|
-| **Engine Version** | Godot 4.6 |
-| **Installed at pin time** | 4.6.stable.official.89cea1439 (`C:/Godot/Godot_v4.6-stable_win64.exe`, not on PATH) — matches the pin |
-| **Release Date** | January 26, 2026 (4.6); latest stable at pin time is 4.7.2 (August 2026), deliberately NOT used |
-| **Project Pinned** | 2026-11-21 (re-pinned from 4.7 to 4.6 to match the installed editor and the godot-ai addon v3.2.5, which needs ≤4.6) |
+| **Engine Version** | Godot 4.7 (patch 4.7.2) |
+| **Installed at pin time** | 4.7.2.stable.official.ed1daf0bf (`C:/Godot/Godot_v4.7.2-stable_win64.exe`, not on PATH) — matches the pin. 4.6 stable kept alongside in `C:/Godot/` as a fallback. |
+| **Release Date** | June 18, 2026 (4.7); 4.7.2 August 18, 2026 |
+| **Project Pinned** | 2026-11-21 (upgraded 4.6 → 4.7.2 the same day; godot-ai moves to v4, which requires 4.7) |
 | **Last Docs Verified** | 2026-10-21 (Windows driver default and Compositor, against Godot source); 2026-10-17 (release timeline and 4.7 changes); 2026-02-12 (4.4-4.6 content) |
 | **LLM Knowledge Cutoff** | May 2025 |
 
@@ -27,12 +27,13 @@ installed editor**, and an agent citing it correctly then emits APIs that do not
 compile locally. **Check `Installed at pin time` above before trusting a
 version-qualified claim** — `NOT DETERMINED` means the gap is unknown, not absent.
 
-## This project targets 4.6 — 4.7 content is NOT for this project
+## Migration Notes — 4.6 → 4.7
 
-Sections in this folder labelled `4.7` or `4.6 → 4.7` describe the next version
-and are kept for a later upgrade. **Do not use 4.7-only APIs here** (AreaLight3D,
-VirtualJoystick, typed-return overrides, the Asset Store, etc.): they will not
-compile in the installed 4.6 editor. Treat the `4.4`–`4.6` content as authoritative.
+This project now targets 4.7. Read `breaking-changes.md` § `4.6 → 4.7` before
+writing engine code. Pre-upgrade audit (2026-11-21) of `src/` (`main.gd`,
+`pixelfx/pixelfx_player.gd`, `pixelfx/pixelfx_sheet.gd`) against that table: no
+use of any changed API, and the one override (`_ready() -> void`) is unaffected by
+the typed-return change. A headless 4.7.2 import reported no errors.
 
 ## Post-Cutoff Version Timeline
 

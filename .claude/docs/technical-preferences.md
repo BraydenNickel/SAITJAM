@@ -10,7 +10,7 @@
 
 ## Engine & Language
 
-- **Engine**: Godot 4.6 (2D), installed at `C:/Godot/Godot_v4.6-stable_win64.exe` (not on PATH)
+- **Engine**: Godot 4.7.2 (2D), installed at `C:/Godot/Godot_v4.7.2-stable_win64.exe` (not on PATH)
 - **Language**: GDScript
 - **Rendering**: Compatibility (GL Compatibility) — required for the Web (HTML5) build
 - **Physics**: Godot Physics 2D

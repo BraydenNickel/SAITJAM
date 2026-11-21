@@ -1,6 +1,6 @@
 # JAM MODE: 6-hour Godot 2D game jam
 
-This project is a 6-hour game jam entry. **Godot 4.6, GDScript, 2D pixel art.**
+This project is a 6-hour game jam entry. **Godot 4.7.2, GDScript, 2D pixel art.**
 The theme is announced at the start. The design plan in `design/jam-plan.md` is
 built to adapt to any theme.
 These rules take priority over the slower studio defaults while the jam runs.
@@ -29,10 +29,15 @@ These rules take priority over the slower studio defaults while the jam runs.
   editor, run the project, read debug output, create scenes, add nodes and load
   sprites. Use it to *verify* every change. Edit `.gd` and `.tscn` files directly
   when that is faster.
-- **godot-ai** (`addons/godot_ai`, v3.2.5, server `godot-ai`): live control of the **open
+- **godot-ai** (`addons/godot_ai`, v4, server `godot-ai`): live control of the **open
   editor**: scene tree, nodes, properties, signals, UI, animation, particles,
   cameras, and hot-reloaded scripts. Use it for scene building and tweaking while the editor is open.
-  Use `godot` (Coding-Solo) to run the game headlessly and read debug output. Keep v3.2.5: v4 needs Godot 4.7.
+  Use `godot` (Coding-Solo) to run the game headlessly and read debug output. Update godot-ai only
+  through its dock's Update button, never by copying files.
+- **godot-editor** (`addons/godot_mcp`, hybridindie/godot-mcp 2026.10.20.1, server `godot-editor`):
+  a second live-editor bridge on `ws://127.0.0.1:9081` (port 9080 is taken by NahimicService;
+  set by the `GODOT_MCP_BRIDGE_URL` user env var). Toolsets are gated: `godot_list_toolsets()` then
+  `godot_enable_toolset(...)`. Addon and server versions must match.
 - **pixelfx** (`tools/pixelfx`, skill `pixelfx`): 244 pixel effects.
   To export an effect: `node tools/pixelfx/tools/render.mjs <category>/<name> --sheet`, then copy the
   `.png` and `.json` from `tools/pixelfx/records/<category>/<name>/` into `assets/fx/` and play it with

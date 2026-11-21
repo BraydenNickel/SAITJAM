@@ -1,7 +1,7 @@
 # Test Infrastructure
 
-**Engine**: Godot 4.6
-**Test Framework**: GdUnit4 (not installed yet — see below)
+**Engine**: Godot 4.7.2
+**Test Framework**: GdUnit4 6.2.3 (installed in `addons/gdUnit4/`, plugin enabled)
 **CI**: none (workflow skipped; no git remote yet)
 **Setup date**: 2026-11-21
 
@@ -25,8 +25,8 @@ production/qa/
 ## Installing GdUnit4
 
 ```
-1. Open Godot -> AssetLib -> search "GdUnit4" -> install it
-   (Godot 4.6 uses AssetLib; the Asset Store replaces it in 4.7)
+1. Open Godot -> Asset Store -> search "GdUnit4" -> install it
+   (Godot 4.7+ uses the Asset Store)
 2. Enable the plugin: Project -> Project Settings -> Plugins -> GdUnit4 (checked)
 3. Restart the editor
 4. Verify: res://addons/gdUnit4/bin/GdUnitCmdTool.gd exists (capital U)
@@ -37,13 +37,13 @@ production/qa/
 Run the import first (a fresh clone has no `.godot/` class cache and the run exits 1 without it):
 
 ```bash
-"C:/Godot/Godot_v4.6-stable_win64_console.exe" --headless --path . --import
+"C:/Godot/Godot_v4.7.2-stable_win64_console.exe" --headless --path . --import
 ```
 
 Then the suite (this is `commands.test` in `project.yaml`):
 
 ```bash
-"C:/Godot/Godot_v4.6-stable_win64_console.exe" --headless -s -d --remote-debug tcp://127.0.0.1:0 res://addons/gdUnit4/bin/GdUnitCmdTool.gd -a res://tests --ignoreHeadlessMode
+"C:/Godot/Godot_v4.7.2-stable_win64_console.exe" --headless -s -d --remote-debug tcp://127.0.0.1:0 res://addons/gdUnit4/bin/GdUnitCmdTool.gd -a res://tests --ignoreHeadlessMode
 ```
 
 Exit codes: **0** all pass, **100** a test failed, **101** all passed but nodes
