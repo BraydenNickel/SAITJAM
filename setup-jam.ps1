@@ -28,21 +28,26 @@ $godot = Get-ChildItem -Path "$env:USERPROFILE","C:\Program Files","C:\Godot","$
 if ($godot) { $path = $godot.FullName; Write-Host "  [found] $path" -ForegroundColor Green }
 else { $path = Read-Host "Paste the full path to your Godot 4.6 .exe" }
 
-$cfg = Get-Content .mcp.json -Raw | ConvertFrom-Json
-$cfg.mcpServers.godot.env.GODOT_PATH = $path
-[IO.File]::WriteAllText("$PWD\.mcp.json", ($cfg | ConvertTo-Json -Depth 10), (New-Object System.Text.UTF8Encoding $false))
-Write-Host "  [ok] .mcp.json -> GODOT_PATH set" -ForegroundColor Green
+# Register the Godot MCP for THIS machine only (local scope: stored in your user
+# config, not in the repo, so teammates never overwrite each other's Godot path).
+if (Get-Command claude -ErrorAction SilentlyContinue) {
+  cmd /c "claude mcp remove --scope local godot >nul 2>nul"
+  claude mcp add --scope local godot -e "GODOT_PATH=$path" -e DEBUG=false -- cmd /c npx -y @coding-solo/godot-mcp
+  Write-Host "  [ok] godot MCP registered for this PC (local scope)" -ForegroundColor Green
+} else {
+  Write-Host "  [!] Claude Code not found - install it, then re-run this script" -ForegroundColor Yellow
+}
 
 Write-Host "  warming up godot-mcp (first npx download)..."
-cmd /c "npx -y @coding-solo/godot-mcp --help" 2>$null | Out-Null
+cmd /c "npx -y @coding-solo/godot-mcp --help >nul 2>nul"
 
 if (-not (Test-Path .git)) { git init -q; git add -A; git commit -qm "Jam kit baseline" ; Write-Host "  [ok] git baseline commit" -ForegroundColor Green }
 
 Write-Host ""
 Write-Host "Next:" -ForegroundColor Cyan
-Write-Host "  1. claude            (approve the 'godot' MCP server when asked)"
+Write-Host "  1. claude"
 Write-Host "  2. /mcp              (check godot shows connected)"
-Write-Host "  3. Open the project in Godot 4.6. In the Godot AI dock: Editor Settings > Plugins > godot_ai/mcp_client_scope = project, then Configure on the Claude Code row. Do NOT click Update (v4 needs Godot 4.7)."
+Write-Host "  3. Open the project in Godot 4.6. Find the Godot AI tab (right-hand dock, next to Inspector/Node) and click Configure on the Claude Code row. Do NOT click Update (v4 needs Godot 4.7)."
 Write-Host "  4. Restart claude, approve godot-ai, check /mcp shows godot AND godot-ai"
 Write-Host "  5. /setup-engine godot 4.6"
 Write-Host "  6. When the theme drops: 'Theme is X. Read design/jam-plan.md, use chance-mechanic-designer, give me 3 pitches.'"

@@ -25,3 +25,34 @@ framework:
 # here. `/project-settings --local <key>=<value>` writes there; `/project-settings <key>=<value>`
 # edits this file. See `.claude/docs/config-resolution.md` for the full
 # precedence order.
+
+engine:
+  name: "Godot"
+  version: "4.6"
+  language: "GDScript"
+  rendering: "Compatibility"
+  physics: "Godot Physics 2D"
+  path: "C:/Godot/Godot_v4.6-stable_win64.exe"
+
+specialists:
+  code: "godot-gdscript-specialist"
+  shader: "godot-shader-specialist"
+  ui: "godot-specialist"
+  additional: ["godot-gdextension-specialist"]
+
+naming:
+  classes: PascalCase
+  variables: snake_case
+  constants: SCREAMING_SNAKE
+  signals: past_tense
+  files: snake_case
+  scenes: snake_case
+
+commands:
+  # build: no export presets exist yet (no export_presets.cfg). Create "Web" and
+  # "Windows Desktop" presets in Project > Export, then set it via /project-settings, e.g.
+  # '"C:/Godot/Godot_v4.6-stable_win64_console.exe" --headless --export-release "Web" build/web/index.html'
+  build: "[TO BE CONFIGURED]"
+  test: '"C:/Godot/Godot_v4.6-stable_win64_console.exe" --headless -s -d --remote-debug tcp://127.0.0.1:0 res://addons/gdUnit4/bin/GdUnitCmdTool.gd -a res://tests --ignoreHeadlessMode'
+  run: '"C:/Godot/Godot_v4.6-stable_win64.exe" --path . --windowed --resolution 1280x720'
+  smoke: '"C:/Godot/Godot_v4.6-stable_win64_console.exe" --headless --quit-after 5'

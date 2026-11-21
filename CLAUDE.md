@@ -15,8 +15,8 @@ Each agent owns a specific domain, enforcing separation of concerns and quality.
 - **Engine**: Godot 4.6 (2D)
 - **Language**: GDScript
 - **Version Control**: Git with trunk-based development
-- **Build System**: [SPECIFY after choosing engine]
-- **Asset Pipeline**: [SPECIFY after choosing engine]
+- **Build System**: SCons (engine), Godot Export Templates
+- **Asset Pipeline**: Godot Import System + custom resource pipeline
 
 > **Note**: Only the Godot engine-specialist agents are installed in this project.
 
@@ -31,6 +31,7 @@ Each agent owns a specific domain, enforcing separation of concerns and quality.
      step and /project-settings (engine.name) write
      @docs/engine-reference/<engine>/VERSION.md here for the chosen engine. Skills
      that need the pinned version read that file on demand either way. -->
+@docs/engine-reference/godot/VERSION.md
 
 
 ## Technical Preferences
