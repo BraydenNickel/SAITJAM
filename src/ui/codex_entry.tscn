@@ -1,6 +1,7 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://src/ui/codex_entry.gd" id="1_entry"]
+[ext_resource type="Script" path="res://src/ui/fit_label.gd" id="9_fit"]
 
 [node name="CodexEntry" type="PanelContainer"]
 custom_minimum_size = Vector2(84, 64)
@@ -21,14 +22,14 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="NameLabel" type="Label" parent="VBox"]
+script = ExtResource("9_fit")
 unique_name_in_owner = true
 custom_minimum_size = Vector2(72, 0)
 layout_mode = 2
+theme_override_constants/line_spacing = -3
 theme_override_font_sizes/font_size = 8
 text = "Winterkill"
 horizontal_alignment = 1
-clip_text = true
-text_overrun_behavior = 3
 
 [node name="TagLabel" type="Label" parent="VBox"]
 unique_name_in_owner = true

@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/torso/human_front.png" id="2_human"]
 [ext_resource type="Texture2D" path="res://assets/sprites/parts/mantis_arm_front.png" id="3_sample"]
 [ext_resource type="Texture2D" path="res://assets/sprites/icons/stabilizer.png" id="4_stab"]
+[ext_resource type="Script" path="res://src/ui/fit_label.gd" id="9_fit"]
 
 [node name="ShopSlot" type="PanelContainer"]
 custom_minimum_size = Vector2(116, 0)
@@ -15,11 +16,12 @@ layout_mode = 2
 theme_override_constants/separation = 2
 
 [node name="NameLabel" type="Label" parent="VBox"]
+script = ExtResource("9_fit")
+max_lines = 1
 unique_name_in_owner = true
 layout_mode = 2
 text = "Mantis Arm"
 horizontal_alignment = 1
-clip_text = true
 
 [node name="IconBox" type="Control" parent="VBox"]
 custom_minimum_size = Vector2(48, 48)
@@ -64,6 +66,7 @@ text = "Uncommon ARM"
 horizontal_alignment = 1
 
 [node name="StatsLabel" type="Label" parent="VBox"]
+script = ExtResource("9_fit")
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 2

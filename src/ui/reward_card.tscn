@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://src/ui/reward_card.gd" id="1_card"]
 [ext_resource type="Texture2D" path="res://assets/sprites/parts/bone_plating_front.png" id="2_sample"]
+[ext_resource type="Script" path="res://src/ui/fit_label.gd" id="9_fit"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_frame"]
 content_margin_left = 6.0
@@ -98,6 +99,7 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="TitleLabel" type="Label" parent="Card/Margin/VBox"]
+script = ExtResource("9_fit")
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.92, 1, 0.9, 1)
@@ -116,6 +118,7 @@ text = "COMMON TORSO"
 horizontal_alignment = 1
 
 [node name="StatsLabel" type="Label" parent="Card/Margin/VBox"]
+script = ExtResource("9_fit")
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.78, 0.95, 0.85, 1)
